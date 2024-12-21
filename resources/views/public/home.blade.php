@@ -18,25 +18,25 @@
                     </div>
 
                     <div class="flex flex-col gap-2 border-sky-600 border-b-2">
-                        <p class="text-md flex-grow bg-neutral-100 rounded-xl p-4">@lang('home.steps.2')</p>
+                        <p class="text-base font-semibold flex-grow bg-neutral-100 rounded-xl p-4 text-center">@lang('home.steps.2')</p>
                         <p class="w-fit font-bold text-sm bg-sky-600 text-white rounded-full px-4 py-1.5 -mb-4">2</p>
                     </div>
 
                     <div class="flex flex-col gap-2">
                     </div>
 
-                    {{-- <div class="flex flex-col gap-2 border-sky-600 border-b-2">
-                        <p class="text-md flex-grow bg-neutral-100 rounded-xl p-4">@lang('home.steps.4')</p>
+                    <div class="flex flex-col gap-2 border-sky-600 border-b-2">
+                        <p class="text-base font-semibold flex-grow bg-neutral-100 rounded-xl p-4 text-center">@lang('home.steps.4')</p>
                         <p class="w-fit font-bold text-sm bg-sky-600 text-white rounded-full px-4 py-1.5 -mb-4">4</p>
-                    </div> --}}
+                    </div>
 
-                    {{-- <div class="flex flex-col gap-2">
-                    </div> --}}
+                    <div class="flex flex-col gap-2">
+                    </div>
                 </div>
                 <div class="grid grid-cols-5 -mt-0.5">
                     <div class="flex flex-col gap-2 border-sky-600 border-t-2">
                         <p class="w-fit font-bold text-sm bg-sky-600 text-white rounded-full px-4 py-1.5 -mt-4">1</p>
-                        <p class="text-md flex-grow bg-neutral-100 rounded-xl p-4">@lang('home.steps.1')</p>
+                        <p class="text-base font-semibold flex-grow bg-neutral-100 rounded-xl p-4 text-center">@lang('home.steps.1')</p>
                     </div>
 
                     <div class="flex flex-col gap-2">
@@ -44,13 +44,13 @@
 
                     <div class="flex flex-col gap-2 border-sky-600 border-t-2">
                         <p class="w-fit font-bold text-sm bg-sky-600 text-white rounded-full px-4 py-1.5 -mt-4">3</p>
-                        <p class="text-md flex-grow bg-neutral-100 rounded-xl p-4">@lang('home.steps.3')</p>
+                        <p class="text-base font-semibold flex-grow bg-neutral-100 rounded-xl p-4 text-center">@lang('home.steps.3')</p>
                     </div>
                     <div class="flex flex-col gap-2">
                     </div>
                     <div class="flex flex-col space-y-2 border-sky-600 border-t-2">
                         <p class="w-fit font-bold text-sm bg-sky-600 text-white rounded-full px-4 py-1.5 -mt-4">5</p>
-                        <p class="text-md flex-grow bg-neutral-100 rounded-xl p-4">@lang('home.steps.5')</p>
+                        <p class="text-base font-semibold flex-grow bg-neutral-100 rounded-xl p-4 text-center">@lang('home.steps.5')</p>
                     </div>
 
                 </div>
@@ -68,10 +68,10 @@
                     <p class="w-fit font-bold text-sm bg-sky-600 text-white rounded-full px-4 py-1.5 -ml-9 -mt-3">3</p>
                     <p class="text-xs flex-grow bg-neutral-100 rounded-xl p-4">@lang('home.steps.3')</p>
                 </div>
-                {{-- <div class="flex flex-col gap-2 border-sky-600 border-l-2 pl-4 sm:border-l-0 sm:border-t-2 pb-4">
+                <div class="flex flex-col gap-2 border-sky-600 border-l-2 pl-4 sm:border-l-0 sm:border-t-2 pb-4">
                     <p class="w-fit font-bold text-sm bg-sky-600 text-white rounded-full px-4 py-1.5 -ml-9 -mt-3">4</p>
                     <p class="text-xs flex-grow bg-neutral-100 rounded-xl p-4">@lang('home.steps.4')</p>
-                </div> --}}
+                </div>
                 <div class="flex flex-col gap-2 border-sky-600 border-l-2 pl-4 sm:border-l-0 sm:border-t-2 pb-4">
                     <p class="w-fit font-bold text-sm bg-sky-600 text-white rounded-full px-4 py-1.5 -ml-9 -mt-3">5</p>
                     <p class="text-xs flex-grow bg-neutral-100 rounded-xl p-4">@lang('home.steps.5')</p>

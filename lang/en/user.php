@@ -77,7 +77,7 @@ return [
             1 => 'photo',
             2 => 'signature',
             3 => 'pan_card',
-            4 => 'department_id_card',
+            4 => 'depertmental_card',
             5 => 'no_govt_due_certificate',
             6 => 'appointment_letter',
             7 => 'first_page_of_service_book',
@@ -173,7 +173,7 @@ return [
             'p_1' => 'Send your transfer request to ',
             'p_2' => 'I have seen your profile and interested in mutual transfer.',
             'btn_close' => 'Close',
-            'btn_accept' => 'Send Request',
+            'btn_accept' => 'Please Accept',
         ],
         'nfd' => [
             'heading' => 'No Profile Found!',
@@ -194,7 +194,7 @@ return [
             ],
             [
                 'color' => 'red',
-                'header' => 'Profile rejected !',
+                'header' => 'Correction Required !',
                 'body' => 'Your profile is rejected. Update and resubmit your profile.',
             ],
             [

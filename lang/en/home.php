@@ -11,7 +11,7 @@ return [
     'steps' => [
         1 => 'Account creation.',
         2 => 'Profile verification.',
-        3 => 'Recommendation by the compitant authority.',
+        3 => 'Recommendation by the competent authority.',
         4 => 'Approval for transfer.',
         5 => 'Transfer order generation.',
     ],
