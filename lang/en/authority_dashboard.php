@@ -35,7 +35,8 @@ return [
         'approval_status' => 'Approval Status',
         'status' => 'Status',
         'view_details' => 'View Details',
-        'noc_col' => 'Order Status'
+        'noc_col' => 'Order Status',
+        'action' => 'Action'
     ],
     'profile_details' => [
         'heading' => 'Profile Details',

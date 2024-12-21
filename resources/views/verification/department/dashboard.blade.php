@@ -83,6 +83,8 @@
                                     <th class="p-4 px-6 font-medium text-sm text-gray-900">@lang('authority_dashboard.table.approval')</th>
                                     <th class="text-left p-4 px-6 font-medium text-sm text-gray-900 text-center">
                                         @lang('authority_dashboard.table.noc_col')</th>
+                                    <th class="text-left p-4 px-6 font-medium text-sm text-gray-900 text-center">
+                                        @lang('authority_dashboard.table.action')</th>
                                     <th class="text-left p-4 px-6 font-medium text-sm text-gray-900"></th>
                                 </tr>
                             </thead>
@@ -113,6 +115,22 @@
                                             </div>
                                         @endif
                                     </td>
+                                    {{--  --}}
+                                    <td>
+                                        @if ($v->final_approval == 1 && $v->jto_generate_status == 0)
+                                            <div class="flex justify-center">
+                                                <div
+                                                    class="text-yellow-500 border border-transparent text-white text-xs rounded block px-4 py-1.5 font-semibold w-fit">
+                                                    Pending</div>
+                                            </div>
+                                        @else
+                                            <div class="flex justify-center">
+                                                <div
+                                                    class="text-green-500 border border-transparent text-xs rounded block px-4 py-1.5 font-semibold w-fit">
+                                                    Generated</div>
+                                            </div>
+                                        @endif
+                                    </td>
                                     <td>
                                         @if ($v->final_approval == 1)
                                             @if ($v->jto_generate_status == 0)
@@ -133,6 +151,7 @@
                                             </div>
                                         @endif
                                     </td>
+                                    {{--  --}}
                                     <td class="py-4 px-6 text-xs">
                                         <div class="flex gap-1 justify-center">
 
