@@ -77,7 +77,7 @@ return [
             1 => 'photo',
             2 => 'signature',
             3 => 'pan_card',
-            4 => 'depertmental_card',
+            4 => 'department_id_card',
             5 => 'no_govt_due_certificate',
             6 => 'appointment_letter',
             7 => 'first_page_of_service_book',
