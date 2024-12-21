@@ -12,6 +12,7 @@ return [
         'approved_transfers' => 'Approved Transfers',
         'rejected' => 'Rejected',
         'view_all' => 'View All',
+        'noc_col' => 'Action'
     ],
     'latest_requests' => 'Latest Requests',
     'tab' => [
@@ -40,7 +41,7 @@ return [
         'verification_progress' => 'Verification Progress',
         'verification_under_review' => 'This profile is currently under review and pending verification. Please confirm that all the provided details are accurate and complete. Carefully review all personal, employment, and contact information to ensure there are no discrepancies before approving the verification.',
         'verifier_documents' => 'Verifier documents',
-        'additional_documents' => 'Additional Documents',
+        'additional_documents' => 'Additional Documents & Remarks',
         'add_more' => 'Add More',
         'vnr' => 'Verification & Recommendation Information',
         'verifier' => 'Verifier',

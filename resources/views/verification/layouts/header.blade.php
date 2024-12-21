@@ -136,8 +136,7 @@
                                     @php
                                         $flag = false;
                                     @endphp
-                                    @foreach (Session::get('all_roles') as $roles)
-                                        {{-- more than 2 roles --}}
+                                    {{-- @foreach (Session::get('all_roles') as $roles)
                                         @if (count(Session::get('all_roles')) > 2)
                                             @if ($roles->id == 7)
                                                 <a href="/switch-role/{{ Crypt::encryptString($roles->id) }}"
@@ -156,10 +155,42 @@
                                                 @endif
                                             @endif
                                         @else
-                                            {{-- 2 roles, state level and one other --}}
                                             <a href="/switch-role/{{ Crypt::encryptString($roles->id) }}"
                                                 class="px-4 py-2 flex gap-1 items-center hover:bg-neutral-100 text-sky-700 font-medium text-xs">
                                                 <span>{{ $roles->display_name }}</span>
+                                            </a>
+                                        @endif
+                                    @endforeach --}}
+                                    @foreach (Session::get('all_roles') as $roles)
+                                        @php
+                                            $role_name = $roles->display_name;
+                                            if ($roles->id == 7) {
+                                                $role_name = 'Approval HOD';
+                                            } elseif ($roles->id == 3) {
+                                                $role_name = 'Recommendation HOD';
+                                            }
+                                        @endphp
+                                        @if (count(Session::get('all_roles')) > 2)
+                                            @if ($roles->id == 7)
+                                                <a href="/switch-role/{{ Crypt::encryptString($roles->id) }}"
+                                                    class="px-4 py-2 flex gap-1 items-center hover:bg-neutral-100 text-sky-700 font-medium text-xs">
+                                                    <span>{{ $role_name }}</span>
+                                                </a>
+                                            @else
+                                                @if ($flag != true)
+                                                    <a href="/switch-role/{{ Crypt::encryptString($roles->id) }}"
+                                                        class="px-4 py-2 flex gap-1 items-center hover:bg-neutral-100 text-sky-700 font-medium text-xs">
+                                                        <span>Other Login</span>
+                                                    </a>
+                                                    @php
+                                                        $flag = true;
+                                                    @endphp
+                                                @endif
+                                            @endif
+                                        @else
+                                            <a href="/switch-role/{{ Crypt::encryptString($roles->id) }}"
+                                                class="px-4 py-2 flex gap-1 items-center hover:bg-neutral-100 text-sky-700 font-medium text-xs">
+                                                <span>{{ $role_name }}</span>
                                             </a>
                                         @endif
                                     @endforeach

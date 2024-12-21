@@ -7,6 +7,7 @@ use App\Http\Controllers\employees_access\verification\VerificationController;
 use App\Models\authority_office_dist_map;
 use App\Models\department\departments;
 use App\Models\Public\OfficeFinAsssamModel;
+use App\Models\Public\OfficesDistDeptModel;
 use App\Models\Public\RolesModel;
 use App\Models\Transfer\TransfersModel;
 use App\Models\verification\rejections;
@@ -29,6 +30,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
+
 
 
 class CandidateController extends Controller
@@ -55,7 +57,7 @@ class CandidateController extends Controller
                 ->leftJoin('employment_details as target_employee_employment', 'transafers.target_employee_id', '=', 'target_employee_employment.user_id')
                 ->where('employee_employment.depertment_id', $verifier->department)
                 ->where('target_employee_employment.depertment_id', $verifier->department)
-                ->select('employee.full_name as employee_name', 'target_employee.full_name as target_employee_name', 'transafers.id as id', 'transafers.transfer_ref_code', 'transafers.2nd_recommend as second_recommend')
+                ->select('employee.full_name as employee_name', 'target_employee.full_name as target_employee_name', 'transafers.id as id', 'transafers.jto_generate_status', 'transafers.transfer_ref_code', 'transafers.2nd_recommend as second_recommend')
                 ->orderBy('transafers.updated_at', 'desc');
 
             if ($request->input('office') != null || $request->input('district') != null || $request->input('post') != null || $request->input('pan_search') != null) {
@@ -237,6 +239,9 @@ class CandidateController extends Controller
                         $office_name = null;
                     }
                 } else {
+                    $verified_by = [];
+                    $verified_on = [];
+                    $office_name = null;
                     $department_name = null;
                 }
             } else {
@@ -257,6 +262,9 @@ class CandidateController extends Controller
                         $noc_office_name = null;
                     }
                 } else {
+                    $noc_generated_by = [];
+                    $noc_generated_on = [];
+                    $noc_office_name = null;
                     $noc_department_name = null;
                 }
             } else {
@@ -285,7 +293,9 @@ class CandidateController extends Controller
                         $sr_office_name = null;
                     }
                 } else {
+                    $ar = null;
                     $sr_department_name = null;
+                    $sr_office_name = null;
                 }
             } else {
                 $ar = null;
@@ -307,7 +317,10 @@ class CandidateController extends Controller
                         $approver_office_name = null;
                     }
                 } else {
+                    $appr_by = null;
+                    $approved_on = null;
                     $approver_department_name = null;
+                    $approver_office_name = null;
                 }
             } else {
                 $appr_by = null;
@@ -332,6 +345,10 @@ class CandidateController extends Controller
     // view candidate 
     public function candidate_profile_index(Request $request, $lang = null, $id = null, $type = null, $tab_recommend = null)
     {
+        // if (!Session::has('profile_user_id')) {
+        //     Session::put('profile_user_id', $tab_recommend);
+        // }
+        // return view('verification.pages.profile_details');
         try {
             Session::forget('allow_recommend');
             if ($tab_recommend != null) {
@@ -405,23 +422,86 @@ class CandidateController extends Controller
                             $docPaths[] = $d->document_location;
                         }
                     }
+
+
+                    // rejected docs
+                    $docs2 = DB::table('rejected_documents')->where('user_id', $id)->where('old_documents', '!=', null)->get();
+                    if (count($docs2) == 0) {
+                        $docs2 = [];
+                    }
+                    $docPaths2 = [];
+                    foreach ($docs2 as $d) {
+                        $docPaths2[] = json_decode($d->old_documents);
+                    }
+                    // dd($docPaths2);
+                    $verifier_office = [];
+
+                    if (!is_null($data->verified_by)) {
+                        $mapp_data = authority_office_dist_map::where('user_id', $data->verified_by)->get(['office_id', 'department_id', 'district_id']);
+
+                        if (!$mapp_data->isEmpty()) {
+                            foreach ($mapp_data as $m) {
+                                if (!is_null($m->office_id)) {
+                                    $office_name = OfficeFinAsssamModel::where('id', $m->office_id)->pluck('name')->first();
+                                    if ($office_name) {
+                                        $verifier_office[] = $office_name;
+                                    }
+                                } elseif (is_null($m->office_id) && !is_null($m->district_id)) {
+                                    $officeIds = OfficesDistDeptModel::where('district_id', $m->district_id)->pluck('office_id')->toArray();
+                                    $office_names = OfficeFinAsssamModel::whereIn('id', $officeIds)->pluck('name')->toArray();
+                                    $verifier_office = array_merge($verifier_office, $office_names);
+                                } elseif (is_null($m->office_id) && is_null($m->district_id) && !is_null($m->department_id)) {
+                                    $officeIds = OfficesDistDeptModel::where('depertment_id', $m->department_id)->pluck('office_id')->toArray();
+                                    $office_names = OfficeFinAsssamModel::whereIn('id', $officeIds)->pluck('name')->toArray();
+                                    $verifier_office = array_merge($verifier_office, $office_names);
+                                }
+                            }
+                        }
+                    }
+                    $verifier_office = array_unique($verifier_office);
+                    $office_name = !empty($verifier_office) ? implode(', ', $verifier_office) : null;
+
                     if ($data->verified_by != null) {
                         $verified_by = appointing_authorities::where('id', $data->verified_by)->first();
                         if ($verified_by != null) {
                             $department_name = departments::where('id', $verified_by->department)->pluck('name')->first();
-                            if ($verified_by->office != null && ($data->employment_details->office_id == $verified_by->office)) {
-                                $office_name = OfficeFinAsssamModel::where('id', $verified_by->office)->pluck('name')->first();
-                            } else {
-                                $office_name = null;
-                            }
                         } else {
                             $department_name = null;
+                            $verified_by = [];
                         }
                     } else {
                         $department_name = null;
-                        $office_name = null;
                         $verified_by = [];
                     }
+
+
+
+                    $noc_office = [];
+
+                    if (!is_null($data->verified_by)) {
+                        $mapp_data = authority_office_dist_map::where('user_id', $data->verified_by)->get(['office_id', 'department_id', 'district_id']);
+
+                        if (!$mapp_data->isEmpty()) {
+                            foreach ($mapp_data as $m) {
+                                if (!is_null($m->office_id)) {
+                                    $office_name = OfficeFinAsssamModel::where('id', $m->office_id)->pluck('name')->first();
+                                    if ($office_name) {
+                                        $verifier_office[] = $office_name;
+                                    }
+                                } elseif (is_null($m->office_id) && !is_null($m->district_id)) {
+                                    $officeIds = OfficesDistDeptModel::where('district_id', $m->district_id)->pluck('office_id')->toArray();
+                                    $office_names = OfficeFinAsssamModel::whereIn('id', $officeIds)->pluck('name')->toArray();
+                                    $verifier_office = array_merge($verifier_office, $office_names);
+                                } elseif (is_null($m->office_id) && is_null($m->district_id) && !is_null($m->department_id)) {
+                                    $officeIds = OfficesDistDeptModel::where('depertment_id', $m->department_id)->pluck('office_id')->toArray();
+                                    $office_names = OfficeFinAsssamModel::whereIn('id', $officeIds)->pluck('name')->toArray();
+                                    $verifier_office = array_merge($verifier_office, $office_names);
+                                }
+                            }
+                        }
+                    }
+                    $verifier_office = array_unique($verifier_office);
+                    $office_name = !empty($verifier_office) ? implode(', ', $verifier_office) : null;
 
 
                     if ($data->noc_generated_by != null) {
@@ -434,12 +514,16 @@ class CandidateController extends Controller
                                 $noc_office_name = null;
                             }
                         } else {
+                            $noc_office_name = null;
+                            $noc_office_name = null;
+                            $noc_generated_by = [];
                             $noc_department_name = null;
                         }
                     } else {
                         $noc_office_name = null;
                         $noc_office_name = null;
                         $noc_generated_by = [];
+                        $noc_department_name = null;
                     }
 
 
@@ -461,7 +545,10 @@ class CandidateController extends Controller
                                 $sr_department_name = null;
                             }
                         } else {
+                            $sr_office_name = null;
+                            $sr_department_name = null;
                             $sr = null;
+                            $srr = null;
                             $second_Recommend_on = null;
                         }
                         $srr = $transfer_data->{'2nd_recommend_remarks'};
@@ -475,7 +562,6 @@ class CandidateController extends Controller
 
 
                     if ($transfer_data != null) {
-
                         $approved_by = $transfer_data->{'approved_by'};
                         if ($approved_by != null && $transfer_data->{'final_approval'} == 1) {
                             $approved_by = appointing_authorities::where('id', $approved_by)->first();
@@ -491,6 +577,8 @@ class CandidateController extends Controller
                                 $approver_department_name = null;
                             }
                         } else {
+                            $approver_office_name = null;
+                            $approver_department_name = null;
                             $approved_by = null;
                             $approved_on = null;
                         }
@@ -500,12 +588,13 @@ class CandidateController extends Controller
                         $approved_by = null;
                         $approved_on = null;
                     }
-                    return view('verification.pages.profile_details')->with(['approver_department_name' => $approver_department_name, 'approver_office_name' => $approver_office_name, 'sr_department_name' => $sr_department_name, 'sr_office_name' => $sr_office_name, 'noc_department_name' => $noc_department_name, 'noc_office_name' => $noc_office_name, 'department_name' => $department_name, 'office_name' => $office_name, 'approved_by' => $approved_by, 'approved_on' => $approved_on, 'second_recommended_on' => $second_Recommend_on, 'sr' => $sr, 'srr' => $srr,  'approver_remarks' => $approver_remarks, 'candidate' => $data, 'user_role' => $roleName, 'docs' => $docs, 'verified_by' => $verified_by, 'noc_generated_by' => $noc_generated_by]);
+                    return view('verification.pages.profile_details')->with(['docs2' => $docPaths2, 'approver_department_name' => $approver_department_name, 'approver_office_name' => $approver_office_name, 'sr_department_name' => $sr_department_name, 'sr_office_name' => $sr_office_name, 'noc_department_name' => $noc_department_name, 'noc_office_name' => $noc_office_name, 'department_name' => $department_name, 'office_name' => $office_name, 'approved_by' => $approved_by, 'approved_on' => $approved_on, 'second_recommended_on' => $second_Recommend_on, 'sr' => $sr, 'srr' => $srr,  'approver_remarks' => $approver_remarks, 'candidate' => $data, 'user_role' => $roleName, 'docs' => $docs, 'verified_by' => $verified_by, 'noc_generated_by' => $noc_generated_by]);
                 }
             } else {
                 return redirect('/verifier/verifier-dashboard');
             }
         } catch (Exception $err) {
+            dd($err->getMessage());
             Log::error('verification profile: ' . $err->getMessage());
             return redirect()->back();
         }
@@ -1114,6 +1203,7 @@ class CandidateController extends Controller
                         $error_indexs[] = $temp_error;
                     }
                 }
+
                 if (count($error_indexs) == 0) {
                     $conditions = [
                         ['id', $employee_id],
@@ -1125,13 +1215,13 @@ class CandidateController extends Controller
                         },
                     ];
                     $main_query = EmployeeModule::dynamicOneModelsQuery(new UserCredentialsModel(), $conditions, [], $with_models);
-
-                    $main_query->whereHas('employment_details', function ($query) use ($logged_user) {
+                    $departmentIds = authority_office_dist_map::where('user_id', $logged_user->appointing_authorities->id)->pluck('department_id')->toArray();
+                    $main_query->whereHas('employment_details', function ($query) use ($logged_user, $departmentIds) {
                         if (!is_null($logged_user->appointing_authorities->district)) {
                             $query->where('district_id', $logged_user->appointing_authorities->district);
                         }
                         if (!is_null($logged_user->appointing_authorities->department)) {
-                            $query->where('depertment_id', $logged_user->appointing_authorities->department);
+                            $query->whereIn('depertment_id', $departmentIds);
                         }
                     });
 
@@ -1178,7 +1268,8 @@ class CandidateController extends Controller
                         'verified_by' => $logged_user->appointing_authorities->id,
                         'verified_remarks_status' => $request->forms_number > 0  ? 1 : 0,
                         'verified_remarks' => $request->verifier_remarks,
-                        'verified_on' => Carbon::now()
+                        'verified_on' => Carbon::now(),
+                        'comment' => $request->input('comment') != null ? $request->input('comment') : null,
                     ]);
                 DB::commit();
                 $res_data['message'] = "Ok";
@@ -1196,6 +1287,7 @@ class CandidateController extends Controller
 
     public function fetch_candidates_approval(Request $request)
     {
+        // dd('hello');
         $user = Auth::guard('user_guard')->user();
         $roleName = '';
         if ($user) {
@@ -1214,7 +1306,7 @@ class CandidateController extends Controller
                 ->leftJoin('employment_details as target_employee_employment', 'transafers.target_employee_id', '=', 'target_employee_employment.user_id')
                 ->where('employee_employment.depertment_id', $verifier->department)
                 ->where('target_employee_employment.depertment_id', $verifier->department)
-                ->select('employee.full_name as employee_name', 'target_employee.full_name as target_employee_name', 'transafers.id as id', 'transafers.transfer_ref_code', 'transafers.2nd_recommend as second_recommend')
+                ->select('employee.full_name as employee_name', 'target_employee.full_name as target_employee_name', 'transafers.id as id', 'transafers.transfer_ref_code', 'transafers.jto_generate_status', 'transafers.2nd_recommend as second_recommend')
                 ->orderBy('transafers.updated_at', 'desc');
 
             if ($request->input('office') != null || $request->input('district') != null || $request->input('post') != null || $request->input('pan_search') != null) {
@@ -1342,17 +1434,18 @@ class CandidateController extends Controller
                     return redirect()->back();
                 } else {
                     try {
+
                         $candidate = UserCredentialsModel::findOrFail($request->input('candidate_reject_id'));
                         $candidate->update([
                             'noc_generate' => 2,
-                            'noc_remarks' =>  $request->input('reject_message')
+                            'noc_remarks' =>  $request->input('reject_message'),
                         ]);
                         $office = EmploymentDetailsModel::where('user_id', $candidate->id)->pluck('office_id')->first();
 
                         // rejections::create([
                         //     'user_id' => $candidate->id,
                         //     'date' => Carbon::now()->toDateString(),
-                        //     'message' => $request->input('reject_message'),
+                        //     'message' => $request->input('comment'),
                         //     'office_id' => $office,
                         //     'created_by' =>  $user->user_id,
                         //     'role' => $user->role_id
@@ -1374,30 +1467,32 @@ class CandidateController extends Controller
 
                 $validate = ReuseModule::validateIncomingData($request, $incoming_data, $request->all());
                 if ($validate->fails()) {
-                    dd($validate->errors()->first());
                     session()->flash('verified_count', 2);
                     session()->flash('message', $validate->errors()->first());
                     return redirect()->back();
                 } else {
                     try {
+                        // dd($request->input('comment'));
                         $candidate = UserCredentialsModel::findOrFail($request->input('candidate_reject_id'));
                         $candidate->update([
                             'profile_verify_status' => 2,
                             'verified_remarks' => $request->has('reject_message') != null ? $request->input('reject_message') : null,
+                            'comment' => $request->input('comment') != '' ? $request->input('comment') : null,
                         ]);
                         $office = EmploymentDetailsModel::where('user_id', $candidate->id)->pluck('office_id')->first();
-                        // rejections::create([
-                        //     'user_id' => $candidate->id,
-                        //     'date' => Carbon::now()->toDateString(),
-                        //     'message' =>  $request->has('reject_message') != null ? $request->input('reject_message') : '',
-                        //     'office_id' => $office,
-                        //     'created_by' =>  $user->user_id,
-                        //     'role' => $user->role_id
-                        // ]);
+                        rejections::create([
+                            'user_id' => $candidate->id,
+                            'date' => Carbon::now()->toDateString(),
+                            'message' =>  $request->input('reject_message') != null ? $request->input('reject_message') : '',
+                            'office_id' => $office,
+                            'created_by' =>  $user->user_id,
+                            'role' => $user->role_id
+                        ]);
                         session()->flash('flash_message', 1);
                         session()->flash('message', ' User profile rejected successfully');
                         return redirect()->route('verifier.dashboard', ['lang' => app()->getLocale()]);
                     } catch (Exception $e) {
+                        dd($e->getMessage());
                         Log::error('Reject error: ' . $e->getMessage());
                         session()->flash('flash_message', 2);
                         session()->flash('message', 'Something went wrong');
