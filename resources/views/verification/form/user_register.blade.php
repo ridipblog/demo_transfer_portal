@@ -61,7 +61,6 @@
                         title="Please enter a 10-digit phone number.">
                     <p class="registration-error text-red-500"></p>
                 </div>
-
             </div>
 
             <div class="form-group mt-6">
@@ -72,7 +71,7 @@
                 <p class="registration-error text-red-500"></p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+            {{-- <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
                 <div class="form-group">
                     <label for="inputDepartment" class="block text-sm font-medium text-gray-700">Department</label>
                     <select id="inputDepartment" name="department"
@@ -84,7 +83,6 @@
                     </select>
                     <p class="registration-error text-red-500"></p>
                 </div>
-                {{-- {{dd($all_roles)}} --}}
                 <div id="roleContainer" class="space-y-6">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div class="form-group">
@@ -97,15 +95,9 @@
                                 @endforeach
                             </select>
                         </div>
-                        {{-- <div class="flex items-end">
-                            <button type="button"
-                                class="btn btn-primary text-sm text-white bg-blue-500 hover:bg-blue-600 rounded-md px-4 py-2 add-new-role">+
-                                Role</button>
-                        </div> --}}
                     </div>
                 </div>
-
-            </div>
+            </div> --}}
 
             <!-- Office and District Selection Section -->
             <div id="officeDistrictContainer" class="space-y-6 mt-6">
@@ -114,45 +106,6 @@
                         class="btn btn-primary text-sm text-white bg-blue-500 hover:bg-blue-600 rounded-md px-4 py-2 add-new-row add-assign-form">+
                         Office</button>
                 </div>
-                {{-- <div class="grid grid-cols-1 md:grid-cols-4 gap-6 office-district-row">
-
-                    <div class="form-group">
-                        <label for="inputDistrict" class="block text-sm font-medium text-gray-700">District</label>
-                        <select name="district[]" id="districtSelect"
-                            class="form-control mt-1 w-full block w-36 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 select2 form_district">
-                            <option value="All" selected>All</option>
-                            @foreach ($districts as $key => $value)
-                                <option value="{{ $key }}">{{ $value }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-
-                    <div class="form-group">
-                        <label for="inputOffice" class="block text-sm font-medium text-gray-700">Office</label>
-                        <select name="office[]"
-                            class="form-control mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 form_offices select2">
-                            <option value="" selected>All</option>
-                        </select>
-                    </div>
-
-
-                    <div class="form-group">
-                        <label for="inputRole" class="block text-sm font-medium text-gray-700">Role</label>
-                        <select name="role[]"
-                            class="form-control mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 assign_role">
-                            <option value="" selected dis>Select Role</option>
-                            @foreach ($all_roles as $role)
-                                <option value="{{ $role->id ?? '' }}">{{ $role->role ?? 'N/A' }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="form-group flex items-end">
-                        <button type="button"
-                            class="btn btn-primary text-sm text-white bg-blue-500 hover:bg-blue-600 rounded-md px-4 py-2 add-new-row add-assign-form">+
-                            Office</button>
-                    </div>
-                </div> --}}
             </div>
 
 
@@ -222,18 +175,7 @@
     <!-- MDB -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/8.0.0/mdb.umd.min.js"></script>
     <script type="module" src="{{ asset('js/root_access/add_authorities.js') }}"></script>
-    {{-- <script>
-        // Initialize choices.js
-        document.addEventListener('DOMContentLoaded', function() {
-            const districtSelect = document.getElementById('districtSelect');
-            new Choices(districtSelect, {
-                removeItemButton: true,
-                placeholder: true,
-                placeholderValue: 'Select Districts',
-                searchEnabled: true
-            });
-        });
-    </script> --}}
+
     <script>
         $(document).ready(function() {
 

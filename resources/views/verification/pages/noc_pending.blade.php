@@ -64,12 +64,12 @@
                                     id="filterSearch"><i class="bi bi-filter"></i></button>
                             </div>
                             <!-- <div class="flex gap-2 items-center text-xs">
-                                            <p class="text-gray-900 whitespace-nowrap">Sort by:</p>
-                                            <select name="" class="disabled:bg-gray-100 border-0 bg-gray-50 text-gray-900 text-xs rounded-md focus:ring-0 focus:border-0 block p-1.5 w-full pr-8 font-bold">
-                                                <option value="1" selected>Relevence</option>
-                                                <option value="2">Latest</option>
-                                            </select>
-                                        </div> -->
+                                                    <p class="text-gray-900 whitespace-nowrap">Sort by:</p>
+                                                    <select name="" class="disabled:bg-gray-100 border-0 bg-gray-50 text-gray-900 text-xs rounded-md focus:ring-0 focus:border-0 block p-1.5 w-full pr-8 font-bold">
+                                                        <option value="1" selected>Relevence</option>
+                                                        <option value="2">Latest</option>
+                                                    </select>
+                                                </div> -->
                         </div>
                         <div class="">
                             <div class="text-sm font-medium text-center text-gray-900 border-b border-gray-200 mb-6">

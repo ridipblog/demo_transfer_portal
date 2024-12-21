@@ -12,19 +12,19 @@
                 </div>
                 <div class="flex gap-4">
                     <!-- <div class="flex w-1/4">
-                                                            <div class="bg-gray-100 rounded-2xl flex-grow p-6 h-fit">
-                                                                <p class="text-xl font-semibold mb-8">Filters</p>
-                                                                <ul>
-                                                                    <li><a href="#" class="py-4 w-full font-medium text-gray-900 hover:text-sky-600 flex gap-3"><input type="checkbox" class=" border border-gray-300 text-sky-600 text-sm rounded-md focus:ring-sky-600 focus:border-sky-600 block p-1.5 mt-0.5"><span>Basic Information</span></a></li>
-                                                                    <li><a href="#" class="py-4 w-full font-medium text-gray-900 hover:text-sky-600 flex gap-3"><input type="checkbox" class=" border border-gray-300 text-sky-600 text-sm rounded-md focus:ring-sky-600 focus:border-sky-600 block p-1.5 mt-0.5"><span>Location</span></a></li>
-                                                                    <li><a href="#" class="py-4 w-full font-medium text-gray-900 hover:text-sky-600 flex gap-3"><input type="checkbox" class=" border border-gray-300 text-sky-600 text-sm rounded-md focus:ring-sky-600 focus:border-sky-600 block p-1.5 mt-0.5"><span>Employment Information</span></a></li>
-                                                                    <li><a href="#" class="py-4 w-full font-medium text-gray-900 hover:text-sky-600 flex gap-3"><input type="checkbox" class=" border border-gray-300 text-sky-600 text-sm rounded-md focus:ring-sky-600 focus:border-sky-600 block p-1.5 mt-0.5"><span>Preferences</span></a></li>
-                                                                    <li><a href="#" class="py-4 w-full font-medium text-gray-900 hover:text-sky-600 flex gap-3"><input type="checkbox" class=" border border-gray-300 text-sky-600 text-sm rounded-md focus:ring-sky-600 focus:border-sky-600 block p-1.5 mt-0.5"><span>Documents</span></a></li>
-                                                                    <li><a href="#" class="py-4 w-full font-medium text-gray-900 hover:text-sky-600 flex gap-3"><input type="checkbox" class=" border border-gray-300 text-sky-600 text-sm rounded-md focus:ring-sky-600 focus:border-sky-600 block p-1.5 mt-0.5"><span>Security</span></a></li>
-                                                                    <li><a href="#" class="py-4 w-full font-medium text-gray-900 hover:text-sky-600 flex gap-3"><input type="checkbox" class=" border border-gray-300 text-sky-600 text-sm rounded-md focus:ring-sky-600 focus:border-sky-600 block p-1.5 mt-0.5"><span>Delete account</span></a></li>
-                                                                </ul>
-                                                            </div>
-                                                        </div> -->
+                                                                                                                                                                                    <div class="bg-gray-100 rounded-2xl flex-grow p-6 h-fit">
+                                                                                                                                                                                        <p class="text-xl font-semibold mb-8">Filters</p>
+                                                                                                                                                                                        <ul>
+                                                                                                                                                                                            <li><a href="#" class="py-4 w-full font-medium text-gray-900 hover:text-sky-600 flex gap-3"><input type="checkbox" class=" border border-gray-300 text-sky-600 text-sm rounded-md focus:ring-sky-600 focus:border-sky-600 block p-1.5 mt-0.5"><span>Basic Information</span></a></li>
+                                                                                                                                                                                            <li><a href="#" class="py-4 w-full font-medium text-gray-900 hover:text-sky-600 flex gap-3"><input type="checkbox" class=" border border-gray-300 text-sky-600 text-sm rounded-md focus:ring-sky-600 focus:border-sky-600 block p-1.5 mt-0.5"><span>Location</span></a></li>
+                                                                                                                                                                                            <li><a href="#" class="py-4 w-full font-medium text-gray-900 hover:text-sky-600 flex gap-3"><input type="checkbox" class=" border border-gray-300 text-sky-600 text-sm rounded-md focus:ring-sky-600 focus:border-sky-600 block p-1.5 mt-0.5"><span>Employment Information</span></a></li>
+                                                                                                                                                                                            <li><a href="#" class="py-4 w-full font-medium text-gray-900 hover:text-sky-600 flex gap-3"><input type="checkbox" class=" border border-gray-300 text-sky-600 text-sm rounded-md focus:ring-sky-600 focus:border-sky-600 block p-1.5 mt-0.5"><span>Preferences</span></a></li>
+                                                                                                                                                                                            <li><a href="#" class="py-4 w-full font-medium text-gray-900 hover:text-sky-600 flex gap-3"><input type="checkbox" class=" border border-gray-300 text-sky-600 text-sm rounded-md focus:ring-sky-600 focus:border-sky-600 block p-1.5 mt-0.5"><span>Documents</span></a></li>
+                                                                                                                                                                                            <li><a href="#" class="py-4 w-full font-medium text-gray-900 hover:text-sky-600 flex gap-3"><input type="checkbox" class=" border border-gray-300 text-sky-600 text-sm rounded-md focus:ring-sky-600 focus:border-sky-600 block p-1.5 mt-0.5"><span>Security</span></a></li>
+                                                                                                                                                                                            <li><a href="#" class="py-4 w-full font-medium text-gray-900 hover:text-sky-600 flex gap-3"><input type="checkbox" class=" border border-gray-300 text-sky-600 text-sm rounded-md focus:ring-sky-600 focus:border-sky-600 block p-1.5 mt-0.5"><span>Delete account</span></a></li>
+                                                                                                                                                                                        </ul>
+                                                                                                                                                                                    </div>
+                                                                                                                                                                                </div> -->
                     <div class="flex-grow">
                         <div class="mb-12">
                             <div class="flex gap-2">
@@ -47,101 +47,101 @@
                         </div>
                         <div class="flex gap-56 items-center justify-between mb-6">
                             <!-- <div class="flex items-center gap-2">
-                                                                        <i class="bi bi-sliders2"></i>
-                                                                        <div class="filterDrop relative">
-                                                                            <button class="bg-gray-200 border border-transparent text-gray-900 hover:text-black rounded-md block px-5 py-1.5 transition-all duration-300">District <i class="bi bi-filter ml-4 text-xs"></i></button>
-                                                                            <div class="bg-white shadow-md rounded-md mt-1 overflow-hidden absolute top-full left-0 max-h-0 filterDropItems">
-                                                                                <ul class="p-4 grid gap-2 w-max">
-                                                                                    <li class="flex gap-3">
-                                                                                        <input type="checkbox" class=" border border-gray-300 text-sky-600 text-xs rounded-md focus:ring-sky-600 focus:border-sky-600 block p-1.5" required>
-                                                                                        <p class="text-xs text-gray-900">Cachar</p>
-                                                                                    </li>
-                                                                                    <li class="flex gap-3">
-                                                                                        <input type="checkbox" class=" border border-gray-300 text-sky-600 text-xs rounded-md focus:ring-sky-600 focus:border-sky-600 block p-1.5" required>
-                                                                                        <p class="text-xs text-gray-900">Kamrup</p>
-                                                                                    </li>
-                                                                                    <li class="flex gap-3">
-                                                                                        <input type="checkbox" class=" border border-gray-300 text-sky-600 text-xs rounded-md focus:ring-sky-600 focus:border-sky-600 block p-1.5" required>
-                                                                                        <p class="text-xs text-gray-900">Kamrup Metro</p>
-                                                                                    </li>
-                                                                                    <li class="flex gap-3">
-                                                                                        <input type="checkbox" class=" border border-gray-300 text-sky-600 text-xs rounded-md focus:ring-sky-600 focus:border-sky-600 block p-1.5" required>
-                                                                                        <p class="text-xs text-gray-900">Lakhimpur</p>
-                                                                                    </li>
-                                                                                    <li class="flex gap-3">
-                                                                                        <input type="checkbox" class=" border border-gray-300 text-sky-600 text-xs rounded-md focus:ring-sky-600 focus:border-sky-600 block p-1.5" required>
-                                                                                        <p class="text-xs text-gray-900">Nagaon</p>
-                                                                                    </li>
-                                                                                    <li class="flex gap-3">
-                                                                                        <input type="checkbox" class=" border border-gray-300 text-sky-600 text-xs rounded-md focus:ring-sky-600 focus:border-sky-600 block p-1.5" required>
-                                                                                        <p class="text-xs text-gray-900">Silchar</p>
-                                                                                    </li>
-                                                                                    <li class="flex gap-3">
-                                                                                        <input type="checkbox" class=" border border-gray-300 text-sky-600 text-xs rounded-md focus:ring-sky-600 focus:border-sky-600 block p-1.5" required>
-                                                                                        <p class="text-xs text-gray-900">Tinsukia</p>
-                                                                                    </li>
-                                                                                </ul>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="filterDrop relative">
-                                                                            <button class="bg-gray-200 border border-transparent text-gray-900 hover:text-black rounded-md block px-5 py-1.5 transition-all duration-300">Department <i class="bi bi-filter ml-4 text-xs"></i></button>
-                                                                            <div class="bg-white shadow-md rounded-md mt-1 overflow-hidden absolute top-full left-0 max-h-0 filterDropItems">
-                                                                                <ul class="p-4 grid gap-2 w-max">
-                                                                                    <li class="flex gap-3">
-                                                                                        <input type="checkbox" class=" border border-gray-300 text-sky-600 text-xs rounded-md focus:ring-sky-600 focus:border-sky-600 block p-1.5" required>
-                                                                                        <p class="text-xs text-gray-900">Administrative</p>
-                                                                                    </li>
-                                                                                    <li class="flex gap-3">
-                                                                                        <input type="checkbox" class=" border border-gray-300 text-sky-600 text-xs rounded-md focus:ring-sky-600 focus:border-sky-600 block p-1.5" required>
-                                                                                        <p class="text-xs text-gray-900">Agriculture</p>
-                                                                                    </li>
-                                                                                    <li class="flex gap-3">
-                                                                                        <input type="checkbox" class=" border border-gray-300 text-sky-600 text-xs rounded-md focus:ring-sky-600 focus:border-sky-600 block p-1.5" required>
-                                                                                        <p class="text-xs text-gray-900">Finance</p>
-                                                                                    </li>
-                                                                                    <li class="flex gap-3">
-                                                                                        <input type="checkbox" class=" border border-gray-300 text-sky-600 text-xs rounded-md focus:ring-sky-600 focus:border-sky-600 block p-1.5" required>
-                                                                                        <p class="text-xs text-gray-900">Health</p>
-                                                                                    </li>
-                                                                                    <li class="flex gap-3">
-                                                                                        <input type="checkbox" class=" border border-gray-300 text-sky-600 text-xs rounded-md focus:ring-sky-600 focus:border-sky-600 block p-1.5" required>
-                                                                                        <p class="text-xs text-gray-900">Housing</p>
-                                                                                    </li>
-                                                                                    <li class="flex gap-3">
-                                                                                        <input type="checkbox" class=" border border-gray-300 text-sky-600 text-xs rounded-md focus:ring-sky-600 focus:border-sky-600 block p-1.5" required>
-                                                                                        <p class="text-xs text-gray-900">Fisheries</p>
-                                                                                    </li>
-                                                                                </ul>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="filterDrop relative">
-                                                                            <button class="bg-gray-200 border border-transparent text-gray-900 hover:text-black rounded-md block px-5 py-1.5 transition-all duration-300">Offices <i class="bi bi-filter ml-4 text-xs"></i></button>
-                                                                            <div class="bg-white shadow-md rounded-md mt-1 overflow-hidden absolute top-full left-0 max-h-0 filterDropItems">
-                                                                                <ul class="p-4 grid gap-2 w-max">
-                                                                                    <li class="flex gap-3">
-                                                                                        <input type="checkbox" class=" border border-gray-300 text-sky-600 text-xs rounded-md focus:ring-sky-600 focus:border-sky-600 block p-1.5" required>
-                                                                                        <p class="text-xs text-gray-900">Office of the Chief Engineer</p>
-                                                                                    </li>
-                                                                                    <li class="flex gap-3">
-                                                                                        <input type="checkbox" class=" border border-gray-300 text-sky-600 text-xs rounded-md focus:ring-sky-600 focus:border-sky-600 block p-1.5" required>
-                                                                                        <p class="text-xs text-gray-900">Office of the Superintending Engineer</p>
-                                                                                    </li>
-                                                                                    <li class="flex gap-3">
-                                                                                        <input type="checkbox" class=" border border-gray-300 text-sky-600 text-xs rounded-md focus:ring-sky-600 focus:border-sky-600 block p-1.5" required>
-                                                                                        <p class="text-xs text-gray-900">Office of the Deputy Director</p>
-                                                                                    </li>
-                                                                                    <li class="flex gap-3">
-                                                                                        <input type="checkbox" class=" border border-gray-300 text-sky-600 text-xs rounded-md focus:ring-sky-600 focus:border-sky-600 block p-1.5" required>
-                                                                                        <p class="text-xs text-gray-900">Office of the Chief Engineer</p>
-                                                                                    </li>
-                                                                                    <li class="flex gap-3">
-                                                                                        <input type="checkbox" class=" border border-gray-300 text-sky-600 text-xs rounded-md focus:ring-sky-600 focus:border-sky-600 block p-1.5" required>
-                                                                                        <p class="text-xs text-gray-900">Office of the Superintending Engineer</p>
-                                                                                    </li>
-                                                                                </ul>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div> -->
+                                                                                                                                                                                                <i class="bi bi-sliders2"></i>
+                                                                                                                                                                                                <div class="filterDrop relative">
+                                                                                                                                                                                                    <button class="bg-gray-200 border border-transparent text-gray-900 hover:text-black rounded-md block px-5 py-1.5 transition-all duration-300">District <i class="bi bi-filter ml-4 text-xs"></i></button>
+                                                                                                                                                                                                    <div class="bg-white shadow-md rounded-md mt-1 overflow-hidden absolute top-full left-0 max-h-0 filterDropItems">
+                                                                                                                                                                                                        <ul class="p-4 grid gap-2 w-max">
+                                                                                                                                                                                                            <li class="flex gap-3">
+                                                                                                                                                                                                                <input type="checkbox" class=" border border-gray-300 text-sky-600 text-xs rounded-md focus:ring-sky-600 focus:border-sky-600 block p-1.5" required>
+                                                                                                                                                                                                                <p class="text-xs text-gray-900">Cachar</p>
+                                                                                                                                                                                                            </li>
+                                                                                                                                                                                                            <li class="flex gap-3">
+                                                                                                                                                                                                                <input type="checkbox" class=" border border-gray-300 text-sky-600 text-xs rounded-md focus:ring-sky-600 focus:border-sky-600 block p-1.5" required>
+                                                                                                                                                                                                                <p class="text-xs text-gray-900">Kamrup</p>
+                                                                                                                                                                                                            </li>
+                                                                                                                                                                                                            <li class="flex gap-3">
+                                                                                                                                                                                                                <input type="checkbox" class=" border border-gray-300 text-sky-600 text-xs rounded-md focus:ring-sky-600 focus:border-sky-600 block p-1.5" required>
+                                                                                                                                                                                                                <p class="text-xs text-gray-900">Kamrup Metro</p>
+                                                                                                                                                                                                            </li>
+                                                                                                                                                                                                            <li class="flex gap-3">
+                                                                                                                                                                                                                <input type="checkbox" class=" border border-gray-300 text-sky-600 text-xs rounded-md focus:ring-sky-600 focus:border-sky-600 block p-1.5" required>
+                                                                                                                                                                                                                <p class="text-xs text-gray-900">Lakhimpur</p>
+                                                                                                                                                                                                            </li>
+                                                                                                                                                                                                            <li class="flex gap-3">
+                                                                                                                                                                                                                <input type="checkbox" class=" border border-gray-300 text-sky-600 text-xs rounded-md focus:ring-sky-600 focus:border-sky-600 block p-1.5" required>
+                                                                                                                                                                                                                <p class="text-xs text-gray-900">Nagaon</p>
+                                                                                                                                                                                                            </li>
+                                                                                                                                                                                                            <li class="flex gap-3">
+                                                                                                                                                                                                                <input type="checkbox" class=" border border-gray-300 text-sky-600 text-xs rounded-md focus:ring-sky-600 focus:border-sky-600 block p-1.5" required>
+                                                                                                                                                                                                                <p class="text-xs text-gray-900">Silchar</p>
+                                                                                                                                                                                                            </li>
+                                                                                                                                                                                                            <li class="flex gap-3">
+                                                                                                                                                                                                                <input type="checkbox" class=" border border-gray-300 text-sky-600 text-xs rounded-md focus:ring-sky-600 focus:border-sky-600 block p-1.5" required>
+                                                                                                                                                                                                                <p class="text-xs text-gray-900">Tinsukia</p>
+                                                                                                                                                                                                            </li>
+                                                                                                                                                                                                        </ul>
+                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                </div>
+                                                                                                                                                                                                <div class="filterDrop relative">
+                                                                                                                                                                                                    <button class="bg-gray-200 border border-transparent text-gray-900 hover:text-black rounded-md block px-5 py-1.5 transition-all duration-300">Department <i class="bi bi-filter ml-4 text-xs"></i></button>
+                                                                                                                                                                                                    <div class="bg-white shadow-md rounded-md mt-1 overflow-hidden absolute top-full left-0 max-h-0 filterDropItems">
+                                                                                                                                                                                                        <ul class="p-4 grid gap-2 w-max">
+                                                                                                                                                                                                            <li class="flex gap-3">
+                                                                                                                                                                                                                <input type="checkbox" class=" border border-gray-300 text-sky-600 text-xs rounded-md focus:ring-sky-600 focus:border-sky-600 block p-1.5" required>
+                                                                                                                                                                                                                <p class="text-xs text-gray-900">Administrative</p>
+                                                                                                                                                                                                            </li>
+                                                                                                                                                                                                            <li class="flex gap-3">
+                                                                                                                                                                                                                <input type="checkbox" class=" border border-gray-300 text-sky-600 text-xs rounded-md focus:ring-sky-600 focus:border-sky-600 block p-1.5" required>
+                                                                                                                                                                                                                <p class="text-xs text-gray-900">Agriculture</p>
+                                                                                                                                                                                                            </li>
+                                                                                                                                                                                                            <li class="flex gap-3">
+                                                                                                                                                                                                                <input type="checkbox" class=" border border-gray-300 text-sky-600 text-xs rounded-md focus:ring-sky-600 focus:border-sky-600 block p-1.5" required>
+                                                                                                                                                                                                                <p class="text-xs text-gray-900">Finance</p>
+                                                                                                                                                                                                            </li>
+                                                                                                                                                                                                            <li class="flex gap-3">
+                                                                                                                                                                                                                <input type="checkbox" class=" border border-gray-300 text-sky-600 text-xs rounded-md focus:ring-sky-600 focus:border-sky-600 block p-1.5" required>
+                                                                                                                                                                                                                <p class="text-xs text-gray-900">Health</p>
+                                                                                                                                                                                                            </li>
+                                                                                                                                                                                                            <li class="flex gap-3">
+                                                                                                                                                                                                                <input type="checkbox" class=" border border-gray-300 text-sky-600 text-xs rounded-md focus:ring-sky-600 focus:border-sky-600 block p-1.5" required>
+                                                                                                                                                                                                                <p class="text-xs text-gray-900">Housing</p>
+                                                                                                                                                                                                            </li>
+                                                                                                                                                                                                            <li class="flex gap-3">
+                                                                                                                                                                                                                <input type="checkbox" class=" border border-gray-300 text-sky-600 text-xs rounded-md focus:ring-sky-600 focus:border-sky-600 block p-1.5" required>
+                                                                                                                                                                                                                <p class="text-xs text-gray-900">Fisheries</p>
+                                                                                                                                                                                                            </li>
+                                                                                                                                                                                                        </ul>
+                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                </div>
+                                                                                                                                                                                                <div class="filterDrop relative">
+                                                                                                                                                                                                    <button class="bg-gray-200 border border-transparent text-gray-900 hover:text-black rounded-md block px-5 py-1.5 transition-all duration-300">Offices <i class="bi bi-filter ml-4 text-xs"></i></button>
+                                                                                                                                                                                                    <div class="bg-white shadow-md rounded-md mt-1 overflow-hidden absolute top-full left-0 max-h-0 filterDropItems">
+                                                                                                                                                                                                        <ul class="p-4 grid gap-2 w-max">
+                                                                                                                                                                                                            <li class="flex gap-3">
+                                                                                                                                                                                                                <input type="checkbox" class=" border border-gray-300 text-sky-600 text-xs rounded-md focus:ring-sky-600 focus:border-sky-600 block p-1.5" required>
+                                                                                                                                                                                                                <p class="text-xs text-gray-900">Office of the Chief Engineer</p>
+                                                                                                                                                                                                            </li>
+                                                                                                                                                                                                            <li class="flex gap-3">
+                                                                                                                                                                                                                <input type="checkbox" class=" border border-gray-300 text-sky-600 text-xs rounded-md focus:ring-sky-600 focus:border-sky-600 block p-1.5" required>
+                                                                                                                                                                                                                <p class="text-xs text-gray-900">Office of the Superintending Engineer</p>
+                                                                                                                                                                                                            </li>
+                                                                                                                                                                                                            <li class="flex gap-3">
+                                                                                                                                                                                                                <input type="checkbox" class=" border border-gray-300 text-sky-600 text-xs rounded-md focus:ring-sky-600 focus:border-sky-600 block p-1.5" required>
+                                                                                                                                                                                                                <p class="text-xs text-gray-900">Office of the Deputy Director</p>
+                                                                                                                                                                                                            </li>
+                                                                                                                                                                                                            <li class="flex gap-3">
+                                                                                                                                                                                                                <input type="checkbox" class=" border border-gray-300 text-sky-600 text-xs rounded-md focus:ring-sky-600 focus:border-sky-600 block p-1.5" required>
+                                                                                                                                                                                                                <p class="text-xs text-gray-900">Office of the Chief Engineer</p>
+                                                                                                                                                                                                            </li>
+                                                                                                                                                                                                            <li class="flex gap-3">
+                                                                                                                                                                                                                <input type="checkbox" class=" border border-gray-300 text-sky-600 text-xs rounded-md focus:ring-sky-600 focus:border-sky-600 block p-1.5" required>
+                                                                                                                                                                                                                <p class="text-xs text-gray-900">Office of the Superintending Engineer</p>
+                                                                                                                                                                                                            </li>
+                                                                                                                                                                                                        </ul>
+                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                </div>
+                                                                                                                                                                                            </div> -->
                             <div class="flex-grow flex items-end gap-2">
                                 <div class="grid grid-cols-3 gap-2 flex-grow">
                                     <div class="">
@@ -194,12 +194,12 @@
                                     id="filterSearch"><i class="bi bi-filter"></i></button>
                             </div>
                             <!-- <div class="flex gap-2 items-center text-xs">
-                                                                        <p class="text-gray-900 whitespace-nowrap">Sort by:</p>
-                                                                        <select name="" class="disabled:bg-gray-100 border-0 bg-gray-50 text-gray-900 text-xs rounded-md focus:ring-0 focus:border-0 block p-1.5 w-full pr-8 font-bold">
-                                                                            <option value="1" selected>Relevence</option>
-                                                                            <option value="2">Latest</option>
-                                                                        </select>
-                                                                    </div> -->
+                                                                                                                                                                                                <p class="text-gray-900 whitespace-nowrap">Sort by:</p>
+                                                                                                                                                                                                <select name="" class="disabled:bg-gray-100 border-0 bg-gray-50 text-gray-900 text-xs rounded-md focus:ring-0 focus:border-0 block p-1.5 w-full pr-8 font-bold">
+                                                                                                                                                                                                    <option value="1" selected>Relevence</option>
+                                                                                                                                                                                                    <option value="2">Latest</option>
+                                                                                                                                                                                                </select>
+                                                                                                                                                                                            </div> -->
                         </div>
                         <div class="">
                             <div class="text-sm font-medium text-center text-gray-900 border-b border-gray-200 mb-6">
@@ -259,7 +259,10 @@
                                                 <th class="p-4 px-6 font-medium text-sm text-gray-900" width="100px">
                                                     @lang('authority_dashboard.table.approval')</th>
                                                 <th class="text-left p-4 px-6 font-medium text-sm text-gray-900"
-                                                    width="100px"></th>
+                                                    width="300px">
+                                                    @lang('authority_dashboard.table.noc_col')</th>
+                                                {{-- <th class="text-left p-4 px-6 font-medium text-sm text-gray-900"
+                                                    width="100px"></th> --}}
                                             </tr>
                                         </thead>
                                         <tbody class="divide-y">
@@ -512,7 +515,6 @@
                         }
 
                     } else if (response.status == 200 && response.type == 'approved') {
-
                         if (response.data.length == 0) {
                             $('#approved div:first').addClass('hidden');
                             $('.table_nfDiv').remove();
@@ -528,47 +530,57 @@
                             $('#approved div:first').removeClass('hidden');
                             let tbody = $('#approved tbody');
                             tbody.empty();
+
                             response.data.forEach(function(item) {
-                                let second_recommend = ``;
-                                if (item.second_recommend == 0) {
-                                    second_recommend = `<div class="flex justify-center">
-                                                        <div class="text-yellow-500 border border-transparent text-white text-xs rounded block px-4 py-1.5 font-semibold w-fit">
-                                                        Pending
-                                                        </div>
-                                                    </div>`;
-                                } else {
-                                    second_recommend = `<div class="flex justify-center">
-                                                        <div class="text-green-500 border border-transparent text-white text-xs rounded block px-4 py-1.5 font-semibold w-fit">Recommended</div>
-                                                    </div>`;
-                                }
+                                // Determine the second recommendation status
+                                let second_recommend = item.second_recommend == 0 ?
+                                    `<div class="flex justify-center">
+                   <div class="text-yellow-500 border border-transparent text-white text-xs rounded block px-4 py-1.5 font-semibold w-fit">
+                       Pending
+                   </div>
+               </div>` :
+                                    `<div class="flex justify-center">
+                   <div class="text-green-500 border border-transparent text-white text-xs rounded block px-4 py-1.5 font-semibold w-fit">
+                       Recommended
+                   </div>
+               </div>`;
+                                // Determine the JTO generate status
+                                let jto = item.jto_generate_status == 1 ?
+                                    `<a href="/jto-certificate/${item.encrypted_id}" 
+                   id="jto-btn" 
+                   class="text-center bg-sky-500 hover:bg-sky-600 border border-transparent text-white text-xs rounded-md block px-1 py-1.5 disabled:opacity-80 disabled:bg-sky-300">
+                   @lang('authority_dashboard.profile_details_jts.download_transfer')
+               </a>` :
+                                    `<a href="/jto-certificate/${item.encrypted_id}" 
+                   id="jto-btn" 
+                   class="text-center bg-sky-500 hover:bg-sky-600 border border-transparent text-white text-xs rounded-md block px-1 py-1.5 disabled:opacity-80 disabled:bg-sky-300">
+                   @lang('authority_dashboard.profile_details_jts.generate_transfer')
+               </a>`;
 
-
+                                // Construct a row for the table
                                 let row = `
-                                 <tr class="hover:bg-gray-50">
-                                    <td class="py-4 px-6 text-xs text-gray-900">${item.transfer_ref_code}</td>
-                                     <td class="py-4 px-6 text-xs text-gray-900">${item.employee_name}</td>
-                                     <td class="py-4 px-6 text-xs text-gray-900">${item.target_employee_name}</td>
-                                     <td>
-                                         ` + second_recommend + `
-                                     </td>
-                                     <td>
-                                         <div class="flex justify-center">
-                                              <div class="text-green-500 border border-transparent text-white text-xs rounded block px-4 py-1.5 font-semibold w-fit">Approved</div>
-                                         </div>
-                                     </td>
-                                     <td class="py-4 px-6 text-xs">
-                                         <div class="flex gap-1 justify-center">
-                                             <a href="/` + locale + `/department/approval-profile/` + item
-                                    .encrypted_id + `" class="hover:bg-gray-200 border border-transparent text-gray-900 hover:text-black rounded-md block px-2 py-1.5 duration-300">
-                                                 @lang('authority_dashboard.table.view_details')
-                                             </a>
-                                         </div>
-                                     </td>
-                                 </tr>
-                             `;
+            <tr class="hover:bg-gray-50">
+                <td class="py-4 px-6 text-xs text-gray-900">${item.transfer_ref_code}</td>
+                <td class="py-4 px-6 text-xs text-gray-900">${item.employee_name}</td>
+                <td class="py-4 px-6 text-xs text-gray-900">${item.target_employee_name}</td>
+                <td>${second_recommend}</td>
+                <td>
+                    <div class="flex justify-center">
+                        <div class="text-green-500 border border-transparent text-white text-xs rounded block px-4 py-1.5 font-semibold w-fit">Approved</div>
+                    </div>
+                </td>
+                <td> <div class="flex gap-1">
+                    ${jto} 
+                    <a href="/${locale}/department/approval-profile/${item.encrypted_id}" 
+                           class="hover:bg-gray-200 border border-transparent text-gray-900 hover:text-black rounded-md block px-2 py-1.5 duration-300 text-xs">
+                           @lang('authority_dashboard.table.view_details')
+                        </a></div></td>
+            </tr>
+        `;
                                 tbody.append(row);
                             });
                         }
+
                     }
                 }
             });

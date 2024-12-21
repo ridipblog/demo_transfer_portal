@@ -34,12 +34,11 @@ class PublicProtectedMiddleware
                 $logged_user = Auth::guard('user_guard')->user();
                 $redirect_links = [
                     '4' => app()->getLocale() . '/employees/dashboard',
-                    '6' => '/verifier/verifier-dashboard',
-                    '3' => '/verifier/verifier-dashboard',
-                    '2' => '/verifier/verifier-dashboard',
-                    '5' => '/verifier/verifier-dashboard',
-                    '6' => '/verifier/verifier-dashboard',
-                    '7' => '/verifier/verifier-dashboard',
+                    '6' => app()->getLocale() . '/verifier/verifier-dashboard',
+                    '3' => app()->getLocale() . '/verifier/verifier-dashboard',
+                    '2' => app()->getLocale() . '/verifier/verifier-dashboard',
+                    '5' => app()->getLocale() . '/verifier/verifier-dashboard',
+                    '7' => app()->getLocale() . '/department/department-dashboard',
                     '1' => '/admin/admin-dashboard'
                 ];
                 return redirect($redirect_links[$logged_user->role_id]);

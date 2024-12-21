@@ -490,7 +490,6 @@ class VerificationController extends Controller
                 } else {
                     $switch_condition = 0;
                 }
-
                 if (array_diff([5, 6], $role_ids) === []) {
                     $switch_condition2 = 1;
                 }
@@ -589,7 +588,7 @@ class VerificationController extends Controller
                     }
                 }
                 // dd($usersQuery->get());
-                $all_users = collect();
+                $all_users = null;
                 $pending_users = collect();
                 $verified_users = collect();
                 $noc_pending = collect();
@@ -603,13 +602,14 @@ class VerificationController extends Controller
                 $all_noc = collect();
                 $docs_path = [];
 
-                // dd($categorizedResults);
                 if (isset($categorizedResults[6]) && !isset($categorizedResults[5])) {
                     $users6 = isset($categorizedResults[6]) ? $categorizedResults[6]['users'] : collect();
                     $all_users =  $users6;
                     $pending_users = $all_users->where('profile_verify_status', 0);
                     $verified_users = $all_users->where('profile_verify_status', 1);
                 }
+
+
 
                 if (isset($categorizedResults[6]) && isset($categorizedResults[5])) {
                     $users5 = isset($categorizedResults[5]) ? $categorizedResults[5]['users'] : collect();
@@ -625,6 +625,9 @@ class VerificationController extends Controller
                     $all_users = $users5;
                     $pending_users = $all_users->where('profile_verify_status', 0);
                     $verified_users = $all_users->where('profile_verify_status', 1);
+
+                    $noc_pending = $all_users->where('noc_generate', 0);
+                    $noc_completed = $all_users->where('noc_generate', 1);
                 }
 
                 if (isset($categorizedResults[5]) && !isset($categorizedResults[3])) {
@@ -632,6 +635,9 @@ class VerificationController extends Controller
                     $verify_recommend_pending_recommend = $verify_recommend->where('noc_generate', 0)->where('profile_verify_status', 1);
                     $verify_recommend_completed = $verify_recommend->where('noc_generate', 1)->where('profile_verify_status', 1);
                     $verify_pending_verify = $verify_recommend->where('noc_generate', 0)->where('profile_verify_status', 0);
+
+                    $noc_pending = $verify_recommend->where('noc_generate', 0);
+                    $noc_completed = $verify_recommend->where('noc_generate', 1);
                 }
 
                 if (isset($categorizedResults[5]) && isset($categorizedResults[3])) {
@@ -641,14 +647,22 @@ class VerificationController extends Controller
                     $verify_recommend_pending_recommend = $verify_recommend->where('noc_generate', 0)->where('profile_verify_status', 1);
                     $verify_recommend_completed = $verify_recommend->where('noc_generate', 1)->where('profile_verify_status', 1);
                     $verify_pending_verify = $verify_recommend->where('noc_generate', 0)->where('profile_verify_status', 0);
-
                     $noc_pending = $verify_recommend->where('noc_generate', 0);
                     $noc_completed = $verify_recommend->where('noc_generate', 1);
+                    $all_users = $verify_recommend->whereIn('profile_verify_status', [0, 1]);
+                    $pending_users = $all_users->where('profile_verify_status', 0);
+                    $verified_users = $all_users->where('profile_verify_status', 1);
                     Session::put('is_mixed', true);
                 }
                 // dd($categorizedResults);
                 if (isset($categorizedResults[3]) && !isset($categorizedResults[5])) {
                     $all_noc = $categorizedResults[3]['users']->where('profile_verify_status', 1);
+                    $noc_pending = $all_noc->where('noc_generate', 0)->where('profile_verify_status', 1);
+                    $noc_completed = $all_noc->where('noc_generate', 1)->where('profile_verify_status', 1);
+                }
+
+                if (isset($categorizedResults[2])) {
+                    $all_noc = isset($categorizedResults[2]) ? $categorizedResults[2]['users'] : collect();
                     $noc_pending = $all_noc->where('noc_generate', 0)->where('profile_verify_status', 1);
                     $noc_completed = $all_noc->where('noc_generate', 1)->where('profile_verify_status', 1);
                 }
@@ -771,7 +785,8 @@ class VerificationController extends Controller
                 'transafers.transfer_ref_code',
                 'transafers.updated_at',
                 'transafers.final_approval',
-                'transafers.2nd_recommend'
+                'transafers.2nd_recommend',
+                'transafers.jto_generate_status',
             )
                 ->orderBy('transafers.updated_at', 'desc')
                 ->get();
@@ -1038,7 +1053,10 @@ class VerificationController extends Controller
                             $office_name = null;
                         }
                     } else {
+                        $verified_by = [];
+                        $verified_on = [];
                         $department_name = null;
+                        $office_name = null;
                     }
                 } else {
                     $verified_by = [];
@@ -1058,7 +1076,10 @@ class VerificationController extends Controller
                             $noc_office_name = null;
                         }
                     } else {
+                        $noc_generated_by = [];
+                        $noc_generated_on = [];
                         $noc_department_name = null;
+                        $noc_office_name = null;
                     }
                 } else {
                     $noc_generated_by = [];
@@ -1088,7 +1109,9 @@ class VerificationController extends Controller
                             $sr_office_name = null;
                         }
                     } else {
+                        $ar = null;
                         $sr_department_name = null;
+                        $sr_office_name = null;
                     }
                 } else {
                     $ar = null;
@@ -1110,7 +1133,10 @@ class VerificationController extends Controller
                             $approver_office_name = null;
                         }
                     } else {
+                        $appr_by = null;
+                        $approved_on = null;
                         $approver_department_name = null;
+                        $approver_office_name = null;
                     }
                 } else {
                     $appr_by = null;
@@ -1142,6 +1168,7 @@ class VerificationController extends Controller
                     'final_approval' => 1,
                     'approver_remarks' => $request->input('verifier_remarks') != null ? $request->input('verifier_remarks') : null,
                     'approved_by' => Auth::guard('user_guard')->user()->user_id,
+                    '2nd_recommend' => 1,
                     'approved_on' => Carbon::now()
                 ]);
 
@@ -1424,6 +1451,30 @@ class VerificationController extends Controller
                             'password' => $request->password,
                             'user_type' => 2,
                             'role_id' => 6
+                        ];
+                    }
+                    if (in_array(3, $roles) && in_array(5, $roles)) {
+                        $attemp_data = [
+                            "phone" => $request->phone_or_email,
+                            'password' => $request->password,
+                            'user_type' => 2,
+                            'role_id' => 5
+                        ];
+                    }
+                    if (in_array(7, $roles) && in_array(2, $roles)) {
+                        $attemp_data = [
+                            "phone" => $request->phone_or_email,
+                            'password' => $request->password,
+                            'user_type' => 2,
+                            'role_id' => 2
+                        ];
+                    }
+                    if (in_array(7, $roles) && in_array(3, $roles)) {
+                        $attemp_data = [
+                            "phone" => $request->phone_or_email,
+                            'password' => $request->password,
+                            'user_type' => 2,
+                            'role_id' => 3
                         ];
                     }
                     // //////////////////////////////////////////////////////////////////////////////////

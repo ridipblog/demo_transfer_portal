@@ -4,7 +4,6 @@
 {{-- ----------------- dynamic body content ------------------ --}}
 @section('content')
     <!-- content -->
-    {{-- {{ dd('hehe') }} --}}
     <div class="py-8">
         <div class="max-w-7xl mx-auto">
             <div class="mt-8 space-y-12 mb-12">
@@ -25,8 +24,8 @@
             </div>
             <div class="gap-24">
                 <!-- <div class="flex-shrink-0">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <img src="../../assets/img/profile.jpg" alt="" class="h-32 w-32 rounded-full object-cover object-center">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </div> -->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <img src="../../assets/img/profile.jpg" alt="" class="h-32 w-32 rounded-full object-cover object-center">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </div> -->
                 <div class="grid gap-6">
                     <div class="grid lg:grid-cols-3 gap-4 border border-sky-500 rounded-3xl border-b-4 border-r-4 p-6">
                         <div class="lg:col-span-3">
@@ -70,10 +69,18 @@
                             <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('user.form.basic_info.email')</label>
                             <p class="font-semibold">{{ $candidate->email ?? 'N/A' }}</p>
                         </div>
+                        {{-- <div>
+                <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">Govt. ID Type</label>
+                <p class="font-semibold">Aadhar Card</p>
+            </div> --}}
                         <div>
                             <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('user.form.basic_info.pan')</label>
                             <p class="font-semibold">{{ $candidate->persional_details->pan_number ?? 'N/A' }}</p>
                         </div>
+                        {{-- <div>
+                <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">Password</label>
+                <p class="font-semibold">XXXXXXXXXXXXXXXX</p>
+            </div> --}}
                     </div>
                     <div class="grid lg:grid-cols-3 gap-4 border border-sky-500 rounded-3xl border-b-4 border-r-4 p-6">
                         <div class="lg:col-span-3">
@@ -88,9 +95,9 @@
                             <p class="font-semibold">{{ $candidate->employment_details->departments->name ?? 'N/A' }}</p>
                         </div>
                         <!-- <div class="">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">DDO Code</label>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <p class="font-semibold">{{ $candidate->employment_details->ddo_code ?? 'N/A' }}</p>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </div> -->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">DDO Code</label>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <p class="font-semibold">{{ $candidate->employment_details->ddo_code ?? 'N/A' }}</p>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </div> -->
                         <div class="col-span-2">
                             <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('user.form.emp_info.office_cp')</label>
                             <p class="font-semibold">{{ $candidate->employment_details->offices_finassam->name ?? 'N/A' }}
@@ -146,7 +153,7 @@
                             </div>
                         @endforeach
                     </div>
-                    {{-- <div
+                    <div
                         class="grid lg:grid-cols-3 gap-4 lg:gap-8 border border-sky-500 border-r-4 border-b-4 rounded-2xl p-10">
                         <div class="lg:col-span-3">
                             <p class="text-lg font-bold text-sky-700">@lang('user.form.addl_info.heading')</p>
@@ -177,57 +184,7 @@
                             <p class="font-semibold uppercase">
                                 {{ $candidate->additional_info->pending_govt_dues ?? 'N/A' }}</p>
                         </div>
-                    </div> --}}
-
-                    {{-- //////////////////// --}}
-                    <div
-                        class="grid sm:grid-cols-2 md:grid-cols-3 gap-4 lg:gap-8 border border-sky-500 border-r-4 border-b-4 rounded-2xl p-10">
-                        <div class="sm:col-span-2 md:col-span-3">
-                            <p class="text-lg font-bold text-sky-700">@lang('user.form.addl_info.heading')</p>
-                        </div>
-                        {{-- <div>
-    <label class="block mb-1 text-xs md:text-sm font-semibold reqd text-gray-400">@lang('user.form.addl_info.ccp')</label>
-    <p class="font-semibold truncate">{{ strtoupper($viewData->additional_info->criminal_case ?? 'N/A') }}
-    </p>
-</div>
-<div class="">
-    <label class="block mb-1 text-xs md:text-sm font-semibold reqd text-gray-400">@lang('user.form.addl_info.dpp')</label>
-    <p class="font-semibold truncate">
-        {{ strtoupper($viewData->additional_info->departmental_proceedings ?? 'N/A') }}</p>
-</div>
-<div class="">
-    <label class="block mb-1 text-xs md:text-sm font-semibold reqd text-gray-400">@lang('user.form.addl_info.mtb')</label>
-    <p class="font-semibold truncate">
-        {{ strtoupper($viewData->additional_info->mutual_transfer ?? 'N/A') }}</p>
-</div>
-<div class="">
-    <label class="block mb-1 text-xs md:text-sm font-semibold reqd text-gray-400">@lang('user.form.addl_info.no_mt')</label>
-    <p class="font-semibold truncate">
-        {{ $viewData->additional_info->mutual_transfer == 'yes' ? $viewData->additional_info->no_mutual_transfer ?? 'N/A' : 'N/A' }}
-    </p>
-</div>
-<div class="">
-    <label class="block mb-1 text-xs md:text-sm font-semibold reqd text-gray-400">@lang('user.form.addl_info.govt_due')</label>
-    <p class="font-semibold truncate">
-        {{ strtoupper($viewData->additional_info->pending_govt_dues ?? 'N/A') }}</p>
-</div> --}}
-
-                        <div class="">
-                            <label class="block mb-1 text-xs md:text-sm font-semibold reqd text-gray-400">How many
-                                times have you
-                                availed mutual transfer ?</label>
-
-                            <p class="font-semibold truncate">
-                                {{ $candidate->additional_info->times_mutual_transfer ?? 'N/A' }}</p>
-                        </div>
-                        {{-- <div class=""></div>
-<div class="flex flex-col items-center justify-center table_nfDiv">
-    <img src="/images/nfd.png" alt="" class="w-36 object-center mb-2">
-    <p class="text-gray-500 font-bold text-lg text-center">No Tranfser History Found!</p>
-</div> --}}
                     </div>
-
-                    {{-- ///////////////////// --}}
 
                     <div class="grid lg:grid-cols-3 gap-4 border border-sky-500 rounded-3xl border-b-4 border-r-4 p-6">
                         <div class="lg:col-span-3">
@@ -373,8 +330,7 @@
                                     class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('authority_dashboard.updated_texts.verifier')</label>
                                 <p class="font-semibold">{{ $verified_by != null ? $verified_by->name : 'N/A' }},
                                     {{ $verified_by != null ? $verified_by->designation : 'N/A' }},
-                                    N/A,
-                                    {{-- {{ $office_name != null ? (is_array($office_name) ? (', ', $office_name) : $office_name) : 'N/A' }}, --}}
+                                    {{ $office_name != null ? (is_array($office_name) ? implode(', ', $office_name) : $office_name) : 'N/A' }},
                                     {{ $department_name != null ? $department_name : 'N/A' }}</p>
                             </div>
                             <div>
@@ -489,7 +445,7 @@
                                 class="bi bi-arrow-left"></i>@lang('authority_dashboard.profile_details.btd')</a>
                     </div>
                     <div class="flex items-center gap-1">
-                        @if ($candidate->profile_verify_status != 1 && Auth::guard('user_guard')->user()->role_id == 6)
+                        @if ($candidate->profile_verify_status != 1 && !Session::has('allow_recommend'))
                             {{-- @if ($candidate->profile_verify_status != 1) --}}
                             <button type="button"
                                 class="bg-red-500 hover:bg-red-600 border border-transparent text-white text-sm rounded-md block px-4 py-1.5 disabled:opacity-80 disabled:bg-sky-300 rejectRequestBtn">@lang('authority_dashboard.profile_details.reject')</button>
@@ -499,12 +455,12 @@
                             @if ($user_role == 'Appointing Authority' || $user_role == 'Appointing User')
                                 @if ($candidate->noc_generate != 1 && $candidate->profile_verify_status == 1)
                                     {{-- {{ dd(Session::has('allow_recommend')) }} --}}
-                                    {{-- @if (Session::has('allow_recommend')) --}}
-                                    <button type="button"
-                                        class="bg-sky-500 hover:bg-sky-600 border border-transparent text-white text-sm rounded-md block px-4 py-1.5 disabled:opacity-80 disabled:bg-sky-300 directNOC">@lang('authority_dashboard.profile_details.ir')</button>
-                                    <button type="button"
-                                        class="bg-red-500 hover:bg-red-600 border border-transparent text-white text-sm rounded-md block px-4 py-1.5 disabled:opacity-80 disabled:bg-sky-300 rejectRequestBtn2">@lang('authority_dashboard.profile_details.idr')</button>
-                                    {{-- @endif --}}
+                                    @if (Session::has('allow_recommend'))
+                                        <button type="button"
+                                            class="bg-sky-500 hover:bg-sky-600 border border-transparent text-white text-sm rounded-md block px-4 py-1.5 disabled:opacity-80 disabled:bg-sky-300 directNOC">@lang('authority_dashboard.profile_details.ir')</button>
+                                        <button type="button"
+                                            class="bg-red-500 hover:bg-red-600 border border-transparent text-white text-sm rounded-md block px-4 py-1.5 disabled:opacity-80 disabled:bg-sky-300 rejectRequestBtn2">@lang('authority_dashboard.profile_details.idr')</button>
+                                    @endif
                                 @endif
                             @elseif($user_role == 'Verifier')
                                 @if ($candidate->profile_verify_status != 1)
@@ -945,6 +901,8 @@
             });
         });
     </script>
+
+
 @endsection
 
 </body>
