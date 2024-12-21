@@ -146,7 +146,7 @@ class EmployeeProfileModule extends RequestModule {
         $('.preview_data').eq(20).html($('#preference_district_3 option:selected').text());
         $('.preview_data').eq(21).html($('#preference_district_4 option:selected').text());
         $('.preview_data').eq(22).html($('#preference_district_5 option:selected').text());
-        $('#preview_times_mutual_transfer').html($('#times_mutual_transfer option:selected').text().toUpperCase());
+        $('#preview_times_mutual_transfer').html($('#times_mutual_transfer option:selected').text());
 
         // $('.preview_data').eq(23).html($('input[name="case_pendding"]:checked').val().toUpperCase());
         // $('.preview_data').eq(24).html($('input[name="departmental_proceedings"]:checked').val().toUpperCase());
