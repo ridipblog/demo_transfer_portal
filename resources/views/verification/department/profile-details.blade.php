@@ -32,7 +32,7 @@
                 <div class="tabItems " id="pending">
                     <div class="gap-24">
                         <!-- <div class="flex-shrink-0">
-                                                                                                                                                                                                <img src="../../assets/img/profile.jpg" alt="" class="h-32 w-32 rounded-full object-cover object-center">                                                                                                                                                           </div> -->
+                                                                                                                                                                                                                                                                                        <img src="../../assets/img/profile.jpg" alt="" class="h-32 w-32 rounded-full object-cover object-center">                                                                                                                                                           </div> -->
                         <div class="grid gap-6">
                             <div
                                 class="grid lg:grid-cols-3 gap-4 border border-sky-500 rounded-3xl border-b-4 border-r-4 p-6">
@@ -113,9 +113,9 @@
                                         {{ $candidate1->employment_details->departments->name ?? 'N/A' }}</p>
                                 </div>
                                 <!-- <div class="">
-                                                                                                                                                                                                        <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">DDO Code</label>
-                                                                                                                                                                                                        <p class="font-semibold">{{ $candidate1->employment_details->ddo_code ?? 'N/A' }}</p>
-                                                                                                                                                                                                    </div> -->
+                                                                                                                                                                                                                                                                                                <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">DDO Code</label>
+                                                                                                                                                                                                                                                                                                <p class="font-semibold">{{ $candidate1->employment_details->ddo_code ?? 'N/A' }}</p>
+                                                                                                                                                                                                                                                                                            </div> -->
                                 <div class="col-span-2">
                                     <label
                                         class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('user.form.emp_info.office_cp')</label>
@@ -323,7 +323,7 @@
                                 <div
                                     class="grid lg:grid-cols-3 gap-4 border border-sky-500 rounded-3xl border-b-4 border-r-4 p-6">
                                     <div class="lg:col-span-3">
-                                        <p class="text-lg font-bold text-sky-700">@lang('authority_dashboard.profile_details.new_verifier_documents')</p>
+                                        <p class="text-lg font-bold text-sky-700">@lang('authority_dashboard.profile_details.additional_documents')</p>
                                     </div>
                                     @foreach ($candidate_1_doc as $d)
                                         <a href="{{ asset('storage/' . $d['document_location']) }}" target="_blank"
@@ -331,10 +331,16 @@
                                             <div class="text-white text-center p-2">{{ $d['remarks'] }}</div>
                                         </a>
                                     @endforeach
-                                    <div class="lg:col-span-3 flex flex-col">
+                                    {{-- <div class="lg:col-span-3 flex flex-col">
                                         @if ($candidate1->comment != null)
                                             <p class="font-semibold mt-auto"> {{ $candidate1->comment }}</p>
                                         @endif
+                                    </div> --}}
+                                    <div id="comment-container" class="lg:col-span-3">
+                                        <textarea name="comment" id="comment"
+                                            class="w-full rounded-md border-gray-300 shadow-sm focus:border-sky-500 focus:ring focus:ring-sky-300 focus:ring-opacity-50"
+                                            @if (Auth::guard('user_guard')->user()->role_id != 6) disabled @endif cols="30" rows="5"
+                                            placeholder="I have concerns regarding">{{ $candidate1->comment }}</textarea>
                                     </div>
                                 </div>
                             @endif
@@ -349,9 +355,9 @@
                                         <p class="text-lg font-bold text-sky-700">@lang('authority_dashboard.profile_details.vnr')</p>
                                     </div>
                                     <!--<div>
-                                                                                                                                                                                                                                                                                                                                <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">Verified Status</label>
-                                                                                                                                                                                                                                                                                                                                <p class="font-semibold">Yes</p>
-                                                                                                                                                                                                                                                                                                                            </div> -->
+                                                                                                                                                                                                                                                                                                                                                                                                                        <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">Verified Status</label>
+                                                                                                                                                                                                                                                                                                                                                                                                                        <p class="font-semibold">Yes</p>
+                                                                                                                                                                                                                                                                                                                                                                                                                    </div> -->
                                     <div>
                                         <label
                                             class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('authority_dashboard.updated_texts.verifier')</label>
@@ -375,9 +381,9 @@
                                         </p>
                                     </div>
                                     <!-- <div>
-                                                                                                                                                                                                                                                                                                                                <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">Appointing Authority</label>
-                                                                                                                                                                                                                                                                                                                                <p class="font-semibold">{{ $candidate2->noc_generate == 1 ? 'Yes' : 'No' }}</p>
-                                                                                                                                                                                                                                                                                                                            </div> -->
+                                                                                                                                                                                                                                                                                                                                                                                                                        <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">Appointing Authority</label>
+                                                                                                                                                                                                                                                                                                                                                                                                                        <p class="font-semibold">{{ $candidate2->noc_generate == 1 ? 'Yes' : 'No' }}</p>
+                                                                                                                                                                                                                                                                                                                                                                                                                    </div> -->
                                     <div>
                                         <label
                                             class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('authority_dashboard.profile_details.appointing_authority')</label>
@@ -516,9 +522,9 @@
                                         {{ $candidate2->employment_details->departments->name ?? 'N/A' }}</p>
                                 </div>
                                 <!-- <div class="">
-                                                                                                                                                                                                                <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">DDO Code</label>
-                                                                                                                                                                                                                <p class="font-semibold">{{ $candidate2->employment_details->ddo_code ?? 'N/A' }}</p>
-                                                                                                                                                                                                            </div> -->
+                                                                                                                                                                                                                                                                                                        <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">DDO Code</label>
+                                                                                                                                                                                                                                                                                                        <p class="font-semibold">{{ $candidate2->employment_details->ddo_code ?? 'N/A' }}</p>
+                                                                                                                                                                                                                                                                                                    </div> -->
                                 <div class="col-span-2">
                                     <label
                                         class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('user.form.emp_info.office_cp')</label>
@@ -712,7 +718,7 @@
                                 <div
                                     class="grid lg:grid-cols-3 gap-4 border border-sky-500 rounded-3xl border-b-4 border-r-4 p-6">
                                     <div class="lg:col-span-3">
-                                        <p class="text-lg font-bold text-sky-700">@lang('authority_dashboard.profile_details.new_verifier_documents')</p>
+                                        <p class="text-lg font-bold text-sky-700">@lang('authority_dashboard.profile_details.additional_documents')</p>
                                     </div>
                                     @foreach ($candidate_2_doc as $d)
                                         <a href="{{ asset('storage/' . $d['document_location']) }}" target="_blank"
@@ -720,10 +726,16 @@
                                             <div class="text-white text-center p-2">{{ $d['remarks'] }}</div>
                                         </a>
                                     @endforeach
-                                    <div class="lg:col-span-3 flex flex-col">
+                                    {{-- <div class="lg:col-span-3 flex flex-col">
                                         @if ($candidate2->comment != null)
                                             <p class="font-semibold mt-auto"> {{ $candidate2->comment }}</p>
                                         @endif
+                                    </div> --}}
+                                    <div id="comment-container" class="lg:col-span-3">
+                                        <textarea name="comment" id="comment"
+                                            class="w-full rounded-md border-gray-300 shadow-sm focus:border-sky-500 focus:ring focus:ring-sky-300 focus:ring-opacity-50"
+                                            @if (Auth::guard('user_guard')->user()->role_id != 6) disabled @endif cols="30" rows="5"
+                                            placeholder="I have concerns regarding">{{ $candidate2->comment }}</textarea>
                                     </div>
                                 </div>
                             @endif
@@ -731,16 +743,15 @@
 
                             <!-- Verification and Noc status displayed after verified -->
                             @if ($candidate2->profile_verify_status != 0 && $candidate2->profile_verify_status != 2)
-                                <!-- Verification and Noc status displayed after verified -->
                                 <div
                                     class="grid lg:grid-cols-3 gap-4 border border-sky-500 rounded-3xl border-b-4 border-r-4 p-6">
                                     <div class="lg:col-span-3">
                                         <p class="text-lg font-bold text-sky-700">@lang('authority_dashboard.profile_details.vnr')</p>
                                     </div>
                                     <!--<div>
-                                                                                                                                                                                                                                                                                                                                <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">Verified Status</label>
-                                                                                                                                                                                                                                                                                                                                <p class="font-semibold">Yes</p>
-                                                                                                                                                                                                                                                                                                                            </div> -->
+                                                                                                                                                                                                                                                                                                                                                                                                                        <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">Verified Status</label>
+                                                                                                                                                                                                                                                                                                                                                                                                                        <p class="font-semibold">Yes</p>
+                                                                                                                                                                                                                                                                                                                                                                                                                    </div> -->
                                     <div>
                                         <label
                                             class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('authority_dashboard.updated_texts.verifier')</label>
@@ -764,9 +775,9 @@
                                         </p>
                                     </div>
                                     <!-- <div>
-                                                                                                                                                                                                                                                                                                                                <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">Appointing Authority</label>
-                                                                                                                                                                                                                                                                                                                                <p class="font-semibold">{{ $candidate2->noc_generate == 1 ? 'Yes' : 'No' }}</p>
-                                                                                                                                                                                                                                                                                                                            </div> -->
+                                                                                                                                                                                                                                                                                                                                                                                                                        <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">Appointing Authority</label>
+                                                                                                                                                                                                                                                                                                                                                                                                                        <p class="font-semibold">{{ $candidate2->noc_generate == 1 ? 'Yes' : 'No' }}</p>
+                                                                                                                                                                                                                                                                                                                                                                                                                  </div> -->
                                     <div>
                                         <label
                                             class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('authority_dashboard.profile_details.appointing_authority')</label>
@@ -841,11 +852,15 @@
                                 class="hidden bg-sky-500 hover:bg-sky-600 border border-transparent text-white text-sm rounded-md block px-4 py-1.5 disabled:opacity-80 disabled:bg-sky-300 directRequest"
                                 data-id="{{ Crypt::encryptString($id) }}">@lang('authority_dashboard.profile_details_jts.approve_transfer')</button>
                         @elseif($approval_status == 1)
-                            {{-- @if ($jto_status == 1)
+                            @if ($jto_status == 1)
                                 <a href="/jto-certificate/{{ Crypt::encryptString($id) }}"
                                     class="bg-sky-500 hover:bg-sky-600 border border-transparent text-white text-sm rounded-md block px-4 py-1.5 disabled:opacity-80 disabled:bg-sky-300"
                                     data-id="">@lang('authority_dashboard.profile_details_jts.download_transfer')</a>
-                            @endif --}}
+                            @else
+                                <a href="/jto-certificate/{{ Crypt::encryptString($id) }}" id="jto-btn"
+                                    class="bg-sky-500 hover:bg-sky-600 border border-transparent text-white text-sm rounded-md block px-4 py-1.5 disabled:opacity-80 disabled:bg-sky-300"
+                                    data-id="">@lang('authority_dashboard.profile_details_jts.generate_transfer')</a>
+                            @endif
                         @endif
                         <button type="button" id="next"
                             class="bg-gray-800 hover:bg-gray-900 border border-transparent text-gray-100 rounded-md block px-2 py-1.5 duration-300">@lang('authority_dashboard.profile_details.next')
@@ -870,7 +885,7 @@
                                         class="block mb-1 text-xs md:text-sm font-bold text-gray-800">@lang('authority_dashboard.profile_details.remarks')</label>
                                     <textarea name="verifier_remarks" id="verification_remarks_id" value=""
                                         class="disabled:bg-gray-100 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full"
-                                        rows="4"></textarea>
+                                        rows="4">Approved</textarea>
                                 </div>
                                 <div class="flex gap-1 justify-end">
                                     <button type="button"
@@ -957,7 +972,9 @@
                 });
             });
 
-
+            $('#jto-btn').on('click', function() {
+                $(this).html("Download Transfer Order")
+            });
             // Verify Modal
             $('#next').on('click', function() {
                 $('#reject').removeClass('hidden');

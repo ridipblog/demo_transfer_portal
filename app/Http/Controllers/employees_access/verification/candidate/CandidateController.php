@@ -563,6 +563,7 @@ class CandidateController extends Controller
 
                     if ($transfer_data != null) {
                         $approved_by = $transfer_data->{'approved_by'};
+                        $approval_status = $transfer_data->{'final_approval'};
                         if ($approved_by != null && $transfer_data->{'final_approval'} == 1) {
                             $approved_by = appointing_authorities::where('id', $approved_by)->first();
                             $approved_on = $transfer_data->{'approved_on'};
@@ -583,12 +584,13 @@ class CandidateController extends Controller
                             $approved_on = null;
                         }
                     } else {
+                        $approval_status = null;
                         $approver_department_name = null;
                         $approver_office_name = null;
                         $approved_by = null;
                         $approved_on = null;
                     }
-                    return view('verification.pages.profile_details')->with(['docs2' => $docPaths2, 'approver_department_name' => $approver_department_name, 'approver_office_name' => $approver_office_name, 'sr_department_name' => $sr_department_name, 'sr_office_name' => $sr_office_name, 'noc_department_name' => $noc_department_name, 'noc_office_name' => $noc_office_name, 'department_name' => $department_name, 'office_name' => $office_name, 'approved_by' => $approved_by, 'approved_on' => $approved_on, 'second_recommended_on' => $second_Recommend_on, 'sr' => $sr, 'srr' => $srr,  'approver_remarks' => $approver_remarks, 'candidate' => $data, 'user_role' => $roleName, 'docs' => $docs, 'verified_by' => $verified_by, 'noc_generated_by' => $noc_generated_by]);
+                    return view('verification.pages.profile_details')->with(['approval_status' => $approval_status, 'docs2' => $docPaths2, 'approver_department_name' => $approver_department_name, 'approver_office_name' => $approver_office_name, 'sr_department_name' => $sr_department_name, 'sr_office_name' => $sr_office_name, 'noc_department_name' => $noc_department_name, 'noc_office_name' => $noc_office_name, 'department_name' => $department_name, 'office_name' => $office_name, 'approved_by' => $approved_by, 'approved_on' => $approved_on, 'second_recommended_on' => $second_Recommend_on, 'sr' => $sr, 'srr' => $srr,  'approver_remarks' => $approver_remarks, 'candidate' => $data, 'user_role' => $roleName, 'docs' => $docs, 'verified_by' => $verified_by, 'noc_generated_by' => $noc_generated_by]);
                 }
             } else {
                 return redirect('/verifier/verifier-dashboard');

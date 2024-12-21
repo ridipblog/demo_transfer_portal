@@ -81,7 +81,8 @@
                                     <th class="text-left p-4 px-6 font-medium text-sm text-gray-900">@lang('authority_dashboard.table.applicant_1')</th>
                                     <th class="text-left p-4 px-6 font-medium text-sm text-gray-900">@lang('authority_dashboard.table.applicant_2')</th>
                                     <th class="p-4 px-6 font-medium text-sm text-gray-900">@lang('authority_dashboard.table.approval')</th>
-                                    <th class="text-left p-4 px-6 font-medium text-sm text-gray-900">@lang('authority_dashboard.table.noc_col')</th>
+                                    <th class="text-left p-4 px-6 font-medium text-sm text-gray-900 text-center">
+                                        @lang('authority_dashboard.table.noc_col')</th>
                                     <th class="text-left p-4 px-6 font-medium text-sm text-gray-900"></th>
                                 </tr>
                             </thead>
