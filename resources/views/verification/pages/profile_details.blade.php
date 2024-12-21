@@ -25,8 +25,8 @@
             </div>
             <div class="gap-24">
                 <!-- <div class="flex-shrink-0">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <img src="../../assets/img/profile.jpg" alt="" class="h-32 w-32 rounded-full object-cover object-center">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </div> -->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <img src="../../assets/img/profile.jpg" alt="" class="h-32 w-32 rounded-full object-cover object-center">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </div> -->
                 <div class="grid gap-6">
                     <div class="grid lg:grid-cols-3 gap-4 border border-sky-500 rounded-3xl border-b-4 border-r-4 p-6">
                         <div class="lg:col-span-3">
@@ -88,9 +88,9 @@
                             <p class="font-semibold">{{ $candidate->employment_details->departments->name ?? 'N/A' }}</p>
                         </div>
                         <!-- <div class="">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">DDO Code</label>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <p class="font-semibold">{{ $candidate->employment_details->ddo_code ?? 'N/A' }}</p>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </div> -->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">DDO Code</label>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <p class="font-semibold">{{ $candidate->employment_details->ddo_code ?? 'N/A' }}</p>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </div> -->
                         <div class="col-span-2">
                             <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('user.form.emp_info.office_cp')</label>
                             <p class="font-semibold">{{ $candidate->employment_details->offices_finassam->name ?? 'N/A' }}
@@ -305,27 +305,7 @@
 
 
                     {{-- Additional documents and comments --}}
-                    @if ($user_role == 'Appointing Authority' || 'Verifier' || 'Appointing User')
-                        @if (count($docs) != 0 || $candidate->comment != null)
-                            <div
-                                class="grid lg:grid-cols-3 gap-4 border border-sky-500 rounded-3xl border-b-4 border-r-4 p-6">
-                                <div class="lg:col-span-3">
-                                    <p class="text-lg font-bold text-sky-700">@lang('authority_dashboard.profile_details.new_verifier_documents')</p>
-                                </div>
-                                @foreach ($docs as $d)
-                                    <a href="{{ asset('storage/' . $d->document_location) }}" target="_blank"
-                                        class="border rounded-xl bg-neutral-600">
-                                        <div class="text-white text-center p-2">{{ $d->remarks }}</div>
-                                    </a>
-                                @endforeach
-                                <div class="lg:col-span-3 flex flex-col">
-                                    @if ($candidate->comment != null)
-                                        <p class="font-semibold mt-auto"> {{ $candidate->comment }}</p>
-                                    @endif
-                                </div>
-                            </div>
-                        @endif
-                    @endif
+
 
 
                     @if ($user_role != 'Appointing Authority' || 'Approver')
@@ -347,10 +327,25 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="lg:col-span-3">
+                                    <div class="grid grid-cols-4 gap-2">
+                                        @if ($user_role == 'Appointing Authority' || 'Verifier' || 'Appointing User')
+                                            @if (count($docs) != 0 || $candidate->comment != null)
+                                                @foreach ($docs as $d)
+                                                    <a href="{{ asset('storage/' . $d->document_location) }}"
+                                                        target="_blank" class="border block rounded-xl bg-neutral-600">
+                                                        <div class="text-white text-center p-2">{{ $d->remarks }}</div>
+                                                    </a>
+                                                @endforeach
+                                            @endif
+                                        @endif
+                                    </div>
+                                </div>
                                 <div id="comment-container" class="lg:col-span-3">
                                     <textarea name="comment" id="comment"
                                         class="w-full rounded-md border-gray-300 shadow-sm focus:border-sky-500 focus:ring focus:ring-sky-300 focus:ring-opacity-50"
-                                        cols="30" rows="5" placeholder="@lang('authority_dashboard.profile_details.enter_comment')"></textarea>
+                                        @if ($user_role != 'Verifier') disabled @endif cols="30" rows="5"
+                                        placeholder="I have concerns regarding">{{ $candidate->comment }}</textarea>
                                 </div>
                                 <input type="hidden" name="verifier_remarks" id="verifier_remarks" value="" />
                                 <input type="hidden" name="employee_id" id="candidate_verify_id" value="" />
@@ -392,34 +387,70 @@
                                     </p>
                                 </div>
                             @endif
-                            @if ($noc_generated_by != null)
-                                <div>
-                                    <label
-                                        class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('authority_dashboard.profile_details.appointing_authority')</label>
-                                    <p class="font-semibold">
-                                        {{ $noc_generated_by != null ? $noc_generated_by->name : 'N/A' }},
-                                        {{ $noc_generated_by != null ? $noc_generated_by->designation : 'N/A' }}
-                                        {{ $noc_office_name != null ? $noc_office_name : 'N/A' }},
-                                        {{ $noc_department_name != null ? $noc_department_name : 'N/A' }}</p>
-                                </div>
-                                <div>
-                                    <label
-                                        class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('authority_dashboard.updated_texts.appointing_authority_remarks')</label>
-                                    <p class="font-semibold">
-                                        {{ $candidate->noc_remarks != null ? $candidate->noc_remarks : 'N/A' }}</p>
-                                </div>
-                                @if ($candidate->noc_generated_on != null)
+
+                            @if ($candidate->noc_generate == 1)
+                                @if ($noc_generated_by != null)
                                     <div>
                                         <label
-                                            class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('authority_dashboard.profile_details.recommended_on')</label>
+                                            class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('authority_dashboard.profile_details.appointing_authority')</label>
                                         <p class="font-semibold">
-                                            {{ $candidate->noc_generated_on != null ? \Carbon\Carbon::parse($candidate->noc_generated_on)->format('d-m-Y') : 'N/A' }}
-                                        </p>
+                                            {{ $noc_generated_by != null ? $noc_generated_by->name : 'N/A' }},
+                                            {{ $noc_generated_by != null ? $noc_generated_by->designation : 'N/A' }}
+                                            {{ $noc_office_name != null ? $noc_office_name : 'N/A' }},
+                                            {{ $noc_department_name != null ? $noc_department_name : 'N/A' }}</p>
                                     </div>
+                                    <div>
+                                        <label
+                                            class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('authority_dashboard.updated_texts.appointing_authority_remarks')</label>
+                                        <p class="font-semibold">
+                                            {{ $candidate->noc_remarks != null ? $candidate->noc_remarks : 'N/A' }}</p>
+                                    </div>
+                                    @if ($candidate->noc_generated_on != null)
+                                        <div>
+                                            <label
+                                                class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('authority_dashboard.profile_details.recommended_on')</label>
+                                            <p class="font-semibold">
+                                                {{ $candidate->noc_generated_on != null ? \Carbon\Carbon::parse($candidate->noc_generated_on)->format('d-m-Y') : 'N/A' }}
+                                            </p>
+                                        </div>
+                                    @endif
+                                @endif
+
+                                @if ($approval_status == 1)
+                                    @if ($approved_by != null)
+                                        <div>
+                                            <label
+                                                class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('authority_dashboard.updated_texts.approved_by')</label>
+                                            <p class="font-semibold">
+                                                {{ $approved_by->name != null ? $approved_by->name : 'N/A' }},
+                                                {{ $approved_by->designation != null ? $approved_by->designation : 'N/A' }}
+                                                {{ $approver_office_name != null ? $approver_office_name : 'N/A' }},
+                                                {{ $approver_department_name != null ? $approver_department_name : 'N/A' }}
+                                            </p>
+                                        </div>
+                                    @endif
+                                    @if ($approved_by != null)
+                                        <div>
+                                            <label
+                                                class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('authority_dashboard.updated_texts.approver_remarks')</label>
+                                            <p class="font-semibold">
+                                                {{ $approver_remarks == null ? 'N/A' : $approver_remarks }}
+                                            </p>
+                                        </div>
+                                    @endif
+                                    @if ($approved_by != null)
+                                        <div>
+                                            <label
+                                                class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('authority_dashboard.profile_details.approved_on')</label>
+                                            <p class="font-semibold">
+                                                {{ \Carbon\Carbon::parse($approved_on)->format('d-m-Y') }}
+                                            </p>
+                                        </div>
+                                    @endif
                                 @endif
                             @endif
 
-                            @if ($sr != null)
+                            {{-- @if ($sr != null)
                                 <div>
                                     <label
                                         class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('authority_dashboard.updated_texts.department_hod')</label>
@@ -444,36 +475,9 @@
                                     <p class="font-semibold">
                                         {{ \Carbon\Carbon::parse($second_recommended_on)->format('d-m-Y') }}</p>
                                 </div>
-                            @endif
+                            @endif --}}
 
-                            @if ($approved_by != null)
-                                <div>
-                                    <label
-                                        class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('authority_dashboard.updated_texts.approved_by')</label>
-                                    <p class="font-semibold">
-                                        {{ $approved_by->name != null ? $approved_by->name : 'N/A' }},
-                                        {{ $approved_by->designation != null ? $approved_by->designation : 'N/A' }}
-                                        {{ $approver_office_name != null ? $approver_office_name : 'N/A' }},
-                                        {{ $approver_department_name != null ? $approver_department_name : 'N/A' }}
-                                    </p>
-                                </div>
-                            @endif
-                            @if ($approved_by != null)
-                                <div>
-                                    <label
-                                        class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('authority_dashboard.updated_texts.approver_remarks')</label>
-                                    <p class="font-semibold">{{ $approver_remarks == null ? 'N/A' : $approver_remarks }}
-                                    </p>
-                                </div>
-                            @endif
-                            @if ($approved_by != null)
-                                <div>
-                                    <label
-                                        class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('authority_dashboard.profile_details.approved_on')</label>
-                                    <p class="font-semibold">{{ \Carbon\Carbon::parse($approved_on)->format('d-m-Y') }}
-                                    </p>
-                                </div>
-                            @endif
+
 
 
                         </div>
@@ -546,7 +550,7 @@
                                         class="block mb-1 text-xs md:text-sm font-bold text-gray-800">@lang('authority_dashboard.profile_details.remarks')</label>
                                     <textarea name="verifier_remarks" id="verification_remarks_id" value=""
                                         class="disabled:bg-gray-100 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full"
-                                        rows="4"></textarea>
+                                        rows="4">Verified</textarea>
                                 </div>
                                 <div class="flex gap-1 justify-end">
                                     <button type="button"

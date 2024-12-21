@@ -35,6 +35,7 @@ return [
         'approval_status' => 'Approval Status',
         'status' => 'Status',
         'view_details' => 'View Details',
+        'noc_col' => 'Order Status'
     ],
     'profile_details' => [
         'heading' => 'Profile Details',
@@ -47,18 +48,18 @@ return [
         'verifier' => 'Verifier',
         'verifier_remarks' => 'Verifier Remarks',
         'verifier_on' => 'Verified On',
-        'appointing_authority' => 'Appointing Authority',
+        'appointing_authority' => 'Recommendation By Department HOD',
         'aur' => 'Appointing Authority Remarks',
         'recommended_on' => 'Recommended On',
         'approver_remarks' => 'Approver Remarks',
         'btd' => 'Back To Dashboard',
         'certify' => 'Certify',
-        'reject' => 'Do Not Certify',
+        'reject' => 'Not Certify',
         'verify_reject_heading' => 'Please mention the reasons for non certification in the box below',
-        'reject_verify_btn' => 'Do Not Certify',
-        'reject_recommendation_btn' => 'Do Not Recommend',
+        'reject_verify_btn' => 'Not Certify',
+        'reject_recommendation_btn' => 'Not Recommend',
         'ir' => 'Recommend',
-        'idr' => 'Do Not Recommend',
+        'idr' => 'Not Recommend',
         'next' => 'Next',
         'previous' => 'Previous',
         'verify_profile' => 'Verify Profile',
@@ -66,7 +67,7 @@ return [
         'remarks' => 'Remarks',
         'close' => 'Close',
         'submit' => 'Certify',
-        'rejection_recommendation' => 'Do Not Recommended',
+        'rejection_recommendation' => 'Not Recommended',
         'rejection_reason' => 'Reason(s) For Not Recommending',
         'srb' => 'Second Recommended By',
         'srr' => 'Second Recommendation Remarks',
@@ -90,29 +91,29 @@ return [
         'requested_on' => 'Requested On',
         'applicant_1' => 'Applicant 1',
         'applicant_2' => 'Applicant 2',
-        'rts' => 'Do Not Recommended',
+        'rts' => 'Not Recommended',
         'rt' => 'Recommended',
         'approve_transfer' => 'Approve Transfer',
-        'reject_transfer' => 'Do Not Approve',
+        'reject_transfer' => 'Not Approve',
         'generate_transfer' => 'Generate Transfer Order',
         'download_transfer' => 'Download Transfer Order',
-        'rejection_reason' => 'Reason(s) For Not Recommending',
-        'rsr' => 'Do Not Recommended',
+        'rejection_reason' => 'Reason(s) For Not Approving',
+        'rsr' => 'Not Recommended',
         'yes_approve' => 'Approve',
-        'yes_reject' => 'Do Not Approve',
+        'yes_reject' => 'Not Approve',
     ],
 
     'updated_texts' => [
         'verifier' => 'Verifying Authority',
         'verifier_remarks' => 'Remarks Of The Verifying Authority',
 
-        'appointing_authority_remarks' => 'Remarks Of The Appointing Authority',
+        'appointing_authority_remarks' => 'Remarks Of The Department HOD',
 
         'department_hod' => 'Head Of The Department(HOD)',
         'remarks_hod' => 'Remarks Of HOD',
         'hod_recommended_on' => 'Recommended On',
 
-        'approved_by' => 'State Level Appointing Authority',
-        'approver_remarks' => 'Remarks Of State Level Appointing Authority'
+        'approved_by' => 'Approval By Department HOD',
+        'approver_remarks' => 'Remarks Of The Department HOD'
     ]
 ];
