@@ -27,10 +27,8 @@ return [
         'api_key' => '$2a$05$HJ2SEB6.PilCuaGfz9KHwe.0.XL1GZuYTPaNAhUu9X7gAr1huCOaO'
     ],
     'pay_band_list' => [
-        '1' => '20000-30000',
-        '2' => '31000-40000',
-        '3' => '41000-50000',
-        '4' => '51000-60000'
+        '1' => '12000-52000',
+        '2' => '14000- 60500',
     ],
 
     'profile_alter_text' => [
