@@ -1,0 +1,56 @@
+<?php
+
+return [
+    'dynamic_validate_errors' => [
+        'required' => 'This field is required.',
+        'integer' => 'This field must be a numeric value.',
+        'regex' => 'The phone number must be 10 digits.',
+        'max' => 'The maximum allowable size is 3 megabytes.',
+        'mimes' => 'The file type is not valid.',
+        'email' => 'Please enter a valid email address.',
+        'confirmed' => 'This field does not match the confirmation.',
+        'date' => 'This field must be a valid date.',
+        'unique' => 'This value already exists.',
+        'array' => 'This field must be an array.',
+        'required_if' => 'This field is required.',
+        'exists' => 'This item was not found in the database.',
+        'phone' => [
+            'exists' => 'The phone number does not exist. Please register your number.',
+        ],
+    ],
+    'static_validate_errors' => [
+        'confirm_password' => 'The confirmation password must match the original password.',
+        'otp_wrong' => 'The OTP entered is incorrect.',
+        'otp_expire' => 'The OTP has expired. Please resend.',
+        'phone_not_exists' => 'The mobile number does not exist for verification.',
+        'key_undefine' => 'Required keys are not defined.',
+        'otp_send' => 'OTP sent successfully.',
+        'otp_resend' => 'Please wait 2 minutes before resending the OTP.',
+        'otp_data' => 'No data found for the OTP.',
+        'registration_completed' => 'Registration completed successfully with Reference ID.',
+        'otp_sent' => 'OTP sent successfully.',
+        'after_minutes' => 'Please wait 2 minutes before resending the OTP.',
+    ],
+    'server_message' => [
+        'server_error' => 'A server error occurred. Please try again later.',
+    ],
+    'authentication_message' => [
+        'unauthorized' => 'You are not currently logged in.',
+        'account_deactivated' => 'Your account has been deactivated.',
+        'role_specified' => 'Your role is authorized.',
+        'session_expire' => 'Your session has expired.',
+        'credentials' => 'Credentials could not be found.',
+    ],
+    'profile_message' => [
+        'pan_not_found' => 'PAN number details not found.',
+        'not_data' => 'No data found.',
+        'preference_unique' => 'Preference locations must be unique.',
+        'dept_post' => 'Department and post not found.',
+        'current_district' => 'The current district cannot be selected as a preference.',
+        'data_save' => 'Your data has been saved successfully.',
+        'data_submit' => 'Data submitted successfully.',
+        'data_updated' => 'Data updated successfully.',
+        'select_office' => 'Please select an office name.',
+        'already_verified' => 'Your profile has already been verified.',
+    ],
+];
