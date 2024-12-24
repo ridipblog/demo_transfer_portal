@@ -12,7 +12,8 @@ return [
         'approved_transfers' => 'Approved Transfers',
         'rejected' => 'Rejected',
         'view_all' => 'View All',
-        'noc_col' => 'Action'
+        'noc_col' => 'Action',
+        'resubmitted' => 'Re-submitted Profiles'
     ],
     'latest_requests' => 'Latest Requests',
     'tab' => [
