@@ -7,12 +7,13 @@
     {{-- {{ dd('hehe') }} --}}
     <div class="py-8">
         <div class="max-w-7xl mx-auto">
-            <div class="mt-8 space-y-12 mb-12">
+            <div class="mt-8 space-y-6 mb-12">
                 <div class="mb-6 space-y-2 flex items-end justify-between">
                     <p class="text-3xl font-semibold">@lang('authority_dashboard.profile_details.heading')</p>
                 </div>
+
                 @if ($candidate->profile_verify_status == 0)
-                    <div class="bg-yellow-100 p-6 text-yellow-600 mb-24 rounded-3xl">
+                    <div class="bg-yellow-100 p-6 text-yellow-600 rounded-3xl">
                         <div class="flex gap-4">
                             <i class="bi bi-exclamation-triangle mt-0.5"></i>
                             <div class="">
@@ -23,10 +24,22 @@
                     </div>
                 @endif
             </div>
+            <div class="mb-2 grid grid-cols-4">
+                <div class="border border-sky-500 rounded-3xl border-b-4 border-r-4 p-2 flex items-center">
+                    <span class="p-2 bg-green-600 text-white rounded-full"><i class="bi bi-archive"></i></span>
+                    <span class="text-lg font-semibold pl-2">Fresh Profile</span>
+                </div>
+                <div class="border border-sky-500 rounded-3xl border-b-4 border-r-4 p-2 flex items-center">
+                    <span class="p-2 bg-green-600 text-white rounded-full"><i class="bi bi-archive-fill"></i></span>
+                    <span class="text-lg font-semibold pl-2">Resubmitting Profile</span>
+                </div>
+                <div class="col-span-2 flex items-center justify-end">
+                    <a href="#" class="hover:underline text-gray-900 text-xs">View All Rejected Profile's<i
+                            class="bi bi-arrow-up-right"></i></a>
+                </div>
+            </div>
+
             <div class="gap-24">
-                <!-- <div class="flex-shrink-0">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <img src="../../assets/img/profile.jpg" alt="" class="h-32 w-32 rounded-full object-cover object-center">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </div> -->
                 <div class="grid gap-6">
                     <div class="grid lg:grid-cols-3 gap-4 border border-sky-500 rounded-3xl border-b-4 border-r-4 p-6">
                         <div class="lg:col-span-3">
@@ -88,9 +101,9 @@
                             <p class="font-semibold">{{ $candidate->employment_details->departments->name ?? 'N/A' }}</p>
                         </div>
                         <!-- <div class="">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">DDO Code</label>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <p class="font-semibold">{{ $candidate->employment_details->ddo_code ?? 'N/A' }}</p>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </div> -->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">DDO Code</label>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <p class="font-semibold">{{ $candidate->employment_details->ddo_code ?? 'N/A' }}</p>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </div> -->
                         <div class="col-span-2">
                             <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('user.form.emp_info.office_cp')</label>
                             <p class="font-semibold">{{ $candidate->employment_details->offices_finassam->name ?? 'N/A' }}
@@ -229,9 +242,13 @@
 
                     {{-- ///////////////////// --}}
 
-                    <div class="grid lg:grid-cols-3 gap-4 border border-sky-500 rounded-3xl border-b-4 border-r-4 p-6">
+                    <div
+                        class="grid lg:grid-cols-3 gap-4 border border-sky-500 rounded-3xl border-b-4 border-r-4 p-6 remarks-doc-div">
                         <div class="lg:col-span-3">
                             <p class="text-lg font-bold text-sky-700">@lang('user.form.docs.heading')</p>
+                            <p class="text-xs font-bold text-sky-700">If any document is found to be invalid, verifying
+                                officers can provide remarks by selecting the "<span class="text-red-600">Remarks</span>"
+                                option on document.</p>
                         </div>
 
                         @php
@@ -241,14 +258,26 @@
                             @if (
                                 $document['document_type'] != 5 ||
                                     ($document['document_type'] == 5 && $candidate->additional_info->pending_govt_dues == 'no'))
-                                <div class="border rounded-xl bg-neutral-600">
+                                <div class="border rounded-xl bg-neutral-60">
                                     @php
                                         $name = config(
                                             'globalVariables.registration_documtns.' . $document['document_type'],
                                         );
                                     @endphp
-                                    <div class="text-white text-center p-2 text-xs">
-                                        {{ Str::upper(str_replace('_', ' ', __("user.form.docs.$key"))) }}
+                                    <div class="flex items-center justify-between px-2">
+                                        <p class="m-0 p-2 px-8"></p>
+                                        <p class="m-0 p-2 text-xs">
+                                            {{ Str::upper(str_replace('_', ' ', __("user.form.docs.$key"))) }}</p>
+
+                                        <div class="">
+                                            <input type="hidden" class="get-key"
+                                                value="{{ Str::upper(str_replace('_', ' ', __("user.form.docs.$key"))) }}">
+                                            <button type="button"
+                                                class="border border-red-600 hover:bg-red-600 text-red-600 hover:text-white rounded p-0.5 text-xs px-2 btn-remarks-doc">
+                                                {{-- <i class="bi bi-x-lg"></i> --}}
+                                                Remarks
+                                            </button>
+                                        </div>
                                     </div>
                                     <div class="h-44 p-2 pt-0">
                                         <img src="{{ Storage::url($document['documet_location'] ?? 'N/A') }}"
@@ -260,6 +289,11 @@
                                 $key++;
                             @endphp
                         @endforeach
+
+                        <div class="mt-6 lg:col-span-3 doc-remarks-label hidden">
+                            <p class="text-xs font-bold text-sky-700">Invalid document remarks</p>
+                        </div>
+
                     </div>
 
                     {{-- previous documents --}}
@@ -531,7 +565,7 @@
                 <!-- modal -->
                 <div class="hidden fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black/30 p-4 z-[99]"
                     id="directRequestModal">
-                    <div class="max-w-md w-full bg-white rounded-2xl p-6 py-10">
+                    <div class="max-w-xl w-full bg-white rounded-2xl p-6 py-10">
                         <div class="space-y-2 mb-6">
                             <p class="text-3xl font-semibold">@lang('authority_dashboard.profile_details.verify_profile')</p>
                         </div>
@@ -698,6 +732,34 @@
     <script>
         $(document).ready(function(argument) {
 
+            $('.btn-remarks-doc').on('click', function() {
+                $('.doc-remarks-label').removeClass('hidden');
+                var key = $(this).closest('div').find('.get-key').val();
+                var append_data = `
+<div class="doc-remarks">
+    <label for="message"
+        class="block mb-2 text-xs font-semibold text-gray-900 dark:text-white">Remarks for
+        ` + key + `</label>
+    <textarea id="message" rows="2"
+        class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+        placeholder="Write here..."></textarea>
+    <!-- Cross button to remove the div -->
+    <button type="button" class="remove-remarks-btn text-red-600 hover:text-red-800 mt-2 text-sm">
+        &times; Remove
+    </button>
+</div>`;
+                $('.remarks-doc-div').append(append_data);
+                $('.remove-remarks-btn').on('click', function() {
+                    $(this).closest('.doc-remarks').remove();
+                    if ($('.doc-remarks').length === 0) {
+                        $('.doc-remarks-label').addClass('hidden');
+                    }
+                });
+            });
+
+
+
+
             $('#reject_noc_btn').on('click', function() {
                 var comment = $('#comment').val();
                 $('#reject_comment').val(comment);
@@ -773,10 +835,7 @@
                     if (fileInput == '') {
                         return data;
                     }
-                    // data.push({
-                    //     file: fileInput,
-                    //     text: textarea
-                    // });
+
                 });
                 $('#add_docs').val(data);
             });
@@ -841,14 +900,6 @@
                     $(content).insertBefore('#comment-container');
                 } else {
                     $('.doc-section').append(content);
-
-                    //         var textarea = `
-                // <div id="comment-container" class="lg:col-span-3">
-                //     <textarea name="comment" id="comment"
-                //         class="w-full rounded-md border-gray-300 shadow-sm focus:border-sky-500 focus:ring focus:ring-sky-300 focus:ring-opacity-50"
-                //         cols="30" rows="5">@lang('authority_dashboard.profile_details.enter_comment')</textarea>
-                // </div>`;
-                    //         $('.doc-section').append(textarea);
                 }
             });
 
@@ -856,11 +907,6 @@
                 var $docSection = $(this).closest('.doc-section');
                 var $docUpload = $(this).closest('.doc-upload');
                 $docUpload.remove();
-                // $(this).closest('.sub-form-div').remove();
-
-                // if ($('.sub-form-div').length === 0) {
-                //     $('#comment-container').remove();
-                // }
             });
             $('#verify_submit').on('click', function() {
                 var comment = $('#comment').val();
@@ -877,7 +923,6 @@
                     console.log();
                     if (result.isConfirmed) {
                         let checkbox1 = $('input[type="checkbox"]').eq(0).prop('checked');
-                        // let checkbox2 = $('input[type="checkbox"]').eq(1).prop('checked');
                         if (!checkbox1) {
                             alert('Please ensure the checkbox is selected before proceeding.');
                             return false;
@@ -890,10 +935,6 @@
                         let form = $('#form_doc_append')[0];
                         $('#forms_number').val(docsLength);
                         let formData = new FormData(form);
-                        // formData.forEach((value, key) => {
-                        //     console.log(key + ": " + value);  
-                        // });
-
                         console.log("Ok");
                         $.ajax({
                             type: "POST",
@@ -909,7 +950,6 @@
                                 console.log(response)
                                 if (response.res_data.status == 200) {
                                     window.location.reload();
-                                    // window.location.href = '/verifier/verifier-dashboard';
                                 } else {
                                     for (var i = 0; i < response.res_data.message
                                         .length; i++) {
