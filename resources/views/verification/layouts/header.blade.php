@@ -101,12 +101,7 @@
                                 @if (Session::get('is_dept') == 1)
                                     {{ Session::get('role') }}
                                 @else
-                                    @if (Session::has('switch_condition') && Session::get('switch_condition') == 1)
-                                        Department Hod
-                                    @else
-                                        {{ Session::has('display_role_name') ? Session::get('display_role_name') : 'N/A' }}
-                                    @endif
-
+                                    {{ Session::has('display_role_name') ? Session::get('display_role_name') : 'N/A' }}
                                 @endif
                             </p>
                         </div>
@@ -170,9 +165,9 @@
                                         @php
                                             $role_name = $roles->display_name;
                                             if ($roles->id == 7) {
-                                                $role_name = 'Approval';
+                                                $role_name = 'Approval HOD';
                                             } elseif ($roles->id == 3) {
-                                                $role_name = 'Recommendation';
+                                                $role_name = 'Recommendation HOD';
                                             }
                                         @endphp
                                         @if (count(Session::get('all_roles')) > 2)

@@ -35,6 +35,7 @@ use Illuminate\Support\Facades\Storage;
 
 class CandidateController extends Controller
 {
+
     // department ///////////////////////////////
     public function department_fetch_candidates_approval(Request $request)
     {
@@ -176,6 +177,10 @@ class CandidateController extends Controller
             ]);
         }
     }
+
+
+
+
 
     public function department_candidate_profile($lang = null, $id = null, $status = null)
     {
@@ -495,7 +500,6 @@ class CandidateController extends Controller
                             }
                         }
                     }
-
                     $verifier_office = array_unique($verifier_office);
                     $office_name = !empty($verifier_office) ? implode(', ', $verifier_office) : null;
 
@@ -538,7 +542,6 @@ class CandidateController extends Controller
                                     $sr_office_name = null;
                                 }
                             } else {
-                                $sr_office_name = null;
                                 $sr_department_name = null;
                             }
                         } else {
@@ -572,7 +575,6 @@ class CandidateController extends Controller
                                     $approver_office_name = null;
                                 }
                             } else {
-                                $approver_office_name = null;
                                 $approver_department_name = null;
                             }
                         } else {
@@ -1271,8 +1273,6 @@ class CandidateController extends Controller
                         'verified_on' => Carbon::now(),
                         'comment' => $request->input('comment') != null ? $request->input('comment') : null,
                     ]);
-                // $phone = 
-                // ReuseModule::sendNOCOTP($user->phone);
                 DB::commit();
                 $res_data['message'] = "Ok";
                 $res_data['status'] = 200;
