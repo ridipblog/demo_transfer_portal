@@ -135,7 +135,6 @@
                                     </td>
                                     <td class="py-4 px-6 text-xs">
                                         <div class="flex gap-1 justify-center">
-
                                             <a href="{{ route('verification.department.candidate_profile', ['lang' => $locale, 'id' => Crypt::encryptString($v->id)]) }}"
                                                 class="hover:bg-gray-200 border border-transparent text-gray-900 hover:text-black rounded-md block px-2 py-1.5 duration-300">@lang('authority_dashboard.table.view_details')</a>
                                         </div>

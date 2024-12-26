@@ -4,6 +4,7 @@ namespace App\Http\Controllers\root_access;
 
 use App\Http\Controllers\Controller;
 use App\Models\authority_office_dist_map;
+use App\Models\department\departments;
 use App\Models\Public\DistrictModel;
 use App\Models\Public\OfficesDistDeptModel;
 use App\Models\Public\RolesModel;
@@ -68,6 +69,29 @@ class AuthoritiesController extends Controller
             ])->render();
         }
     }
+
+
+    // ------------------------get directorate by department
+    public function getDirectorateByDepartment(Request $request)
+    {
+        if ($request->ajax()) {
+            $res_data = [
+                'status' => 400,
+                'message' => null,
+                'related_directorate' => ''
+            ];
+            try {
+                $directorates = DB::table('directorate')->where('depertment_id', $request->input('department_id'))->pluck('name', 'id');
+                $res_data['related_directorate'] = $directorates;
+                $res_data['status'] = 200;
+            } catch (Exception $err) {
+                $res_data['message'] = "Server error please try later !";
+            }
+
+            return response()->json(['res_data' => $res_data]);
+        }
+    }
+
     // ---------------- add new form of roles -----------------
     public function addNewForm(Request $request)
     {
@@ -80,8 +104,9 @@ class AuthoritiesController extends Controller
                 'count_assign_form' => $request->count_assign_form
             ];
             try {
-                $view_data['roles'] = RolesModel::whereNotIn('id', [1,4,7])->get();
+                $view_data['roles'] = RolesModel::whereNotIn('id', [1, 4, 7])->get();
                 $view_data['districts'] = DistrictModel::get();
+                $view_data['departments'] = departments::pluck('name', 'id');
                 $view_data['status'] = 200;
             } catch (Exception $err) {
             }
@@ -104,9 +129,12 @@ class AuthoritiesController extends Controller
                     'phone_number' => ['required', 'integer', new ValidatePhoneRule(), 'unique:appointing_authorities,phone'],
                     'designation' => 'required',
                     'department' => 'required|integer',
+                    'department' => ['array'],
                     'district' => ['array'],
                     'office' => ['array'],
+                    'directorate' => ['array'],
                 ];
+
                 $validate = ReuseModule::validateIncomingData($request, $incomming_data, $request->all());
                 if ($validate->fails()) {
                     $res_data['message'] = $validate->errors()->all();
@@ -134,7 +162,7 @@ class AuthoritiesController extends Controller
                         'name' => $request->name,
                         'designation' => $request->designation,
                         'phone' => $request->phone_number,
-                        'department' => $request->department,
+                        'department' => $request->department[0],
                     ]);
                     $roles = $request->role;
                     if (!empty($request->role)) {
@@ -157,17 +185,16 @@ class AuthoritiesController extends Controller
                     }, $minimiz_role);
                     $save_logins = AllLoginModel::insert($all_logins);
                     if ($request->common_role) {
-                        array_push($assign_forms, ['user_id' => $save_user->id, 'office_id' => null, 'district_id' => null, 'department_id' => $request->department, 'role_id' => $request->common_role, 'unique_key' => "null_null_{$request->common_role}"]);
+                        array_push($assign_forms, ['user_id' => $save_user->id, 'office_id' => null, 'directorate_id' => null, 'district_id' => null, 'department_id' => null, 'role_id' => $request->common_role, 'unique_key' => "null_null_{$request->common_role}"]);
                     }
 
                     if (count($request->role ?? []) != 0) {
                         foreach ($request->role as $key => $role) {
-
                             $new_form = [];
                             if (isset($request->office[$key])) {
                                 foreach ($request->office[$key] as $office_id) {
                                     // array_push($assign_forms, ['user_id' => $save_user->id, 'office_id' => $office_id, 'district_id' => null, 'department_id' => $request->department, 'role_id' => $role,'unique_key'=>"{$office_id}_null_{$role}"]);
-                                    $new_form = ['user_id' => $save_user->id, 'office_id' => $office_id, 'district_id' => null, 'department_id' => $request->department, 'role_id' => $role, 'unique_key' => "{$office_id}_null_{$role}"];
+                                    $new_form = ['user_id' => $save_user->id, 'office_id' => $office_id, 'directorate_id' => isset($request->directorate[$key]) ? $request->directorate[$key] : 0, 'district_id' => null, 'department_id' => isset($request->department[$key]) ? $request->department[$key] : null, 'role_id' => $role, 'unique_key' => "{$office_id}_null_{$role}"];
                                     if (!in_array($new_form['unique_key'], array_map(function ($forms) {
                                         return $forms['unique_key'];
                                     }, $assign_forms))) {
@@ -177,10 +204,10 @@ class AuthoritiesController extends Controller
                             } else {
                                 if ($request->district[$key] != 'All') {
                                     // array_push($assign_forms, ['user_id' => $save_user->id, 'office_id' => null, 'district_id' => $request->district[$key], 'department_id' => $request->department, 'role_id' => $role,'unique_key'=>"null_{$request->district[$key]}_{$role}"]);
-                                    $new_form = ['user_id' => $save_user->id, 'office_id' => null, 'district_id' => $request->district[$key], 'department_id' => $request->department, 'role_id' => $role, 'unique_key' => "null_{$request->district[$key]}_{$role}"];
+                                    $new_form = ['user_id' => $save_user->id, 'office_id' => null, 'directorate_id' => isset($request->directorate[$key]) ? $request->directorate[$key] : 0, 'district_id' => $request->district[$key], 'department_id' => isset($request->department[$key]) ? $request->department[$key] : null, 'role_id' => $role, 'unique_key' => "null_{$request->district[$key]}_{$role}"];
                                 } else {
                                     // array_push($assign_forms, ['user_id' => $save_user->id, 'office_id' => null, 'district_id' => null, 'department_id' => $request->department, 'role_id' => $role,'unique_key'=>"null_null_{$role}"]);
-                                    $new_form = ['user_id' => $save_user->id, 'office_id' => null, 'district_id' => null, 'department_id' => $request->department, 'role_id' => $role, 'unique_key' => "null_null_{$role}"];
+                                    $new_form = ['user_id' => $save_user->id, 'office_id' => null, 'directorate_id' => isset($request->directorate[$key]) ? $request->directorate[$key] : 0, 'district_id' => null, 'department_id' => isset($request->department[$key]) ? $request->department[$key] : null, 'role_id' => $role, 'unique_key' => "null_null_{$role}"];
                                 }
                                 if (!in_array($new_form['unique_key'], array_map(function ($forms) {
                                     return $forms['unique_key'];

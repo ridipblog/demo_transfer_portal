@@ -35,6 +35,15 @@ Route::group(['prefix' => '{lang?}', 'middleware' => 'setlocale', 'where' => ['l
 
 Route::get('check-duplicates', [UserRegistrationController::class, 'check_duplicates']);
 
+
+Route::get('previous-hod-assign', [UserRegistrationController::class, 'assign_directorate_prev']);
+
+Route::post('previous-user-fetch', [UserRegistrationController::class, 'fetch_prev_user_data'])->name('fetch-prev-user');
+
+Route::post('fetch-directorates', [UserRegistrationController::class, 'fetch_directorates'])->name('fetch-directorates');
+Route::post('re-assign-user', [UserRegistrationController::class, 're_assign']);
+
+
 Route::get('correct-names', [UserRegistrationController::class, 'correct_office_name']);
 
 Route::group(['prefix' => '{lang?}', 'middleware' => 'setlocale', 'where' => ['lang' => 'en|as']], function () {
