@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Public\CasteModel;
 use App\Models\Public\DepertmentModel;
 use App\Models\Public\DepertPostsMapModel;
+use App\Models\Public\DirectorateModel;
 use App\Models\Public\DistrictModel;
 use App\Models\Public\OfficeFinAsssamModel;
 use App\Models\Public\ProfileStatusModel;
@@ -54,6 +55,7 @@ class UserProfileController extends Controller
             'search_pan_number' => null,
             'offices' => [],
             'posts' => [],
+            'directorates'=>[]
 
         ];
 
@@ -110,6 +112,11 @@ class UserProfileController extends Controller
                     $view_data['is_error'] = true;
                     $view_data['error_message'] = __('validation_message.profile_message.not_data');
                 } else {
+                    // --------- fetch directorate name ------------
+                    if ($employee_all_data[0]->employment_details->depertment_id ?? false) {
+                        $view_data['directorates'] = DirectorateModel::where('depertment_id', $employee_all_data[0]->employment_details->depertment_id)
+                            ->get();
+                    }
                     if ($employee_all_data[0]->employment_details->depertment_id ?? false) {
 
                         // $main_query = OfficeFinAsssamModel::query();
@@ -268,15 +275,17 @@ class UserProfileController extends Controller
                     'pan_number' => ['required', Rule::unique('persional_details', 'pan_number')->ignore($logged_user->user_id, 'user_id')],
                     'district' => $required . '|integer',
                     'depertment' => $required . '|integer',
+                    'directorate' => $required . '|integer',
                     // 'ddo_code' => $required,
                     'office' => $required,
                     'designation' => $required . '|integer',
                     'date_of_joining' => $required,
+                    // 'time_of_service' => $required,
                     'current_posting_date' => $required,
                     'pay_grade' => $required . $request->pay_grade ? '|integer' : '',
                     'pay_band' => $required,
                     'preference_location' => [$required, 'array', $required ? 'min:5' : ''],
-                    'times_mutual_transfer'=>$required,
+                    'times_mutual_transfer' => $required,
                     // 'case_pendding' => $required,
                     // 'departmental_proceedings' => $required,
                     // 'before_mutual_transfer' => $required,
@@ -412,11 +421,13 @@ class UserProfileController extends Controller
                         )->update([
                             'district_id' => $request->district,
                             'depertment_id' => $request->depertment,
+                            'directorate_id' => $request->directorate,
                             // 'ddo_code' => $request->ddo_code,
                             'office_id' => $request->office,
                             // 'office_id' =>  $save_office->id ?? null,
                             'designation_id' => $request->designation,
                             'first_date_of_joining' => $request->date_of_joining,
+                            'time_of_service' => $request->time_of_service ?? NULL,
                             'current_date_of_joining' => $request->current_posting_date,
                             'pay_grade' => $request->pay_grade,
                             'pay_band' => $request->pay_band,
@@ -453,7 +464,7 @@ class UserProfileController extends Controller
                                     // 'mutual_transfer' => $request->before_mutual_transfer,
                                     // 'no_mutual_transfer' => $request->mutual_transfer_number,
                                     // 'pending_govt_dues' => $request->pending_govt_dues,
-                                    'times_mutual_transfer'=>$request->times_mutual_transfer
+                                    'times_mutual_transfer' => $request->times_mutual_transfer
                                 ]);
                             if ($save_data_process) {
                                 $document_map_data = [];

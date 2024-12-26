@@ -45,6 +45,7 @@ class UserDashboardController extends Controller
         $userCountsByEmploymentDistrict = [];
         $profile_data = null;
         $is_request_done = null;
+        $rejected_data = null;
         $verifier_add_documents = null;
 
         try {
@@ -81,8 +82,9 @@ class UserDashboardController extends Controller
                     ->get();
 
                 // ------------ is any additional document by verification ---------------
-                $verifier_add_documents = VerificationRemarksDocumentModel::where('user_id', $logged_persion->id)
-                    ->get();
+                $rejected_data = RejectedDocumentsModel::with(['authority_rejections'])
+                    ->where('user_id', $logged_persion->id)
+                    ->orderBy('created_at', 'desc')->first();
                 // dd($employee_all_data);
                 if (count($employee_all_data) == 0) {
                     $view_data['is_error'] = true;
@@ -115,7 +117,7 @@ class UserDashboardController extends Controller
                     $sub_query->where('target_employee_id', $logged_persion->id)
                         ->where('request_status', 1);
                 })->orWhere('employee_id', $logged_persion->id);
-                $query->orderBy('id', 'desc');
+                $query->orderBy('id', 'asc');
                 $transfer_data = $query->first();
                 $is_request_done = EmployeeModule::isTransferDone()->exists();
                 $logged_user = Auth::guard('user_guard')->user();
@@ -184,6 +186,7 @@ class UserDashboardController extends Controller
                 $main_query = EmploymentDetailsModel::query()
                     ->with(['districts'])
                     ->whereIn('district_id', $preferenceDistricts->pluck('district_id')->toArray())
+                    ->where('directorate_id', $logged_user->employment_details->directorate_id)
                     ->where('dept_post_id', $logged_user->employment_details->dept_post_id)
                     ->whereHas('user_credentials', function ($query) {
                         $query->where('profile_verify_status', 1)
@@ -233,7 +236,7 @@ class UserDashboardController extends Controller
             'incomming_data_table' => $incomming_data_table,
             'preference_districts' => $preferenceDistricts,
             'count_by_prefernce_district' => $userCountsByEmploymentDistrict,
-            'verifier_add_documents'=>$verifier_add_documents
+            'rejected_data' => $rejected_data
         ]);
     }
 
@@ -348,7 +351,8 @@ class UserDashboardController extends Controller
                                 $query->whereIn('district_id', $logged_users->preferences_district->pluck('district_id')->toArray());
                             }
                             // $query->where('depertment_id', $logged_users->employment_details->depertment_id);
-                            $query->where('dept_post_id', $logged_users->employment_details->dept_post_id);
+                            $query->where('dept_post_id', $logged_users->employment_details->dept_post_id)
+                                ->where('directorate_id', $logged_users->employment_details->directorate_id);
                         });
                         $main_query->whereDoesntHave('employee_transfer_request', function ($query) use ($logged_users) {
                             $query->where(function ($sub_query) use ($logged_users) {
@@ -453,7 +457,8 @@ class UserDashboardController extends Controller
                                         $main_query = EmployeeModule::dynamicOneModelsQuery(new UserCredentialsModel(), $conditions, [], $with_conditions);
                                         $main_query->whereHas('employment_details', function ($query) use ($logged_user) {
                                             $query->whereIn('district_id', $logged_user->user_credentials->preferences_district->pluck('district_id')->toArray())
-                                                ->where('dept_post_id', $logged_user->user_credentials->employment_details->dept_post_id);
+                                                ->where('dept_post_id', $logged_user->user_credentials->employment_details->dept_post_id)
+                                                ->where('directorate_id', $logged_user->user_credentials->employment_details->directorate_id);
                                             // ->where('depertment_id', $logged_user->user_credentials->employment_details->depertment_id);
                                         })->whereHas('preferences_district', function ($query) use ($logged_user) {
                                             $query->where('district_id', $logged_user->user_credentials->employment_details->district_id);
@@ -517,6 +522,7 @@ class UserDashboardController extends Controller
                 } catch (Exception $err) {
                     // $res_data['message']="Server error please try later !";
                     $res_data['message'] = __('validation_message.server_message.server_error'); //$err->getMessage();
+                    // $res_data['message']=$err->getMessage();
                 }
             }
             return response()->json(['res_data' => $res_data]);
@@ -584,5 +590,10 @@ class UserDashboardController extends Controller
         ]);
 
         // return $pdf->download('JTS.pdf');
+    }
+    // ------------- transfer history index page --------------
+    public function transferHistoryIndex(Request $request)
+    {
+        return view('employee_access.transfer_history');
     }
 }

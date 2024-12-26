@@ -86,6 +86,18 @@ return [
                 'header' => 'Transfer is rejected',
                 'body' => 'Transfer application is rejected , now you can request again  ',
             ]
+        ],
+        'final_approval' => [
+            '1' => [
+                'color' => 'yellow',
+                'header' => 'Transfer is approved by Department HOD ',
+                'body' => 'Transfer one step up, processs is still process ',
+            ],
+            '2' => [
+                'color' => 'red',
+                'header' => 'Transfer is rejected',
+                'body' => 'Transfer application is rejected , now you can request again  ',
+            ]
         ]
     ],
 

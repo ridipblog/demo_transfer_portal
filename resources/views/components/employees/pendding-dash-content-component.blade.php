@@ -70,16 +70,22 @@
                 <label class="block mb-1 text-xs md:text-sm font-semibold reqd text-gray-400">@lang('user.form.emp_info.dist_cp')</label>
                 <p class="font-semibold truncate">{{ $viewData->employment_details->districts->name ?? 'N/A' }}</p>
             </div>
-            <div class="sm:col-span-2">
+            <div class="">
                 <label class="block mb-1 text-xs md:text-sm font-semibold reqd text-gray-400">@lang('user.form.emp_info.dept_cp')</label>
                 <p class="font-semibold truncate w-full whitespace-normal">
                     {{ $viewData->employment_details->departments->name ?? 'N/A' }}</p>
+            </div>
+            <div class="">
+                <label class="block mb-1 text-xs md:text-sm font-semibold reqd text-gray-400">@lang('user.form.emp_info.direc_cp')</label>
+                <p class="font-semibold truncate w-full whitespace-normal">
+                    {{ isset($viewData->employment_details->directorate_id) ? ($viewData->employment_details->directorate_id === 0 ? 'Not Applicable' : $viewData->employment_details->directorate->name ?? 'N/A') : 'Not Assign' }}
+                </p>
             </div>
             {{-- <div class="">
                 <label class="block mb-1 text-xs md:text-sm font-semibold reqd text-gray-400">DDO Code <br>ডিডিঅ' ক'ড</label>
                 <p class="font-semibold truncate">{{ $viewData->employment_details->ddo_code ?? 'N/A' }}</p>
             </div> --}}
-            <div class="sm:col-span-2">
+            <div class="">
                 <label class="block mb-1 text-xs md:text-sm font-semibold reqd text-gray-400">@lang('user.form.emp_info.office_cp')</label>
                 <p class="font-semibold truncate w-full whitespace-normal">
                     {{ $viewData->employment_details->offices_finassam->name ?? 'N/A' }}</p>
@@ -92,6 +98,13 @@
                 <label class="block mb-1 text-xs md:text-sm font-semibold reqd text-gray-400">@lang('user.form.emp_info.doj_fj')</label>
                 <p class="font-semibold truncate">
                     {{ isset($viewData->employment_details->first_date_of_joining) ? \Carbon\Carbon::parse($viewData->employment_details->first_date_of_joining)->format('d-m-Y') : 'N/A' }}
+                </p>
+
+            </div>
+            <div>
+                <label class="block mb-1 text-xs md:text-sm font-semibold reqd text-gray-400">@lang('user.form.emp_info.time_of_service')</label>
+                <p class="font-semibold truncate">
+                    {{ $viewData->employment_details->time_of_service ?? 'N/A' }}
                 </p>
 
             </div>
@@ -168,7 +181,7 @@
             <div class="">
                 <label class="block mb-1 text-xs md:text-sm font-semibold reqd text-gray-400">How many times have you
                     availed mutual transfer ?</label>
-                <p class="font-semibold truncate">{{$viewData->additional_info->times_mutual_transfer ?? 'N/A'}}</p>
+                <p class="font-semibold truncate">{{ $viewData->additional_info->times_mutual_transfer ?? 'N/A' }}</p>
             </div>
             {{-- <div class=""></div>
             <div class="flex flex-col items-center justify-center table_nfDiv">
@@ -223,36 +236,14 @@
             </div> --}}
         </div>
 
-        {{-- -------------- additional document if any ------------- --}}
-        @if (count($verifierAddDocuments ?? []) != 0)
-            <div
-                class="grid sm:grid-cols-2 md:grid-cols-3 gap-4 border border-sky-500 rounded-3xl border-b-4 border-r-4 p-6">
-                <div class="sm:col-span-2 md:col-span-3">
-                    <p class="text-lg font-bold text-sky-700">Additional Documents</p>
-                </div>
-                @foreach ($verifierAddDocuments ?? [] as $add_document)
-                    <div class="border rounded-xl bg-neutral-600">
-                        <div class="text-white text-center p-2 text-xs">
-                            {{ Str::upper($add_document->remarks ?? 'no name') }}
-                        </div>
-                        <div class="h-44 p-2 pt-0">
-                            <img src="{{ Storage::url($add_document->document_location ?? 'N/A') }}" alt=""
-                                class="w-full h-full object-contain object-center">
-                        </div>
-                    </div>
-                @endforeach
-            </div>
+        {{-- ------------ if rejection push by authority ---------------- --}}
+        @if ($viewData->profile_verify_status == 2 || $viewData->noc_generate == 2)
+            <x-employee-profile.rejection-infomation-component :rejectedData=$rejectedData>
+
+            </x-employee-profile.rejection-infomation-component>
         @endif
-        {{-- ------------ commnet if any ---------------- --}}
-        @if ($viewData->comment ?? null)
-            <div
-                class="grid sm:grid-cols-2 md:grid-cols-3 gap-4 border border-sky-500 rounded-3xl border-b-4 border-r-4 p-6">
-                <div class="sm:col-span-2 md:col-span-3">
-                    <p class="text-lg font-bold text-sky-700">Additional Comment</p>
-                </div>
-                <p class="col-span-12 text-center">{{ $viewData->comment ?? 'No Additional Comment' }}</p>
-            </div>
-        @endif
+
+
     </div>
 </div>
 <!-- Until verification pending end -->

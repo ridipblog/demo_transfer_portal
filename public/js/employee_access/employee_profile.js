@@ -6,15 +6,19 @@ const reuse_module = new ReuseModule()
 $(document).ready(function () {
 
     // --------------- get relational data by depertment selectio-----------------
-    $(document).on('change', '#select_depert', function () {
+    $(document).on('change', '#select_depert', async function () {
         $('#review_pay_grade').val('');
-        reuse_module.getOfficePostNames($(this))
+        await reuse_module.getOfficePostNames($(this))
+        await reuse_module.fetchDirectDept($('#select_depert').val(),'#select_direct');
     })
     $(document).on('change', '#select_district', function () {
         console.log($('#select_depert').val())
-        reuse_module.getOfficePostNames('#select_depert',true)
-
-    })
+        reuse_module.getOfficePostNames('#select_depert', true,true)
+    });
+    // ---------- fetch ofices by depertment , district and direcorate ----------
+    $(document).on('change','#select_direct',async function(){
+        await reuse_module.getOfficePostNames('#select_direct',true,true);
+    });
     // ------------------ get relational data by depertment and posts -------------
     $(document).on('change', '#select_degis', function () {
         reuse_module.getPayGrade()
@@ -85,5 +89,22 @@ $(document).ready(function () {
         }
     })
 
+    // ------------ calculate time of service ------------
+    $(document).on('change', '#date_of_join_id', async function () {
+        try {
+            let first_date_of_join = $('#date_of_join_id').val();
+            let time_of_service = await reuse_module.calculateDates(first_date_of_join);
+            $('#time_of_service').val(time_of_service)
+        } catch (error) {
+            $('#date_of_join_id').val('');
+            $('#time_of_service').val('')
+            Swal.fire(
+                'info',
+                error?.message,
+                'info'
+            );
+        }
+    });
     $('.select2').select2()
+
 })

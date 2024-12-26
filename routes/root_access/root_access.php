@@ -23,3 +23,14 @@ Route::post('/register-state-user',[StateUserRegistration::class,'registerStateU
 
 // ---------------- send a text message to all authotities ----------------------
 Route::get('/send-message-to-authrities',[RootProcessController::class,'sendMesssageToAuthrities']);
+// ------------ assign directorate to offices ---------------
+
+Route::get('/assign-directorate-office',[RootProcessController::class,'assignDirectorateOfficesIndex'])->name('assign.directorate.office');
+// ----------- assign directorate to offices ----------
+Route::post('/assign-directorate-office',[RootProcessController::class,'assignDirectorateOffices']);
+// -------------- add directorate page -------------
+Route::get('/add-directorate',[RootProcessController::class,'addDrectorateIndex'])->name('add.directorate');
+// -------------- add directorate post -------------
+Route::post('/add-directorate',[RootProcessController::class,'addDrectorate']);
+// -------------- fetch directorate by depertment  -------------
+Route::get('/fetch-direct-dept',[RootProcessController::class,'fetchDirectDept']);

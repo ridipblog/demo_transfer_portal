@@ -7,61 +7,76 @@ class EmployeeProfileModule extends RequestModule {
     }
     // -------------- save or final submit employee profile details ----------------
     async saveOrSubmitProfile(form, url, btn, api_type = 'save_submit') {
+        try {
 
-        // if (api_type == "preview") {
-        //     this.previewRegData();
-        //     if ($('#prevModal').hasClass('hidden')) {
-        //         $('#prevModal').removeClass('hidden');
-        //         $('body').css('overflow', 'hidden');
-        //     }
-        // } else {
-        //     Swal.fire({
-        //         title: 'Success',
-        //         // text: response.res_data.message,
-        //         text:"Data submitted successfully",
-        //         icon: 'info', // Use 'success', 'error', 'warning', or 'info' based on the message type
-        //     }).then(() => {
-        //         if (api_type == "all_submit" || api_type == "update_profile") {
-        //             var locale = window.App?.locale;
-        //             window.location.href = `/${locale}/employees/dashboard`;
-        //         }
-        //     });
-        // }
+            // if (api_type == "preview") {
+            //     this.previewRegData();
+            //     if ($('#prevModal').hasClass('hidden')) {
+            //         $('#prevModal').removeClass('hidden');
+            //         $('body').css('overflow', 'hidden');
+            //     }
+            // } else {
+            //     Swal.fire({
+            //         title: 'Success',
+            //         // text: response.res_data.message,
+            //         text:"Data submitted successfully",
+            //         icon: 'info', // Use 'success', 'error', 'warning', or 'info' based on the message type
+            //     }).then(() => {
+            //         if (api_type == "all_submit" || api_type == "update_profile") {
+            //             var locale = window.App?.locale;
+            //             window.location.href = `/${locale}/employees/dashboard`;
+            //         }
+            //     });
+            // }
 
-        var before_submit_text = $(btn).text();
-        reuse_module.processingStatus(btn);
-        var form_data = new FormData($(form)[0]);
-        $('.registration-error').text('');
-        this.formPostReponse = async (response) => {
-            console.log(response);
-            if (response.res_data.status == 200) {
-                if (api_type == "preview") {
-                    this.previewRegData();
-                    if ($('#prevModal').hasClass('hidden')) {
-                        $('#prevModal').removeClass('hidden');
-                        $('body').css('overflow', 'hidden');
-                    }
-                } else {
-                    Swal.fire({
-                        title: 'Success',
-                        text: response.res_data.message,
-                        icon: 'info', // Use 'success', 'error', 'warning', or 'info' based on the message type
-                    }).then(() => {
-                        if (api_type == "all_submit" || api_type == "update_profile") {
-                            var locale = window.App?.locale;
-                            window.location.href = `/${locale}/employees/dashboard`;
-                        }
-                    });
-                }
-            } else if (response.res_data.status == 400) {
-                reuse_module.showErrorMessage('.registration-input', '.registration-error', response.res_data.message, 'back_end');
-                reuse_module.focusErrorMessage('.registration-input', '.registration-error');
-            } else {
-                Swal.fire(response.res_data.message);
+            var before_submit_text = $(btn).text();
+            reuse_module.processingStatus(btn);
+            let first_date_of_join = $('#date_of_join_id').val();
+            let time_of_service='';
+            if (first_date_of_join) {
+                time_of_service = await reuse_module.calculateDates(first_date_of_join);
             }
+            console.log(time_of_service);
+            var form_data = new FormData($(form)[0]);
+            form_data.append('time_of_service', time_of_service);
+            $('.registration-error').text('');
+            this.formPostReponse = async (response) => {
+                console.log(response);
+                if (response.res_data.status == 200) {
+                    if (api_type == "preview") {
+                        this.previewRegData();
+                        if ($('#prevModal').hasClass('hidden')) {
+                            $('#prevModal').removeClass('hidden');
+                            $('body').css('overflow', 'hidden');
+                        }
+                    } else {
+                        Swal.fire({
+                            title: 'Success',
+                            text: response.res_data.message,
+                            icon: 'info', // Use 'success', 'error', 'warning', or 'info' based on the message type
+                        }).then(() => {
+                            if (api_type == "all_submit" || api_type == "update_profile") {
+                                var locale = window.App?.locale;
+                                window.location.href = `/${locale}/employees/dashboard`;
+                            }
+                        });
+                    }
+                } else if (response.res_data.status == 400) {
+                    reuse_module.showErrorMessage('.registration-input', '.registration-error', response.res_data.message, 'back_end');
+                    reuse_module.focusErrorMessage('.registration-input', '.registration-error');
+                } else {
+                    Swal.fire(response.res_data.message);
+                }
+            }
+            await this.formPost(form_data, url);
+            reuse_module.processingStatus(btn, "end", before_submit_text);
+        } catch (error) {
+            Swal.fire(
+                'info',
+                "Please try later , error executed !",
+                'info'
+            );
         }
-        await this.formPost(form_data, url);
-        reuse_module.processingStatus(btn, "end", before_submit_text);
     }
     //   ------------ update employee profile --------------------
     updateEmployeeProfile = async (form) => {
@@ -82,7 +97,7 @@ class EmployeeProfileModule extends RequestModule {
     }
     // ------------------ request profile transfer --------------
     requestProfileTransfer = async (form) => {
-        var btn_val=$('#request-profile-form-btn').text();
+        var btn_val = $('#request-profile-form-btn').text();
         reuse_module.processingStatus('#request-profile-form-btn');
         var form_data = new FormData($(form)[0]);
         form_data.append('target_employee', $('#request-profile-form-btn').val());
@@ -132,20 +147,22 @@ class EmployeeProfileModule extends RequestModule {
         $('.preview_data').eq(9).html($('.preview-input').eq(9).val());
         $('.preview_data').eq(10).html($('#select_district option:selected').text());
         $('.preview_data').eq(11).html($('#select_depert option:selected').text());
+        $('.preview_data').eq(12).html($('#select_direct option:selected').text());
         // $('.preview_data').eq(12).html($('#review_doo_code').val());
-        $('.preview_data').eq(12).html($('#select_office option:selected').text());
+        $('.preview_data').eq(13).html($('#select_office option:selected').text());
         // $('.preview_data').eq(12).html($('#select_office').val());
-        $('.preview_data').eq(13).html($('#select_degis option:selected').text());
-        $('.preview_data').eq(14).html($('#date_of_join_id').val().split('-').reverse().join('-'));
-        $('.preview_data').eq(15).html($('#date_of_join_current_id').val().split('-').reverse().join('-'));
-        $('.preview_data').eq(16).html($('#review_pay_grade').val());
-        $('.preview_data').eq(17).html($('#review_pay_band option:selected').text());
+        $('.preview_data').eq(14).html($('#select_degis option:selected').text());
+        $('.preview_data').eq(15).html($('#date_of_join_id').val().split('-').reverse().join('-'));
+        $('.preview_data').eq(16).html($('#time_of_service').val());
+        $('.preview_data').eq(17).html($('#date_of_join_current_id').val().split('-').reverse().join('-'));
+        $('.preview_data').eq(18).html($('#review_pay_grade').val());
+        $('.preview_data').eq(19).html($('#review_pay_band option:selected').text());
 
-        $('.preview_data').eq(18).html($('#preference_district_1 option:selected').text());
-        $('.preview_data').eq(19).html($('#preference_district_2 option:selected').text());
-        $('.preview_data').eq(20).html($('#preference_district_3 option:selected').text());
-        $('.preview_data').eq(21).html($('#preference_district_4 option:selected').text());
-        $('.preview_data').eq(22).html($('#preference_district_5 option:selected').text());
+        $('.preview_data').eq(20).html($('#preference_district_1 option:selected').text());
+        $('.preview_data').eq(21).html($('#preference_district_2 option:selected').text());
+        $('.preview_data').eq(22).html($('#preference_district_3 option:selected').text());
+        $('.preview_data').eq(23).html($('#preference_district_4 option:selected').text());
+        $('.preview_data').eq(24).html($('#preference_district_5 option:selected').text());
         $('#preview_times_mutual_transfer').html($('#times_mutual_transfer option:selected').text());
 
         // $('.preview_data').eq(23).html($('input[name="case_pendding"]:checked').val().toUpperCase());

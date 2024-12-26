@@ -17,6 +17,7 @@ class VerificationRemarksDocumentModel extends Model
         'document_type',
         'remarks_by',
         'authority_type',
+        'status'
     ];
     public function user_credentials()
     {

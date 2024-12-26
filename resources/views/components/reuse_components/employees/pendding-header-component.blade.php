@@ -59,6 +59,11 @@
                     class="transition-all duration-150 border-b-2 pb- {{ Route::currentRouteName() === 'search.profile' ? 'border-white' : 'border-transparent hover:border-white' }}">
                     @lang('user.nav_menu.apl')
                 </a>
+                |
+                <a href="{{ route('transfer.history', ['lang' => app()->getLocale()]) }}"
+                    class="transition-all duration-150 border-b-2 pb- {{ Route::currentRouteName() === 'transfer.history' ? 'border-white' : 'border-transparent hover:border-white' }}">
+                    @lang('user.nav_menu.t_history')
+                </a>
             </div>
         </div>
     </div>

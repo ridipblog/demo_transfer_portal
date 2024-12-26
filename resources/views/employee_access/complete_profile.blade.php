@@ -53,6 +53,7 @@
                                     $component_view_data = [
                                         'districts' => $view_data['districts'],
                                         'depertments' => $view_data['depertments'],
+                                        'directorates'=>$view_data['directorates'],
                                         'save_data' => $view_data['save_data'],
                                         'is_pan_found' => $view_data['is_pan_found'],
                                         'pan_request_data' => $view_data['pan_request_data'],

@@ -140,6 +140,7 @@ class ReuseModule
     {
         return Http::get('https://sms.amtronindia.in/form_/send_api_master_get.php?agency=COGNITECH&password=$wag@11024&district=ALL&app_id=MutualTransfer&sender_id=SWGSRT&unicode=false&to=' . $phone . '&te_id=1107172769000994363&msg=Dear%20applicant%2C%20your%20profile%20has%20been%20recomended.%20Please%20visit%20swagatasatirtha.assam.gov.in%20for%20futher%20details.%20%0A%0ARegards%2C%0AGAD%2C%20Assam');
     }
+    // ------------- mutual transfer request approved -------------------
     public static function sendFinalApprovalOTP($phone)
     {
         return Http::get('https://sms.amtronindia.in/form_/send_api_master_get.php?agency=COGNITECH&password=$wag@11024&district=ALL&app_id=MutualTransfer&sender_id=SWGSRT&unicode=false&to=' . $phone . '&te_id=1107172769007242294&msg=Your%20mutual%20transfer%20request%20is%20approved.%20Please%20visit%20swagatasatirtha.assam.gov.in.in%20for%20further%20details.%0A%0ARegards%2C%0AGAD%2C%20Assam');
@@ -163,6 +164,13 @@ class ReuseModule
     public static function sendInfoAuthritesMes($phone)
     {
         return Http::get('https://sms.amtronindia.in/form_/send_api_master_get.php?agency=COGNITECH&password=$wag@11024&district=ALL&app_id=MutualTransfer&sender_id=SWGSRT&unicode=false&to=' . $phone . '&te_id=1107173078804632425&msg=Dear%20Palak%2C%20your%20credentials%20to%20log%20in%20to%20Swagata%20Satirtha%20are%20as%20follows%3A%0APhone%20Number%3A%20'.$phone.'%0APassword%3A%20password%0APlease%20ensure%20this%20information%20is%20kept%20confidential');
+    }
+    // --------- send message to verifier when employee submitted and update profile--------------
+    public static function sendVerifierMessage($phone){
+    }
+    // --------- send message to HOD to action transfer order --------------
+    public static function sendTransferActionRequest($phone){
+
     }
     // ---------------------- return with query ------------------
     public static function returnQuery($model, $conditions = null, $related_model = []) {}
