@@ -30,7 +30,6 @@ class UserProtectMiddleware
             }
         } else {
             if (!$check_auth->check_logged_in) {
-
                 return redirect(app()->getLocale() . '/user-login');
             }
         }

@@ -156,9 +156,10 @@ class UserAuthModule extends RequestModule {
         $('.verification-login-error').html('')
         this.formPostReponse = async (response) => {
             // console.log(response)
-
+            // alert('here')
             if (response.res_data.status == 200) {
                 if (response.res_data.first_login == 1) {
+                    
                     if (response.res_data.role == 'Approver') {
                         window.location.href = '/verifier/approval-dashboard';
                     } else {
