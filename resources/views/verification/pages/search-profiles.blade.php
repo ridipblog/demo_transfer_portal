@@ -323,55 +323,7 @@
         </div>
     </div>
     <!-- filter modal -->
-    <div class="hidden fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black/30 p-4 z-[99]"
-        id="filterModal">
-        <div class="max-w-md w-full bg-white rounded-2xl p-6 py-10">
-            <div class="space-y-2 mb-6">
-                <p class="text-3xl font-semibold">Filters</p>
-            </div>
-            <form action="" method="">
-                <div class="grid gap-4">
-                    <div>
-                        <label class="block mb-1 text-xs font-semibold text-gray-900">District</label>
-                        <select name=""
-                            class="disabled:bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full">
-                            <option value="" selected>All</option>
-                            <option value="1">Kamrup</option>
-                            <option value="2">Kamrup Metro</option>
-                            <option value="3">Nagaon</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block mb-1 text-xs font-semibold text-gray-900">Department</label>
-                        <select name=""
-                            class="disabled:bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full">
-                            <option value="" selected>All</option>
-                            <option value="1">Irrigation</option>
-                            <option value="2">Health</option>
-                            <option value="3">Finance</option>
-                        </select>
-                    </div>
-                    <div class="">
-                        <label class="block mb-1 text-xs font-semibold text-gray-900">Office</label>
-                        <select name=""
-                            class="disabled:bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full">
-                            <option value="" selected>All</option>
-                            @foreach ($office as $o)
-                                <option value="{{ $o->id }}">{{ $o->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="flex gap-1 justify-end">
-                        <button type="button"
-                            class="bg-white hover:bg-gray-200 border border-transparent text-gray-900 hover:text-black rounded-md block px-2 py-1.5 duration-300"
-                            id="closeFilterModalButton">Close</button>
-                        <button type="submit"
-                            class="bg-sky-500 hover:bg-sky-600 border border-transparent text-white rounded-md block px-2 py-1.5 w-fit">Apply</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
+
     <!-- footer -->
 
     {{-- <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>     --}}
@@ -458,6 +410,15 @@
         }
 
         function fetch_candidate(data = null, office = null, pan = null, district = null, post = null) {
+            var check_value = 0;
+            if ($('#default-checkbox').prop('checked')) {
+                console.log('Checkbox is checked');
+                check_value = 1;
+            } else {
+                console.log('Checkbox is not checked');
+                check_value = 0;
+            }
+
             $.ajax({
                 type: "POST",
                 url: "{{ url('verifier/fetch-candidates') }}",
@@ -466,7 +427,8 @@
                     'office': office,
                     'pan_search': pan,
                     'district': district,
-                    'post': post
+                    'post': post,
+                    'check_value': check_value
                 },
                 headers: {
                     'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')

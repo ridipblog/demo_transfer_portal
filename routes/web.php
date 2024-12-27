@@ -46,6 +46,10 @@ Route::post('re-assign-user', [UserRegistrationController::class, 're_assign']);
 
 Route::get('correct-names', [UserRegistrationController::class, 'correct_office_name']);
 
+
+Route::group(['prefix' => 'verifier', 'middleware' => ['user_protect:roles,view,Verifier,Appointing Authority,Appointing User,Approver,Department Hod']], function () {
+    Route::get('verifier-resubmitted-profile/{id}', [CandidateController::class, 'resubmitted_profile_details'])->name('resubmitted.profile');
+});
 Route::group(['prefix' => '{lang?}', 'middleware' => 'setlocale', 'where' => ['lang' => 'en|as']], function () {
     Route::group(['middleware' => ['public_protect:view']], function () {
         // Route::get('/verification-login', [VerificationController::class, 'index_login'])->name('verification-login');
@@ -61,6 +65,7 @@ Route::group(['prefix' => '{lang?}', 'middleware' => 'setlocale', 'where' => ['l
         Route::get('/approval-all-requests', [VerificationController::class, 'approval_all'])->name('verification.approval-all');
         Route::get('/candidate-profile/{id?}/{type}/{tab_recommend?}', [CandidateController::class, 'candidate_profile_index'])->name('candidate.profile');
         Route::get('/approval-profile/{id}', [VerificationController::class, 'approver_profile_details'])->name('verification.approver.profile');
+        // Route::get('verifier-resubmitted-profile/{id}', [CandidateController::class, 'resubmitted_profile_details'])->name('resubmitted.profile');
     });
 
     Route::group(['prefix' => 'department', 'middleware' => ['user_protect:roles,view,Department Hod']], function () {

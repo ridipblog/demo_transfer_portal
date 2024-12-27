@@ -11,7 +11,6 @@
                 <div class="mb-6 space-y-2 flex items-end justify-between">
                     <p class="text-3xl font-semibold">@lang('authority_dashboard.profile_details.heading')</p>
                 </div>
-
                 @if ($candidate->profile_verify_status == 0)
                     <div class="bg-yellow-100 p-6 text-yellow-600 rounded-3xl">
                         <div class="flex gap-4">
@@ -25,18 +24,28 @@
                 @endif
             </div>
             <div class="mb-2 grid grid-cols-4">
-                <div class="border border-sky-500 rounded-3xl border-b-4 border-r-4 p-2 flex items-center">
-                    <span class="p-2 bg-green-600 text-white rounded-full"><i class="bi bi-archive"></i></span>
-                    <span class="text-lg font-semibold pl-2">Fresh Profile</span>
-                </div>
-                <div class="border border-sky-500 rounded-3xl border-b-4 border-r-4 p-2 flex items-center">
-                    <span class="p-2 bg-green-600 text-white rounded-full"><i class="bi bi-archive-fill"></i></span>
-                    <span class="text-lg font-semibold pl-2">Resubmitting Profile</span>
-                </div>
-                <div class="col-span-2 flex items-center justify-end">
-                    <a href="#" class="hover:underline text-gray-900 text-xs">View All Rejected Profile's<i
-                            class="bi bi-arrow-up-right"></i></a>
-                </div>
+                @if ($rej == 0)
+                    <div class="border border-sky-500 rounded-3xl border-b-4 border-r-4 p-2 flex items-center">
+                        <span class="p-2 bg-green-600 text-white rounded-full"><i class="bi bi-archive"></i></span>
+                        <span class="text-lg font-semibold pl-2">Fresh Profile</span>
+                    </div>
+                @else
+                    <div class="border border-sky-500 rounded-3xl border-b-4 border-r-4 p-2 flex items-center">
+                        <span class="p-2 bg-green-600 text-white rounded-full"><i class="bi bi-archive-fill"></i></span>
+                        <span class="text-lg font-semibold pl-2">Resubmitting Profile</span>
+                    </div>
+                    <div class="col-span-3 flex items-center justify-end">
+
+                        {{-- {{ dd(Crypt::encryptString($candidate->id)) }} --}}
+
+
+                        <a href=" {{ route('resubmitted.profile', ['id' => Crypt::encryptString($candidate->id)]) }}"
+                            class="hover:underline text-gray-900 text-xs">
+                            View All Rejected Profile's
+                            <i class="bi bi-arrow-up-right"></i>
+                        </a>
+                    </div>
+                @endif
             </div>
 
             <div class="gap-24">
@@ -101,9 +110,9 @@
                             <p class="font-semibold">{{ $candidate->employment_details->departments->name ?? 'N/A' }}</p>
                         </div>
                         <!-- <div class="">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">DDO Code</label>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <p class="font-semibold">{{ $candidate->employment_details->ddo_code ?? 'N/A' }}</p>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </div> -->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">DDO Code</label>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <p class="font-semibold">{{ $candidate->employment_details->ddo_code ?? 'N/A' }}</p>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </div> -->
                         <div class="col-span-2">
                             <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('user.form.emp_info.office_cp')</label>
                             <p class="font-semibold">{{ $candidate->employment_details->offices_finassam->name ?? 'N/A' }}
@@ -159,71 +168,13 @@
                             </div>
                         @endforeach
                     </div>
-                    {{-- <div
-                        class="grid lg:grid-cols-3 gap-4 lg:gap-8 border border-sky-500 border-r-4 border-b-4 rounded-2xl p-10">
-                        <div class="lg:col-span-3">
-                            <p class="text-lg font-bold text-sky-700">@lang('user.form.addl_info.heading')</p>
-                        </div>
-                        <div>
-                            <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('user.form.addl_info.ccp')</label>
-                            <p class="font-semibold uppercase">{{ $candidate->additional_info->criminal_case ?? 'N/A' }}
-                            </p>
-                        </div>
-                        <div class="">
-                            <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('user.form.addl_info.dpp')</label>
-                            <p class="font-semibold uppercase">
-                                {{ $candidate->additional_info->departmental_proceedings ?? 'N/A' }}</p>
-                        </div>
-                        <div class="">
-                            <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('user.form.addl_info.mtb')</label>
-                            <p class="font-semibold uppercase">{{ $candidate->additional_info->mutual_transfer ?? 'N/A' }}
-                            </p>
-                        </div>
-                        <div class="">
-                            <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('user.form.addl_info.no_mt')</label>
-                            <p class="font-semibold uppercase">
-                                {{ $candidate->additional_info->mutual_transfer == 'yes' ? $candidate->additional_info->no_mutual_transfer ?? 'N/A' : 'N/A' }}
-                            </p>
-                        </div>
-                        <div class="">
-                            <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('user.form.addl_info.govt_due')</label>
-                            <p class="font-semibold uppercase">
-                                {{ $candidate->additional_info->pending_govt_dues ?? 'N/A' }}</p>
-                        </div>
-                    </div> --}}
 
-                    {{-- //////////////////// --}}
                     <div
                         class="grid sm:grid-cols-2 md:grid-cols-3 gap-4 lg:gap-8 border border-sky-500 border-r-4 border-b-4 rounded-2xl p-10">
                         <div class="sm:col-span-2 md:col-span-3">
                             <p class="text-lg font-bold text-sky-700">@lang('user.form.addl_info.heading')</p>
                         </div>
-                        {{-- <div>
-    <label class="block mb-1 text-xs md:text-sm font-semibold reqd text-gray-400">@lang('user.form.addl_info.ccp')</label>
-    <p class="font-semibold truncate">{{ strtoupper($viewData->additional_info->criminal_case ?? 'N/A') }}
-    </p>
-</div>
-<div class="">
-    <label class="block mb-1 text-xs md:text-sm font-semibold reqd text-gray-400">@lang('user.form.addl_info.dpp')</label>
-    <p class="font-semibold truncate">
-        {{ strtoupper($viewData->additional_info->departmental_proceedings ?? 'N/A') }}</p>
-</div>
-<div class="">
-    <label class="block mb-1 text-xs md:text-sm font-semibold reqd text-gray-400">@lang('user.form.addl_info.mtb')</label>
-    <p class="font-semibold truncate">
-        {{ strtoupper($viewData->additional_info->mutual_transfer ?? 'N/A') }}</p>
-</div>
-<div class="">
-    <label class="block mb-1 text-xs md:text-sm font-semibold reqd text-gray-400">@lang('user.form.addl_info.no_mt')</label>
-    <p class="font-semibold truncate">
-        {{ $viewData->additional_info->mutual_transfer == 'yes' ? $viewData->additional_info->no_mutual_transfer ?? 'N/A' : 'N/A' }}
-    </p>
-</div>
-<div class="">
-    <label class="block mb-1 text-xs md:text-sm font-semibold reqd text-gray-400">@lang('user.form.addl_info.govt_due')</label>
-    <p class="font-semibold truncate">
-        {{ strtoupper($viewData->additional_info->pending_govt_dues ?? 'N/A') }}</p>
-</div> --}}
+
 
                         <div class="">
                             <label class="block mb-1 text-xs md:text-sm font-semibold reqd text-gray-400">How many
@@ -233,11 +184,7 @@
                             <p class="font-semibold truncate">
                                 {{ $candidate->additional_info->times_mutual_transfer ?? 'N/A' }}</p>
                         </div>
-                        {{-- <div class=""></div>
-<div class="flex flex-col items-center justify-center table_nfDiv">
-    <img src="/images/nfd.png" alt="" class="w-36 object-center mb-2">
-    <p class="text-gray-500 font-bold text-lg text-center">No Tranfser History Found!</p>
-</div> --}}
+
                     </div>
 
                     {{-- ///////////////////// --}}
@@ -297,7 +244,7 @@
                     </div>
 
                     {{-- previous documents --}}
-                    @if (count($docs2) != 0)
+                    {{-- @if (count($docs2) != 0)
                         <div class="grid lg:grid-cols-3 gap-4 border border-sky-500 rounded-3xl border-b-4 border-r-4 p-6">
                             <div class="lg:col-span-3">
                                 <p class="text-lg font-bold text-sky-700">
@@ -309,9 +256,7 @@
                             @endphp
                             @foreach ($docs2 as $docArray)
                                 @foreach ($docArray as $document)
-                                    @if (
-                                        $document->document_type != 5 ||
-                                            ($document->document_type == 5 && $candidate->additional_info->pending_govt_dues == 'no'))
+                                    @if ($document->document_type != 5 || ($document->document_type == 5 && $candidate->additional_info->pending_govt_dues == 'no'))
                                         <div class="border rounded-xl bg-neutral-600">
 
                                             @php
@@ -335,7 +280,7 @@
                                 @endforeach
                             @endforeach
                         </div>
-                    @endif
+                    @endif --}}
 
 
                     {{-- Additional documents and comments --}}
@@ -484,33 +429,6 @@
                                 @endif
                             @endif
 
-                            {{-- @if ($sr != null)
-                                <div>
-                                    <label
-                                        class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('authority_dashboard.updated_texts.department_hod')</label>
-                                    <p class="font-semibold">
-                                        {{ $sr->name != null ? $sr->name : 'N/A' }},
-                                        {{ $sr->designation != null ? $sr->designation : 'N/A' }}
-                                        {{ $sr_office_name != null ? $sr_office_name : 'N/A' }},
-                                        {{ $sr_department_name != null ? $sr_department_name : 'N/A' }}</p>
-                                </div>
-                            @endif
-                            @if ($sr != null)
-                                <div>
-                                    <label
-                                        class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('authority_dashboard.updated_texts.remarks_hod')</label>
-                                    <p class="font-semibold">{{ $srr == null ? 'N/A' : $srr }}</p>
-                                </div>
-                            @endif
-                            @if ($sr != null)
-                                <div>
-                                    <label
-                                        class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('authority_dashboard.updated_texts.hod_recommended_on')</label>
-                                    <p class="font-semibold">
-                                        {{ \Carbon\Carbon::parse($second_recommended_on)->format('d-m-Y') }}</p>
-                                </div>
-                            @endif --}}
-
 
 
 
@@ -607,7 +525,7 @@
                         <div class="space-y-2 mb-6">
                             <p class="text-3xl font-semibold">@lang('authority_dashboard.profile_details.reject')</p>
                         </div>
-                        <form action="{{ url('verifier/reject-candidates') }}" method="post">
+                        <form action="{{ url('verifier/reject-candidates') }}" method="post" id="reject_new">
                             @csrf
                             <div class="grid gap-8">
                                 <div>
@@ -733,28 +651,34 @@
         $(document).ready(function(argument) {
 
             $('.btn-remarks-doc').on('click', function() {
+                // Show the remarks label
                 $('.doc-remarks-label').removeClass('hidden');
+
+                // Get the document type key
                 var key = $(this).closest('div').find('.get-key').val();
+
+                // Create the dynamic remark section HTML
                 var append_data = `
-<div class="doc-remarks">
-    <label for="message"
-        class="block mb-2 text-xs font-semibold text-gray-900 dark:text-white">Remarks for
-        ` + key + `</label>
-    <textarea id="message" rows="2"
-        class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
-        placeholder="Write here..."></textarea>
-    <!-- Cross button to remove the div -->
-    <button type="button" class="remove-remarks-btn text-red-600 hover:text-red-800 mt-2 text-sm">
-        &times; Remove
-    </button>
-</div>`;
+        <div class="doc-remarks">
+            <label for="message"
+                class="block mb-2 text-xs font-semibold text-gray-900 dark:text-white">Remarks for
+                ` + key + `</label>
+            <textarea id="message" rows="2"
+                class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Write here..."></textarea>
+            <!-- Cross button to remove the div -->
+            <button type="button" class="remove-remarks-btn text-red-600 hover:text-red-800 mt-2 text-sm">
+                &times; Remove
+            </button>
+        </div>`;
                 $('.remarks-doc-div').append(append_data);
-                $('.remove-remarks-btn').on('click', function() {
-                    $(this).closest('.doc-remarks').remove();
-                    if ($('.doc-remarks').length === 0) {
-                        $('.doc-remarks-label').addClass('hidden');
-                    }
-                });
+            });
+
+            $('.remarks-doc-div').on('click', '.remove-remarks-btn', function() {
+                $(this).closest('.doc-remarks').remove();
+                if ($('.doc-remarks').length === 0) {
+                    $('.doc-remarks-label').addClass('hidden');
+                }
             });
 
 
@@ -762,7 +686,54 @@
 
             $('#reject_noc_btn').on('click', function() {
                 var comment = $('#comment').val();
-                $('#reject_comment').val(comment);
+                $('#reject_comment').val(
+                    comment); // Append the general comment to the hidden input in the modal
+
+                // Initialize an array to store all document-specific remarks
+                var allRemarks = [];
+                $('.doc-remarks').each(function() {
+                    // Get the document name/key and clean it
+                    var docKey = $(this).find('label').text().replace(/^Remarks for\s*[\n\r]*\s*/,
+                        '').trim();
+
+                    // Get the remark text entered by the user
+                    var remarkText = $(this).find('textarea').val();
+
+                    // Store the data in an object and push it to the allRemarks array
+                    if (remarkText.trim() !== '') { // Only add remarks that are not empty
+                        allRemarks.push({
+                            document: docKey,
+                            remark: remarkText
+                        });
+                    }
+                });
+
+                // Append the allRemarks array as a hidden input in the modal form
+                $('#reject_new').append('<input type="hidden" name="allRemarks" value=\'' + JSON.stringify(
+                    allRemarks) + '\'>');
+
+                // Get the number of sub-forms (if applicable)
+                let docsLength = $('.sub-form-div').length;
+                $('#reject_new').append('<input type="hidden" name="forms_number" value="' + docsLength +
+                    '">');
+
+                // Create FormData object from the form
+                let form = $('#form_doc_append')[0];
+                let formData = new FormData(form);
+
+                // Append each FormData item as hidden inputs to the modal form
+                for (let [key, value] of formData.entries()) {
+                    if (key === 'remarks_documents') {
+                        // Handle file inputs separately (if any)
+                        $('#reject_new').append('<input type="hidden" name="' + key + '" value="' + value
+                            .name + '">');
+                    } else {
+                        $('#reject_new').append('<input type="hidden" name="' + key + '" value="' + value +
+                            '">');
+                    }
+                }
+
+                // Show a confirmation modal using SweetAlert
                 Swal.fire({
                     title: 'Are you sure?',
                     text: 'You won\'t be able to revert this.',
@@ -773,10 +744,94 @@
                     confirmButtonText: "Yes, Reject"
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        $(this).closest('form').submit();
+                        // Submit the form with all the appended data
+                        $('#reject_new').submit();
                     }
                 });
             });
+
+
+
+
+            // $('#reject_noc_btn').on('click', function() {
+            //     var comment = $('#comment').val();
+            //     $('#reject_comment').val(comment);
+
+            //     var allRemarks = [];
+            //     $('.doc-remarks').each(function() {
+            //         // Get the document name/key and clean it
+            //         var docKey = $(this).find('label').text().replace(/^Remarks for\s*[\n\r]*\s*/,
+            //             '').trim();
+
+            //         // Get the remark text entered by the user
+            //         var remarkText = $(this).find('textarea').val();
+
+            //         // Store the data in an object and push it to the allRemarks array
+            //         if (remarkText.trim() !== '') {
+            //             allRemarks.push({
+            //                 document: docKey,
+            //                 remark: remarkText
+            //             });
+            //         }
+            //     });
+
+            //     // Append remarks array to FormData
+            //     let form = $('#form_doc_append')[0];
+            //     let formData = new FormData(form);
+            //     formData.append('allRemarks', JSON.stringify(allRemarks));
+
+            //     $('.doc-remarks input[type="file"]').each(function(index) {
+            //         let file = this.files[0];
+            //         if (file) {
+            //             formData.append(`remarks_documents[${index}]`, file);
+            //         }
+            //     });
+
+            //     // Append the number of sub-forms
+            //     let docsLength = $('.sub-form-div').length;
+            //     formData.append('forms_number', docsLength);
+
+            //     // Debug FormData
+            //     for (let [key, value] of formData.entries()) {
+            //         console.log(key, value);
+            //     }
+
+            //     // Show confirmation modal
+            //     Swal.fire({
+            //         title: 'Are you sure?',
+            //         text: 'You won\'t be able to revert this.',
+            //         icon: 'warning',
+            //         showCancelButton: true,
+            //         confirmButtonColor: '#3085d6',
+            //         cancelButtonColor: '#d33',
+            //         confirmButtonText: 'Yes, Reject'
+            //     }).then((result) => {
+            //         if (result.isConfirmed) {
+            //             // Submit the form via AJAX
+            //             $.ajax({
+            //                 url: $('#reject_new').attr('action'),
+            //                 method: 'POST',
+            //                 data: formData,
+            //                 headers: {
+            //                     'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+            //                 },
+            //                 processData: false,
+            //                 contentType: false,
+            //                 success: function(response) {
+            //                     console.log('Form submitted successfully:', response);
+            //                 },
+            //                 error: function(error) {
+            //                     console.error('Error submitting form:', error);
+            //                 }
+            //             });
+            //         }
+            //     });
+            // });
+
+
+
+
+
 
             $('#reject_noc_btn2').on('click', function() {
                 Swal.fire({
@@ -844,12 +899,19 @@
                 $('body').css('overflow', 'visible');
                 $('#add_docs').val('');
             });
+
+
             $('.rejectRequestBtn').on('click', function() {
+                // Show the modal if it's hidden
                 if ($('#rejectModal').hasClass('hidden')) {
                     $('#rejectModal').removeClass('hidden');
                     $('body').css('overflow', 'hidden');
                 }
+
+
+
             });
+
 
             $('.rejectRequestBtn2').on('click', function() {
                 if ($('#rejectModal2').hasClass('hidden')) {

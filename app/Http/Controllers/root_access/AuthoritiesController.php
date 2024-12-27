@@ -17,12 +17,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Public\OfficeFinAsssamModel;
 
 class AuthoritiesController extends Controller
 {
     // ---------------- get  offices by district and deperttment -------------
     public function getOfficesByDist(Request $request)
     {
+        // dd('hehe');
         if ($request->ajax()) {
             $res_data = [
                 'status' => 400,
@@ -37,6 +39,18 @@ class AuthoritiesController extends Controller
                         ['depertment_id', $request->input('depertment_id')]
                     ]);
                 $res_data['offices'] = $offices->get();
+                // $res_data['status'] = 200;
+
+                //         $officesss = OfficesDistDeptModel::query()
+                //     ->with(['office_fin_assam', 'districts'])
+                //     ->where('depertment_id', $request->input('depertment_id'))
+                //     ->where('district_id', $request->input('district_id'))
+                //     ->distinct('office_id')->pluck('office_id')->toArray();
+
+
+                // $offices = OfficeFinAsssamModel::whereIn('id', $officesss)->get();
+                //     //   dd($offices);  
+                //         $res_data['offices'] = $offices;
                 $res_data['status'] = 200;
             } catch (Exception $err) {
                 $res_data['message'] = "Server error please try later !";
