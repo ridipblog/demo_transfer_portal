@@ -15,7 +15,8 @@
                 </div>
                 @if (Auth::guard('user_guard')->user()->role_id == 6)
                     <div class="grid grid-cols-5 gap-4">
-                        <a href="#" class="bg-white border rounded-2xl p-6 border-b-4 border-r-4 border-gray-400">
+                        <a href="{{ route('verifier.candidate_verify', ['lang' => $locale, 'type' => Crypt::encryptString('Verifier')]) }}"
+                            class="bg-white border rounded-2xl p-6 border-b-4 border-r-4 border-gray-400">
                             <div class="flex gap-6">
                                 <div
                                     class="h-10 w-10 bg-sky-200 flex items-center justify-center rounded-full flex-shrink-0">
@@ -27,7 +28,8 @@
                                 </div>
                             </div>
                         </a>
-                        <a href="#" class="bg-sky-500 border-sky-500 text-white rounded-2xl p-6">
+                        <a href="{{ route('verifier.candidate_verify', ['lang' => $locale, 'type' => Crypt::encryptString('Verifier')]) }}"
+                            class="bg-sky-500 border-sky-500 text-white rounded-2xl p-6">
                             <div class="flex gap-6">
                                 <div class="h-10 w-10 bg-gray-50 flex items-center justify-center rounded-full"><i
                                         class="text-lg bi bi-exclamation-circle text-black"></i></div>
@@ -37,7 +39,8 @@
                                 </div>
                             </div>
                         </a>
-                        <a href="#" class="bg-white border rounded-2xl p-6 border-b-4 border-r-4 border-gray-400">
+                        <a href="{{ route('verifier.candidate_verify', ['lang' => $locale, 'type' => Crypt::encryptString('Verifier')]) }}"
+                            class="bg-white border rounded-2xl p-6 border-b-4 border-r-4 border-gray-400">
                             <div class="flex gap-6">
                                 <div
                                     class="h-10 w-10 bg-sky-200 flex items-center justify-center rounded-full flex-shrink-0">
@@ -46,6 +49,17 @@
                                 <div class="">
                                     <p class="text-3xl font-bold">{{ count($verified_profiles) }}</p>
                                     <p class="text-gray-900">@lang('authority_dashboard.nav.verified_profiles')</p>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="{{ route('verifier.candidate_verify', ['lang' => $locale, 'type' => Crypt::encryptString('Verifier')]) }}"
+                            class="bg-sky-500 border-sky-500 text-white rounded-2xl p-6">
+                            <div class="flex gap-6">
+                                <div class="h-10 w-10 bg-gray-50 flex items-center justify-center rounded-full"><i
+                                        class="text-lg bi bi-arrow-clockwise text-black"></i></div>
+                                <div class="">
+                                    <p class="text-3xl font-bold">{{ count($pending_users) }}</p>
+                                    <p class="">@lang('authority_dashboard.nav.resubmitted')</p>
                                 </div>
                             </div>
                         </a>

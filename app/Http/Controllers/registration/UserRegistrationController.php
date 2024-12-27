@@ -68,7 +68,6 @@ class UserRegistrationController extends Controller
 
     public function create(Request $request)
     {
-
         try {
             $validator = Validator::make($request->all(), [
                 'name' => 'required|unique:appointing_authorities,name',
@@ -217,6 +216,85 @@ class UserRegistrationController extends Controller
         });
         return 1;
     }
+
+
+    public function assign_directorate_prev(Request $request)
+    {
+        $map_data = authority_office_dist_map::where('directorate_id', null)
+            ->distinct('user_id')
+            ->pluck('user_id')->toArray();
+        $users = appointing_authorities::whereIn('id', $map_data)->get(['name', 'phone', 'id'])->toArray();
+        // $map = OfficesDistDeptModel::whereIn('depertment_id', $dept)->where('directorate_id', '!=', null)->where('directorate_id', '!=', 0)->distinct('directorate_id')->pluck('directorate_id')->toArray();
+        // $directorates = DB::table('directorate')->whereIn('depertment_id', $dept)->get(['name', 'id'])->toArray();
+        // dd($directorates);
+        return view('verification.form.old_form', compact('users'));
+    }
+
+    public function fetch_prev_user_data(Request $request)
+    {
+        try {
+            $user_id = (int)$request->input('user_id');
+            $map = authority_office_dist_map::where('user_id', $user_id)->distinct('department_id')->pluck('department_id')->toArray();
+
+            $user_data = appointing_authorities::where('id', $user_id)->first();
+            $departments = departments::whereIn('id', $map)->get(['id', 'name'])->toArray();
+
+            return response()->json([
+                'status' => 200,
+                'data' => $user_data,
+                'departments' => $departments
+            ]);
+        } catch (Exception $err) {
+            return response()->json([
+                'status' => 500,
+                'data' => $err->getMessage(),
+            ]);
+        }
+    }
+
+    public function fetch_directorates(Request $request)
+    {
+        try {
+            $directorates = DB::table('directorate')->where('depertment_id', (int)$request->input('department_id'))->get(['name', 'id'])->toArray();
+            return response()->json([
+                'status' => 200,
+                'directorates' => $directorates
+            ]);
+        } catch (Exception $err) {
+            return response()->json([
+                'status' => 500
+            ]);
+        }
+    }
+
+    public function re_assign(Request $request)
+    {
+        try {
+            // Validate the input data
+            $validated = $request->validate([
+                'user_ids' => 'required|exists:appointing_authorities,id',
+                'department_ids' => 'required|exists:deptartments,id',
+                'directorate_ids' => 'required'
+            ]);
+
+            $map = authority_office_dist_map::where('user_id', $request->input('user_ids'))
+                ->where('department_id', $request->input('department_ids'))
+                ->get();
+
+            $directorate = ($request->input('directorate_ids') == 'na') ? 0 : $request->input('directorate_ids');
+
+            foreach ($map as $m) {
+                $m->update([
+                    'directorate_id' => $directorate
+                ]);
+            }
+
+            return redirect()->back()->with('success', 'Re-assignment completed successfully.');
+        } catch (Exception $err) {
+            return redirect()->back()->with('error', $err->getMessage());
+        }
+    }
+
 
 
     public function correct_office_name()

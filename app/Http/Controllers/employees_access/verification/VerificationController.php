@@ -57,6 +57,7 @@ class VerificationController extends Controller
         return view('verification.department.login');
     }
 
+
     public function department_pin_index()
     {
         if (Session::has('verifier_id')) {

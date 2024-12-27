@@ -18,7 +18,8 @@ class RejectedDocumentsModel extends Model
         'old_documents',
         'commnents'
     ];
-    public function authority_rejections(){
-        return $this->hasMany(AuthorityRejectionModel::class,'rejected_document_id');
+    public function authority_rejections()
+    {
+        return $this->hasMany(AuthorityRejectionModel::class, 'rejected_document_id');
     }
 }

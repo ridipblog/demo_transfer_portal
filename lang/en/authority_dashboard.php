@@ -12,7 +12,8 @@ return [
         'approved_transfers' => 'Approved Transfers',
         'rejected' => 'Rejected',
         'view_all' => 'View All',
-        'noc_col' => 'Action'
+        'noc_col' => 'Action',
+        'resubmitted' => 'Re-submitted Profiles'
     ],
     'latest_requests' => 'Latest Requests',
     'tab' => [
@@ -74,6 +75,7 @@ return [
         'sro' => 'Second Recommended On',
         'approved_by' => 'Approved By',
         'approved_on' => 'Approved On',
+        'previous_documents' => 'Previous Documents'
     ],
     'search_profiles' => [
         'heading' => 'All Profiles',
