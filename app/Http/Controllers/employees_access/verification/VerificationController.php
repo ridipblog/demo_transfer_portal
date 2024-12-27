@@ -186,7 +186,7 @@ class VerificationController extends Controller
 
     public function department_final_approval(Request $request)
     {
-        if (Auth::guard('user_guard')->check() && Auth::guard('user_guard')->user()->role_id == 7) {
+        if (Auth::guard('user_guard')->check() && Auth::guard('user_guard')->user()->role_id == 2) {
             try {
                 $id = Crypt::decryptString($request->input('id'));
                 $transfer = TransfersModel::findOrFail($id);
