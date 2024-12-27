@@ -12,11 +12,11 @@ class PenddingDashContentComponent extends Component
      * Create a new component instance.
      */
     public $viewData;
-    public $verifierAddDocuments;
-    public function __construct($viewData=null,$verifierAddDocuments=null)
+    public $rejectedData;
+    public function __construct($viewData=null,$rejectedData=null)
     {
         $this->viewData=$viewData;
-        $this->verifierAddDocuments=$verifierAddDocuments;
+        $this->rejectedData=$rejectedData;
     }
 
     /**

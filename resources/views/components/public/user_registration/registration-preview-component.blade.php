@@ -50,19 +50,27 @@
                     <label class="block mb-1 text-xs md:text-sm font-bold reqd text-gray-400">@lang('user.form.basic_info.pan')</label>
                     <p class="font-semibold preview_data">XXXXXXXXXXXXXXXX</p>
                 </div>
+                <div>
+                    <label class="block mb-1 text-xs md:text-sm font-bold reqd text-gray-400">@lang('user.form.basic_info.h_d')</label>
+                    <p class="font-semibold preview_data">home district</p>
+                </div>
             </div>
 
             <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-4 border border-sky-500 rounded-3xl border-b-4 border-r-4 p-6">
                 <div class="sm:col-span-2 md:col-span-3">
                     <p class="text-lg font-semibold text-sky-500">@lang('user.form.emp_info.heading')</p>
                 </div>
-                <div>
+                <div class="">
                     <label class="block mb-1 text-xs md:text-sm font-bold reqd text-gray-400">@lang('user.form.emp_info.dist_cp')</label>
                     <p class="font-semibold preview_data">Kamrup Metro</p>
                 </div>
-                <div class="sm:col-span-2">
+                <div class="">
                     <label class="block mb-1 text-xs md:text-sm font-bold reqd text-gray-400">@lang('user.form.emp_info.dept_cp')</label>
                     <p class="font-semibold preview_data">Health</p>
+                </div>
+                <div class="">
+                    <label class="block mb-1 text-xs md:text-sm font-bold reqd text-gray-400">@lang('user.form.emp_info.direc_cp')</label>
+                    <p class="font-semibold preview_data">Commisionalr</p>
                 </div>
                 {{-- <div>
                     <label class="block mb-1 text-xs md:text-sm font-bold reqd text-gray-400">DDO Code <br>ডিডিঅ' ক'ড</label>
@@ -79,6 +87,10 @@
                 <div>
                     <label class="block mb-1 text-xs md:text-sm font-bold reqd text-gray-400">@lang('user.form.emp_info.doj_fj')</label>
                     <p class="font-semibold preview_data">12 Aug 2006</p>
+                </div>
+                <div>
+                    <label class="block mb-1 text-xs md:text-sm font-bold reqd text-gray-400">@lang('user.form.emp_info.time_of_service')</label>
+                    <p class="font-semibold preview_data">0 years 0 month </p>
                 </div>
                 <div>
                     <label class="block mb-1 text-xs md:text-sm font-bold reqd text-gray-400">@lang('user.form.emp_info.doj_cp')</label>

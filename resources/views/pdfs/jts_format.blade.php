@@ -166,21 +166,25 @@
                 <td style="">
                     <p>Yours faithfully</p><br><br>
 
-                    <p>Name: <span class="inline-txt">{{ $pdf_data->transfer_employee_user->full_name }}</span></p>
+                    <p>Name: <span class="inline-txt">{{ $pdf_data->transfer_employee_user->full_name ?? 'N/A' }}</span></p>
                     <p>Presently serving as: <span
-                            class="inline-txt">{{ $pdf_data->transfer_employee_user->employment_details->post_names->name }}</span>
+                            class="inline-txt">{{ $pdf_data->transfer_employee_user->employment_details->post_names->name ?? 'N/A' }}</span>
                         in
                         {{ isset($pdf_data->transfer_employee_user->employment_details->post_names->type) ? ($pdf_data->transfer_employee_user->employment_details->post_names->type == 3 ? 'Grade III' : ' Grade IV') : '' }}
                         in the
                         office of <span
-                            class="inline-txt">{{ $pdf_data->transfer_employee_user->employment_details->offices_finassam->name }}</span>,
+                            class="inline-txt">{{ $pdf_data->transfer_employee_user->employment_details->offices_finassam->name ?? 'N/A' }}</span>,
                         District: <span
-                            class="inline-txt">{{ $pdf_data->transfer_employee_user->employment_details->districts->name }}</span>
+                            class="inline-txt">{{ $pdf_data->transfer_employee_user->employment_details->districts->name ?? 'N/A' }}</span>
+                    </p>
+                    <p>
+                        Directorate : <span
+                            class="inline-txt">{{ isset($pdf_data->transfer_employee_user->employment_details->directorate_id) ? $pdf_data->transfer_employee_user->employment_details->directorate_id===0 ?'Not Applicable' : $pdf_data->transfer_employee_user->employment_details->directorate->name ?? 'N/A' : 'Not Assign' }}</span>
                     </p>
                     <p>Pay Band: <span
-                            class="inline-txt">{{ $pdf_data->transfer_employee_user->employment_details->pay_band }}</span>
+                            class="inline-txt">{{ $pdf_data->transfer_employee_user->employment_details->pay_band ?? 'N/A' }}</span>
                         Grade Pay: <span
-                            class="inline-txt">{{ $pdf_data->transfer_employee_user->employment_details->pay_grade }}</span>
+                            class="inline-txt">{{ $pdf_data->transfer_employee_user->employment_details->pay_grade  ?? 'N/A'}}</span>
                     </p>
                 </td>
             </tr>
@@ -188,23 +192,27 @@
                 {{-- <td width="50%"></td> --}}
                 <td style=""><br>
 
-                    <p>Name: <span class="inline-txt">{{ $pdf_data->transfer_employee_target_user->full_name }}</span>
+                    <p>Name: <span class="inline-txt">{{ $pdf_data->transfer_employee_target_user->full_name ?? 'N/A' }}</span>
 
                     </p>
                     <p>Presently serving as: <span
-                            class="inline-txt">{{ $pdf_data->transfer_employee_target_user->employment_details->post_names->name }}</span>
+                            class="inline-txt">{{ $pdf_data->transfer_employee_target_user->employment_details->post_names->name ?? 'N/A' }}</span>
                         in
                         {{ isset($pdf_data->transfer_employee_target_user->employment_details->post_names->type) ? ($pdf_data->transfer_employee_target_user->employment_details->post_names->type == 3 ? 'Grade III' : ' Grade IV') : '' }}
                         in the
                         office of <span
-                            class="inline-txt">{{ $pdf_data->transfer_employee_target_user->employment_details->offices_finassam->name }}</span>,
+                            class="inline-txt">{{ $pdf_data->transfer_employee_target_user->employment_details->offices_finassam->name ?? 'N/A' }}</span>,
                         District: <span
-                            class="inline-txt">{{ $pdf_data->transfer_employee_target_user->employment_details->districts->name }}</span>
+                            class="inline-txt">{{ $pdf_data->transfer_employee_target_user->employment_details->districts->name ?? 'N/A' }}</span>
+                    </p>
+                    <p>
+                        Directorate : <span
+                            class="inline-txt">{{ isset($pdf_data->transfer_employee_target_user->employment_details->directorate_id) ? $pdf_data->transfer_employee_user->employment_details->directorate_id===0 ?'Not Applicable' : $pdf_data->transfer_employee_user->employment_details->directorate->name ?? 'N/A' : 'Not Assign' }}</span>
                     </p>
                     <p>Pay Band: <span
-                            class="inline-txt">{{ $pdf_data->transfer_employee_target_user->employment_details->pay_band }}</span>
+                            class="inline-txt">{{ $pdf_data->transfer_employee_target_user->employment_details->pay_band ?? 'N/A' }}</span>
                         Grade Pay: <span
-                            class="inline-txt">{{ $pdf_data->transfer_employee_target_user->employment_details->pay_grade }}</span>
+                            class="inline-txt">{{ $pdf_data->transfer_employee_target_user->employment_details->pay_grade ?? 'N/A' }}</span>
                     </p>
                 </td>
             </tr>

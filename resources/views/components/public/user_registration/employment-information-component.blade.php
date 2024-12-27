@@ -55,6 +55,27 @@
             </select>
             <p class="registration-error"></p>
         </div>
+
+        <div class="overflow-hidden relative">
+            <label class="block mb-1 text-xs md:text-sm font-semibold reqd text-gray-800">
+                @lang('user.form.emp_info.direc_cp')
+            </label>
+            <select name="directorate" id="select_direct"
+                class="registration-input disabled:bg-gray-100 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full select2"
+                style="width: 100% !important;">
+                <option value="" selected disabled>— Select —</option>
+                @if ($employment_data->depertment_id)
+                    <option {{ $employment_data->directorate_id ===0 ? 'selected' : ''  }} value="0">Not Applicable</option>
+                @endif
+                @foreach ($viewData['directorates'] ?? [] as $directorate)
+                    <option value="{{ $directorate->id ?? '' }}"
+                        {{ $employment_data->directorate_id == $directorate->id ? 'selected ' : '' }}>
+                        {{ $directorate->name ?? 'N/A' }}
+                    </option>
+                @endforeach
+            </select>
+            <p class="registration-error"></p>
+        </div>
         <div class="lg:col-span-2 overflow-hidden relative">
             <label class="block mb-1 text-xs md:text-sm font-semibold reqd text-gray-800">@lang('user.form.emp_info.office_cp')</label>
             <select name="office" id="select_office"
@@ -86,6 +107,7 @@
             <p class="registration-error"></p>
         </div>
         <div>
+
             {{-- {{$viewData['pan_request_data']['profile']['date_of_joining']}} --}}
             <label class="block mb-1 text-xs md:text-sm font-semibold reqd text-gray-800">@lang('user.form.emp_info.doj_fj')</label>
             {{-- <input type="date" name="date_of_joining" id="date_of_join_id" value="{{ $is_pan_found ? $viewData['pan_request_data']['profile']['date_of_joining'] ?? '' : $employment_data->first_date_of_joining ?? '' }}" class="registration-input disabled:bg-gray-100 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full"> --}}
@@ -93,6 +115,13 @@
                 value="{{ $employment_data->first_date_of_joining ?? '' }}"
                 class="registration-input disabled:bg-gray-100 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full">
             <p class="registration-error"></p>
+        </div>
+        <div>
+            <label class="block mb-1 text-xs md:text-sm font-semibold reqd text-gray-800">@lang('user.form.emp_info.time_of_service')</label>
+            <input type="text" name="time_of_service" id="time_of_service"
+                value="{{ $employment_data->time_of_service ?? '' }}"
+                class="disabled:bg-gray-100 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full"
+                disabled>
         </div>
         <div>
             <label class="block mb-1 text-xs md:text-sm font-semibold reqd text-gray-800">@lang('user.form.emp_info.doj_cp')</label>
@@ -122,7 +151,9 @@
                 <option value="" selected disabled>— Select —
                 </option>
                 @foreach (config('globalVariables.pay_band_list') ?? [] as $key => $value)
-                    <option value="{{ $value }}" {{$employment_data->pay_band ? ($employment_data->pay_band==$value ? 'selected' : '') : ''}}>{{ $value }}</option>
+                    <option value="{{ $value }}"
+                        {{ $employment_data->pay_band ? ($employment_data->pay_band == $value ? 'selected' : '') : '' }}>
+                        {{ $value }}</option>
                 @endforeach
             </select>
             <p class="registration-error"></p>

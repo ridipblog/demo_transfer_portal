@@ -3,6 +3,7 @@
 namespace App\Models\User;
 
 use App\Models\Public\DepertmentModel;
+use App\Models\Public\DirectorateModel;
 use App\Models\Public\DistrictModel;
 use App\Models\Public\OfficeFinAsssamModel;
 use App\Models\Public\PayScaleModel;
@@ -20,10 +21,12 @@ class EmploymentDetailsModel extends Model
         'user_id',
         'district_id',
         'depertment_id',
+        'directorate_id',
         'ddo_code',
         'office_id',
         'designation_id',
         'first_date_of_joining',
+        'time_of_service',
         'current_date_of_joining',
         'pay_grade',
         'pay_band',
@@ -38,25 +41,32 @@ class EmploymentDetailsModel extends Model
     {
         return $this->belongsTo(DistrictModel::class, 'district_id');
     }
-    public function offices_finassam(){
-        return $this->belongsTo(OfficeFinAsssamModel::class,'office_id');
+    public function offices_finassam()
+    {
+        return $this->belongsTo(OfficeFinAsssamModel::class, 'office_id');
     }
-    public function post_names(){
-        return $this->belongsTo(PostsNameModel::class,'designation_id');
+    public function post_names()
+    {
+        return $this->belongsTo(PostsNameModel::class, 'designation_id');
     }
     public function departments()
     {
         return $this->belongsTo(DepertmentModel::class, 'depertment_id');
     }
-    public function preference_district_employment(){
-        return $this->hasMany(PreferenceDistrictModel::class,'user_id','user_id');
+    public function directorate()
+    {
+        return $this->belongsTo(DirectorateModel::class, 'directorate_id');
+    }
+    public function preference_district_employment()
+    {
+        return $this->hasMany(PreferenceDistrictModel::class, 'user_id', 'user_id');
     }
     public function employee_transfer_request_employment()
     {
-        return $this->hasMany(TransfersModel::class, 'employee_id','user_id');
+        return $this->hasMany(TransfersModel::class, 'employee_id', 'user_id');
     }
     public function employee_transfer_target_request_employment()
     {
-        return $this->hasMany(TransfersModel::class, 'target_employee_id','user_id');
+        return $this->hasMany(TransfersModel::class, 'target_employee_id', 'user_id');
     }
 }

@@ -86,23 +86,22 @@ class ReuseModule extends RequestModule {
         });
     }
     // ------------------- fetch selection relational data -------------------
-    getOfficePostNames = async (selection,is_district=false) => {
+    getOfficePostNames = async (selection, is_district = false,is_directorate=false) => {
         const form_data = {
             depertment_id: $('#select_depert').val(),
-            district_id:$('#select_district').val(),
-            is_district:is_district
+            district_id: $('#select_district').val(),
+            directorate_id:$('#select_direct').val(),
+            is_district: is_district,
+            is_directorate:is_directorate
         }
-
-        console.log($('#select_district').val())
         this.formPostReponse = async (response) => {
-            console.log(response)
             if (response.res_data.status == 200) {
                 var offices = '<option value="" selected disabled>— Select —</option>';
                 var posts = '<option value="" selected disabled>— Select —</option>';
                 response.res_data.offices.forEach(office => {
                     offices += `<option value=${office.office_id}>${office.office_fin_assam.name}</option>`
                 });
-                if (!is_district) {
+                if (!is_district || !is_directorate) {
                     response.res_data.posts.forEach(post => {
                         posts += `<option value=${post.post_names.id}>${post.post_names.name}</option>`
                     });
@@ -151,6 +150,80 @@ class ReuseModule extends RequestModule {
         }
         await this.formGet(form_data, '/get-pay-grade');
     }
+
+    // -------------- calculate two date ---------------
+    async calculateDates(input_date, today = new Date()) {
+        let start = new Date(input_date);
+        let end = new Date(today);
+
+        let years = end.getFullYear() - start.getFullYear();
+        let months = end.getMonth() - start.getMonth();
+        let days = end.getDate() - start.getDate();
+        if (years < 0 || months < 0 || days < 0) {
+            throw new Error("please enter a valid date ");
+        }
+        // if (days < 0) {
+        //     months--;
+        //     let previousMonth = new Date(end.getFullYear(), end.getMonth(), 0);
+        //     days += previousMonth.getDate();
+        // }
+
+        // if (months < 0) {
+        //     years--;
+        //     months += 12;
+        // }
+
+        return `${years} years ${months} months ${days} days`;
+    }
+
+    // ------------- fetch office by district and depertment -------------
+    async fetchOfficeDistDeprt(district_id = null, depertment_id = null, append_to) {
+        const form_data = {
+            district_id: district_id,
+            depertment_id: depertment_id
+        }
+        this.formPostReponse = async (response) => {
+            console.log(response);
+            let offices = `<option disabled >Select</option>`;
+            if (response.res_data.status == 400) {
+
+            } else if (response.res_data.status == 200) {
+                if (response.res_data.offices.length>0) {
+                    offices += `<option value="all">All Office</option>`;
+                    response.res_data.offices.forEach(office => {
+                        offices += `<option value="${office?.office_fin_assam?.id ?? ''}">${office?.office_fin_assam?.name ?? ''}</option>`;
+                    });
+                } else {
+
+                }
+            }
+            $(append_to).html(offices)
+        }
+        await this.formGet(form_data, '/fetch-off-dist-dept');
+    }
+    // ------------ fetch directorate by depertment --------------
+    async fetchDirectDept(depertment_id, append_to) {
+        let form_data = {
+            depertment_id: depertment_id
+        };
+        this.formPostReponse = async (response) => {
+            console.log(response)
+            let options = `<option selected disabled >- Select -</option>`;
+            if (response.res_data.status == 200) {
+                options += `<option value="0">Not Applicable</option>`;
+                if (response.res_data.directorates.length > 0) {
+                    response.res_data.directorates.forEach((map, index) => {
+                        options += `<option value="${map.id}">${map.name}</option>`;
+                    });
+                } else {
+                }
+
+            }
+            $(append_to).html(options);
+        }
+        this.formGet(form_data, '/fetch-direct-dept');
+    }
+
 }
 
 export default ReuseModule;
