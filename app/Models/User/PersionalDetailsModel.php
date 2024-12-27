@@ -24,11 +24,18 @@ class PersionalDetailsModel extends Model
         'alt_phone_number',
         'category_id',
         'pan_number',
+        'home_district_id'
     ];
-    public function user_credentials(){
-        return $this->belongsTo(UserCredentialsModel::class,'user_id');
+    public function user_credentials()
+    {
+        return $this->belongsTo(UserCredentialsModel::class, 'user_id');
     }
-    public function caste(){
-        return $this->belongsTo(CasteModel::class,'category_id');
+    public function caste()
+    {
+        return $this->belongsTo(CasteModel::class, 'category_id');
+    }
+    public function districts()
+    {
+        return $this->belongsTo(DistrictModel::class, 'home_district_id');
     }
 }

@@ -83,7 +83,11 @@ class UserDashboardController extends Controller
 
                 // ------------ is any additional document by verification ---------------
                 $rejected_data = RejectedDocumentsModel::with(['authority_rejections'])
-                    ->where('user_id', $logged_persion->id)
+                    ->where([
+                        ['user_id', $logged_persion->id],
+                        ['old_update_on', null],
+                        ['old_documents', null]
+                    ])
                     ->orderBy('created_at', 'desc')->first();
                 // dd($employee_all_data);
                 if (count($employee_all_data) == 0) {
@@ -117,7 +121,7 @@ class UserDashboardController extends Controller
                     $sub_query->where('target_employee_id', $logged_persion->id)
                         ->where('request_status', 1);
                 })->orWhere('employee_id', $logged_persion->id);
-                $query->orderBy('id', 'asc');
+                $query->orderBy('id', 'desc');
                 $transfer_data = $query->first();
                 $is_request_done = EmployeeModule::isTransferDone()->exists();
                 $logged_user = Auth::guard('user_guard')->user();

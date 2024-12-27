@@ -28,6 +28,7 @@ return [
             'apno' => 'Alt. Phone number',
             'email' => 'Email',
             'pan' => 'PAN Number',
+            'h_d'=>'Home District',
             'messages' => [
                 'title' => 'Persional information not found !!',
                 'text' => 'We were unable to find your persional information. Please try again later.',

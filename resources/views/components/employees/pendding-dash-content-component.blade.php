@@ -237,7 +237,7 @@
         </div>
 
         {{-- ------------ if rejection push by authority ---------------- --}}
-        @if ($viewData->profile_verify_status == 2 || $viewData->noc_generate == 2)
+        @if ($viewData->profile_verify_status == 2)
             <x-employee-profile.rejection-infomation-component :rejectedData=$rejectedData>
 
             </x-employee-profile.rejection-infomation-component>

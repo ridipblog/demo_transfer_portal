@@ -42,6 +42,7 @@
                                         'pan_request_data' => $view_data['pan_request_data'],
                                         'search_pan_number' => $view_data['search_pan_number'],
                                         'is_pan_found' => $view_data['is_pan_found'],
+                                        'districts' => $view_data['districts'],
                                     ];
 
                                 @endphp
@@ -53,7 +54,7 @@
                                     $component_view_data = [
                                         'districts' => $view_data['districts'],
                                         'depertments' => $view_data['depertments'],
-                                        'directorates'=>$view_data['directorates'],
+                                        'directorates' => $view_data['directorates'],
                                         'save_data' => $view_data['save_data'],
                                         'is_pan_found' => $view_data['is_pan_found'],
                                         'pan_request_data' => $view_data['pan_request_data'],
@@ -95,16 +96,16 @@
                                         'save_data' => $view_data['save_data'],
                                     ];
                                 @endphp
-                                    <x-public.user_registration.document-component :viewData=$component_view_data>
+                                <x-public.user_registration.document-component :viewData=$component_view_data>
 
-                                    </x-public.user_registration.document-component>
-                                    {{-- -------------- end document information ----------------- --}}
-                                    {{-- -------------- declaration and SOP ----------------- --}}
+                                </x-public.user_registration.document-component>
+                                {{-- -------------- end document information ----------------- --}}
+                                {{-- -------------- declaration and SOP ----------------- --}}
 
-                                    {{-- -------------- end declaration and SOP ----------------- --}}
-                                    <x-employee-profile.submit-profile-button-component :submitButton=$submit_button_component>
+                                {{-- -------------- end declaration and SOP ----------------- --}}
+                                <x-employee-profile.submit-profile-button-component :submitButton=$submit_button_component>
 
-                                    </x-employee-profile.submit-profile-button-component>
+                                </x-employee-profile.submit-profile-button-component>
                             </div>
                         </form>
                     @else

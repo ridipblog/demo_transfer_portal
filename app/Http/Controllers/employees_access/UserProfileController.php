@@ -273,6 +273,7 @@ class UserProfileController extends Controller
                     'email' => ['required', 'email', Rule::unique('user_credentials', 'email')->ignore($logged_user->user_id, 'id')],
                     // 'pan_number' => [$required, Rule::unique('persional_details', 'pan_number')->ignore($logged_user->user_id, 'user_id')],
                     'pan_number' => ['required', Rule::unique('persional_details', 'pan_number')->ignore($logged_user->user_id, 'user_id')],
+                    'home_district'=>$required . '|integer',
                     'district' => $required . '|integer',
                     'depertment' => $required . '|integer',
                     'directorate' => $required . '|integer',
@@ -405,6 +406,7 @@ class UserProfileController extends Controller
                         'mother_name' => $request->mother_name,
                         'alt_phone_number' => $request->alternative_number,
                         'category_id' => $request->category,
+                        'home_district_id'=>$request->home_district
                     ];
                     $api_type != 'update_data' ? $profile_update_data['pan_number'] = $request->pan_number : '';
                     $save_data_process = PersionalDetailsModel::where(
@@ -513,11 +515,15 @@ class UserProfileController extends Controller
                                                 'documet_location' => $document['documet_location'],
                                             ];
                                         })->values();
-                                    $update_json_data = RejectedDocumentsModel::create([
-                                        'user_id' => $logged_user->user_credentials->id,
-                                        'old_update_on' => $logged_user->user_credentials->updated_at,
-                                        'old_documents' => $update_document_map_data != 0 ? json_encode($filter_updated_document) : null
-                                    ]);
+                                        $update_json_data=RejectedDocumentsModel::where([
+                                            ['user_id',$logged_user->user_credentials->id],
+                                            ['old_update_on',null],
+                                            ['old_documents',null]
+                                        ])
+                                        ->update([
+                                            'old_update_on' => $logged_user->user_credentials->updated_at,
+                                            'old_documents'=>$update_document_map_data != 0 ? json_encode($filter_updated_document) : null
+                                        ]);
                                 }
                                 // if ($save_office) {
                                 //     OfficeFinAsssamModel::where('assign_by', $logged_user->user_id)
@@ -554,7 +560,7 @@ class UserProfileController extends Controller
                 }
                 $res_data['status'] = 401;
                 $res_data['message'] = __('validation_message.server_message.server_error');
-                // $res_data['message'] = $err->getMessage();
+                $res_data['message'] = $err->getMessage();
             }
         }
         return $res_data;
