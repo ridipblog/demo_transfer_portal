@@ -32,15 +32,17 @@ class PublicProtectedMiddleware
         } else {
             if ($check_auth->check_logged_in) {
                 $logged_user = Auth::guard('user_guard')->user();
+                // dd($logged_user->role_id);
                 $redirect_links = [
                     '4' => app()->getLocale() . '/employees/dashboard',
                     '6' => app()->getLocale() . '/verifier/verifier-dashboard',
                     '3' => app()->getLocale() . '/verifier/verifier-dashboard',
-                    '2' => app()->getLocale() . '/verifier/verifier-dashboard',
+                    '2' => app()->getLocale() . '/department/department-dashboard',
                     '5' => app()->getLocale() . '/verifier/verifier-dashboard',
                     '7' => app()->getLocale() . '/department/department-dashboard',
                     '1' => '/admin/admin-dashboard'
                 ];
+                // dd($redirect_links[$logged_user->role_id]);
                 return redirect($redirect_links[$logged_user->role_id]);
             }
         }

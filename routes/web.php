@@ -68,7 +68,7 @@ Route::group(['prefix' => '{lang?}', 'middleware' => 'setlocale', 'where' => ['l
         // Route::get('verifier-resubmitted-profile/{id}', [CandidateController::class, 'resubmitted_profile_details'])->name('resubmitted.profile');
     });
 
-    Route::group(['prefix' => 'department', 'middleware' => ['user_protect:roles,view,Department Hod']], function () {
+    Route::group(['prefix' => 'department', 'middleware' => ['user_protect:roles,view,Approver']], function () {
         Route::get('/department-dashboard', [VerificationController::class, 'department_index'])->name('verification.department.index');
         Route::get('/approval-all-requests', [VerificationController::class, 'department_all_request'])->name('verification.department.all_request');
         Route::get('/approval-profile/{id}', [CandidateController::class, 'department_candidate_profile'])->name('verification.department.candidate_profile');
@@ -209,7 +209,7 @@ Route::group(['prefix' => 'verifier', 'middleware' => ['user_protect:roles,view,
 //     Route::get('/department-login', [VerificationController::class, 'verification_login_department_index'])->name('verification.verification_login_department_index');
 // });
 
-Route::group(['prefix' => 'department', 'middleware' => ['user_protect:roles,view,Department Hod']], function () {
+Route::group(['prefix' => 'department', 'middleware' => ['user_protect:roles,view,Approver']], function () {
 
     // Route::get('/department-dashboard', [VerificationController::class, 'department_index'])->name('verification.department.index');
 
