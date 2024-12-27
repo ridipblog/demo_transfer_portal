@@ -13,6 +13,7 @@ class OfficesDistDeptModel extends Model
     protected $fillable = [
         'office_id',
         'district_id',
+        'directorate_id',
         'depertment_id',
     ];
     protected $dates = ['deleted_at'];
@@ -27,5 +28,8 @@ class OfficesDistDeptModel extends Model
     public function districts()
     {
         return $this->belongsTo(DistrictModel::class, 'district_id');
+    }
+    public function directorate(){
+        return $this->belongsTo(DirectorateModel::class,'directorate_id');
     }
 }

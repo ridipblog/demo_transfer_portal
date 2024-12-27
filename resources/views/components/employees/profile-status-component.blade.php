@@ -40,7 +40,7 @@
                             ],
                         ];
                     @endphp
-                    @if ($viewData->profile_verify_status == 1 && $viewData->noc_generate != 0)
+                    {{-- @if ($viewData->profile_verify_status == 1 && $viewData->noc_generate != 0)
                         <div
                             class="bg-{{ $viewData->noc_generate != 1 ? 'red' : 'green' }}-300 text-{{ $viewData->noc_generate != 1 ? 'red' : 'green' }}-600 border border-transparent text-xs rounded block px-2 py-1 font-semibold mb-2 w-fit">
                             {!! $viewData->noc_generate != 1 ? '<i class="bi bi-x-circle"></i>' : '<i class="bi bi-check-circle"></i>' !!}
@@ -52,7 +52,14 @@
                             {!! $viewData->profile_verify_status != 1 ? '<i class="bi bi-clock"></i>' : '<i class="bi bi-check-circle"></i>' !!}
                             {{ $viewData->profile_verify_status != 1 ? __('user.profile_status.status.pending') : __('user.profile_status.status.verified') }}
                         </div>
-                    @endif
+                    @endif --}}
+
+                    <div
+                        class="bg-{{ $viewData->profile_verify_status != 1 ? 'yellow' : 'green' }}-300 text-{{ $viewData->profile_verify_status != 1 ? 'yellow' : 'green' }}-600 border border-transparent text-xs rounded block px-2 py-1 font-semibold mb-2 w-fit">
+                        {!! $viewData->profile_verify_status != 1 ? '<i class="bi bi-clock"></i>' : '<i class="bi bi-check-circle"></i>' !!}
+                        {{ $viewData->profile_verify_status != 1 ? __('user.profile_status.status.pending') : __('user.profile_status.status.verified') }}
+                    </div>
+
                 </div>
 
                 <div class="grid gap-0">
@@ -88,22 +95,22 @@
                         <div class="h-6 w-0.5 ml-1.5 {{ $profile_status[$viewData->profile_verify_status]['bg'] }} ">
                         </div>
                     </div>
-                    <div class="flex flex-col gap-0">
+                    {{-- <div class="flex flex-col gap-0">
                         <div
                             class="flex gap-2 items-center text-sm {{ $profile_status[$viewData->noc_generate]['text'] }} ">
                             <i class="{{ $profile_status[$viewData->noc_generate]['icon'] }}"></i>
-                            @lang('user.profile_status.steps.4')
-                            {{-- ({{ $viewData->noc_generate == 1 ? 'Recommended' : 'Pending' }} ) --}}
-                        </div>
-                        <div class="h-6 w-0.5 ml-1.5 {{ $profile_status[$viewData->noc_generate]['bg'] }} ">
-                        </div>
-                        {{-- <div class="h-6 w-0.5 ml-1.5 {{$viewData->noc_generate==1 ? 'bg-green-600' :'bg-gray-300'}}"></div> --}}
-                        {{-- @if ($viewData->noc_generate == 1)
+                            @lang('user.profile_status.steps.4') --}}
+                    {{-- ({{ $viewData->noc_generate == 1 ? 'Recommended' : 'Pending' }} ) --}}
+                    {{-- </div> --}}
+                    {{-- <div class="h-6 w-0.5 ml-1.5 {{ $profile_status[$viewData->noc_generate]['bg'] }} ">
+                        </div> --}}
+                    {{-- <div class="h-6 w-0.5 ml-1.5 {{$viewData->noc_generate==1 ? 'bg-green-600' :'bg-gray-300'}}"></div> --}}
+                    {{-- @if ($viewData->noc_generate == 1)
                         <a href="{{ route('download.noc.user') }}" target="__blank"
                             class="mt-2 bg-sky-500 hover:bg-sky-600 border border-transparent text-white rounded-md block px-2 py-1.5 w-fit"
                             id="createRequest"><i class="bi bi-file-earmark-pdf"></i></a>
                         @endif --}}
-                    </div>
+                    {{-- </div> --}}
 
                     {{-- <div class="flex flex-col gap-0">
                         <div

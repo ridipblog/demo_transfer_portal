@@ -8,3 +8,5 @@ Route::get('/get-offices-posts',[PublicController::class,'getOfficePost']);
 Route::get('/get-pay-grade',[PublicController::class,'getPayGrade']);
 // ------------- get office by district --------------
 Route::get('/get-offices-by-district',[PublicController::class,'getOfficeByDistrict']);
+// -------- fetch offices by district and depertment --------------
+Route::get('/fetch-off-dist-dept',[PublicController::class,'fetchOfficeDistDept']);

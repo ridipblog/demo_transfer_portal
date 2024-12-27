@@ -94,6 +94,19 @@
                 id="idNum" readonly> --}}
             <p class="registration-error capitalize pt-1" style="color:red"></p>
         </div>
+        <div>
+            <label class="block mb-1 text-xs md:text-sm font-semibold reqd text-gray-800">@lang('user.form.basic_info.h_d')</label>
+            <select id="home_district" name="home_district"
+                class="registration-input preview-input disabled:bg-gray-100 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full">
+                <option value="" {{ $persioanl_data->home_district_id ?? 'selected' }} disabled>— Select —</option>
+                @foreach ($viewData['districts'] as $district)
+                    <option value="{{ $district->id ?? '' }}"
+                        {{ $persioanl_data->home_district_id == $district->id ? 'selected' : '' }}>
+                        {{ $district->name }}</option>
+                @endforeach
+            </select>
+            <p class="registration-error capitalize pt-1" style="color:red"></p>
+        </div>
         {{-- <div>
             <label class="block mb-1 text-xs md:text-sm font-semibold reqd text-gray-800">@lang('user.form.basic_info.heading')</label>
             <input type="text" name="pan_number"

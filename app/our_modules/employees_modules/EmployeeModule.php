@@ -3,6 +3,7 @@
 namespace  App\our_modules\employees_modules;
 
 use App\Models\Transfer\TransfersModel;
+use App\Models\trash\RejectedDocumentsModel;
 use App\Models\User_auth\UserCredentialsModel;
 use Illuminate\Support\Facades\Auth;
 
@@ -153,12 +154,13 @@ class EmployeeModule
         // return $main_query;
     }
     // ------------- is any rejection by employees ---------------
-    public static function isRejectionByEmp($user_id,$target_id){
-        $main_query=TransfersModel::query();
-        $main_query->whereIn('employee_id',[$user_id,$target_id])
-        ->whereIn('target_employee_id',[$user_id,$target_id])
-        ->where('request_status_by_target_emp',2)
-        ->where('request_status',2);
+    public static function isRejectionByEmp($user_id, $target_id)
+    {
+        $main_query = TransfersModel::query();
+        $main_query->whereIn('employee_id', [$user_id, $target_id])
+            ->whereIn('target_employee_id', [$user_id, $target_id])
+            ->where('request_status_by_target_emp', 2)
+            ->where('request_status', 2);
         return $main_query;
     }
     // --------------- is transfer request done --------------------
@@ -218,14 +220,14 @@ class EmployeeModule
             'transfer_employee_user.noc_generated_by_user.departments' => function ($query) {},
             'transfer_employee_user.noc_generated_by_user.districts' => function ($query) {},
             'transfer_employee_user.employment_details' => function ($query) {
-                $query->select('id', 'user_id', 'district_id', 'depertment_id', 'office_id', 'designation_id', 'pay_grade', 'pay_band');
+                $query->select('id', 'user_id', 'district_id', 'depertment_id', 'office_id', 'designation_id', 'pay_grade', 'pay_band','directorate_id');
             },
             'transfer_employee_target_user.noc_generated_by_user' => function ($query) {},
             // 'transfer_employee_target_user.noc_generated_by_user.post_names' => function ($query) {},
             'transfer_employee_target_user.noc_generated_by_user.departments' => function ($query) {},
             'transfer_employee_target_user.noc_generated_by_user.districts' => function ($query) {},
             'transfer_employee_target_user.employment_details' => function ($query) {
-                $query->select('id', 'user_id', 'district_id', 'depertment_id', 'office_id', 'designation_id', 'pay_grade', 'pay_band');
+                $query->select('id', 'user_id', 'district_id', 'depertment_id', 'office_id', 'designation_id', 'pay_grade', 'pay_band','directorate_id');
             },
             'transfer_employee_user.employment_details.post_names' => function ($query) {},
             'transfer_employee_target_user.employment_details.post_names' => function ($query) {},
@@ -238,7 +240,9 @@ class EmployeeModule
             'transfer_employee_user.employment_details.districts' => function ($query) {},
             'transfer_employee_target_user.employment_details.districts' => function ($query) {},
             'transfer_employee_user.employment_details.departments' => function ($query) {},
+            'transfer_employee_user.employment_details.directorate' => function ($query) {},
             'transfer_employee_target_user.employment_details.departments' => function ($query) {},
+            'transfer_employee_target_user.employment_details.directorate' => function ($query) {},
             'transfer_employee_user.documents' => function ($query) {
                 $query->where('document_type', 2);
             },

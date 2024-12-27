@@ -960,11 +960,12 @@ class PublicController extends Controller
                 $related_models = [
                     'post_names' => []
                 ];
-                if ($request->query('is_district') == "false") {
+                if ($request->query('is_district') == "false" || $request->query('is_directorate') == "false") {
                     $main_query = EmployeeModule::dynamicOneModelsQuery(new DepertPostsMapModel(), $conditions, $related_models);
                     $res_data['posts'] = $main_query->get();
                     $res_data['dept'] = $request->query('depertment_id');
                 }
+
                 // $main_query = EmployeeModule::dynamicOneModelsQuery(new OfficeFinAsssamModel(), [
                 //     ['department_id', $request->query('depertment_id')],
                 //     ['district_id',$request->query('district_id') ?? true]
@@ -975,7 +976,8 @@ class PublicController extends Controller
                 $main_query->with(['office_fin_assam'])
                     ->where([
                         ['district_id', $request->query('district_id')],
-                        ['depertment_id', $request->query('depertment_id')]
+                        ['depertment_id', $request->query('depertment_id')],
+                        ['directorate_id',$request->query('directorate_id')]
                     ]);
                 $res_data['offices'] = $main_query->get();
                 $res_data['status'] = 200;
@@ -1125,6 +1127,32 @@ class PublicController extends Controller
         }
 
         return redirect(app()->getLocale() . '/user-login');
+    }
+    // -------------- fetch offices by district and depertment --------------
+    public function fetchOfficeDistDept(Request $request)
+    {
+        $res_data = [
+            'status' => 400,
+            'message' => ''
+        ];
+        $district_id = $request->input('district_id');
+        $depertment_id = $request->input('depertment_id');
+        if ($district_id && $depertment_id) {
+            try {
+                $main_query = OfficesDistDeptModel::with('office_fin_assam')
+                ->where('depertment_id', $depertment_id);
+                if ($district_id !== 'all') {
+                    $main_query->where('district_id', $district_id);
+                }
+                $res_data['offices'] = $main_query->get();
+                $res_data['status']=200;
+            } catch (Exception $err) {
+                $res_data['message'] = "Server error please try later !";
+            }
+        } else {
+            $res_data['message'] = "Select district and depertment ";
+        }
+        return response()->json(['res_data' => $res_data]);
     }
     // --------------------- chanage lang ---------------------
     public function chanageLang(Request $request)

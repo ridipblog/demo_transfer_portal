@@ -41,33 +41,41 @@
                     <div class="lg:col-span-2">
 
                         @php
-                            $profile_status_text =
-                                $logged_persion->profile_verify_status == 1
-                                    ? (isset($transfer_data)
-                                        ? ($transfer_data['2nd_recommend'] == 1 || $transfer_data['final_approval'] == 2
-                                            ? 'second_transfer_verification'
-                                            : 'noc_status')
-                                        : 'noc_status')
-                                    : 'profile_status';
+                            // $profile_status_text =
+                            //     $logged_persion->profile_verify_status == 1
+                            //         ? (isset($transfer_data)
+                            //             ? ($transfer_data['2nd_recommend'] == 1 || $transfer_data['final_approval'] == 2
+                            //                 ? 'second_transfer_verification'
+                            //                 : 'noc_status')
+                            //             : 'noc_status')
+                            //         : 'profile_status';
+                            $profile_status_text = isset($transfer_data)
+                                ? ($transfer_data->final_approval==0 ?'profile_status' :'final_approval')
+                                : 'profile_status';
                             $profile_status_index =
                                 $logged_persion->profile_verify_status == 1
                                     ? (isset($transfer_data)
-                                        ? ($transfer_data['final_approval'] == 2
-                                            ? $transfer_data['final_approval']
-                                            : ($transfer_data['2nd_recommend'] == 1
-                                                ? $transfer_data['2nd_recommend']
-                                                : $logged_persion->noc_generate))
-                                        : $logged_persion->noc_generate)
+                                        ? ($transfer_data->final_approval==0 ? $logged_persion->profile_verify_status : $transfer_data->final_approval)
+                                        : $logged_persion->profile_verify_status)
                                     : $logged_persion->profile_verify_status;
+                            // $profile_status_index =
+                            //     $logged_persion->profile_verify_status == 1
+                            //         ? (isset($transfer_data)
+                            //             ? ($transfer_data['final_approval'] == 2
+                            //                 ? $transfer_data['final_approval']
+                            //                 : ($transfer_data['2nd_recommend'] == 1
+                            //                     ? $transfer_data['2nd_recommend']
+                            //                     : $logged_persion->noc_generate))
+                            //             : $logged_persion->noc_generate)
+                            //         : $logged_persion->profile_verify_status;
                         @endphp
                         <div class="mb-6 lg:mb-12">
-
-                            @if (
+                            {{-- @if (
                                 !$transfer_data ||
                                     (isset($transfer_data)
                                         ? ($transfer_data['2nd_recommend'] == 1 && $transfer_data['final_approval'] == 0) ||
                                             $transfer_data['final_approval'] == 2
-                                        : false))
+                                        : false)) --}}
                                 <div @php $color=__('user.profile_alter_text.'.$profile_status_text. '.' . $profile_status_index . '.color' ) ?? '' ; @endphp
                                     class="bg-{{ $color }}-100 p-6 text-{{ $color }}-600 mb-12 rounded-3xl">
                                     <div class="flex items- justify-center gap-6">
@@ -87,15 +95,15 @@
                                         </div>
                                     </div>
                                 </div>
-                            @endif
+                            {{-- @endif --}}
                             @if (!$view_data['is_verified'])
                                 <!-- start Until verification pending -->
                                 @if ($logged_persion->profile_verify_status != 3)
                                     @php
                                         $employee_all_details = $view_data['employee_all_data'];
-                                        $verifier_add_documents = $verifier_add_documents;
                                     @endphp
-                                    <x-employees.pendding-dash-content-component :viewData=$employee_all_details :verifierAddDocuments=$verifier_add_documents>
+                                    <x-employees.pendding-dash-content-component :viewData=$employee_all_details
+                                        :rejectedData=$rejected_data>
                                     </x-employees.pendding-dash-content-component>
                                 @endif
                                 <!-- end Until verification pending -->

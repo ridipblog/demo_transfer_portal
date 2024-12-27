@@ -95,7 +95,7 @@ class TransferRequestController extends Controller
                             } else {
                                 $main_query->update([
                                     'request_status' => $request->request_action == "accept" ? 1 : 2,
-                                    'request_status_by_target_emp'=>$request->request_action=="accept" ? 0 : 2,
+                                    'request_status_by_target_emp' => $request->request_action == "accept" ? 0 : 2,
                                     'transfer_ref_code' => $request->request_action == "accept" ? $transfer_ref_code : null
                                 ]);
 
@@ -220,27 +220,68 @@ class TransferRequestController extends Controller
                             }
                             $main_query->whereHas('employment_details', function ($query) use ($request, $logged_users) {
                                 // $query->where('depertment_id', $logged_users->employment_details->depertment_id);
-                                $query->where('dept_post_id', $logged_users->employment_details->dept_post_id);
+                                $query->where('dept_post_id', $logged_users->employment_details->dept_post_id)
+                                    ->where('directorate_id', $logged_users->employment_details->directorate_id);
                             });
-                            $main_query->whereDoesntHave('employee_transfer_request', function ($query) use($logged_users) {
-                                $query->where(function($sub_query) use($logged_users){
+                            $main_query->whereDoesntHave('employee_transfer_request', function ($query) use ($logged_users) {
+                                $query->where(function ($sub_query) use ($logged_users) {
                                     $sub_query->where('target_employee_id', $logged_users->id)
-                                    ->where('request_status_by_target_emp', 2);
-                                })->orWhere(function($sub_query){
-                                    $sub_query->whereIn('request_status',[0,1])
-                                    ->whereIn('final_approval',[0,1]);
+                                        ->where('request_status_by_target_emp', 2);
+                                })->orWhere(function ($sub_query) {
+                                    $sub_query->whereIn('request_status', [0, 1])
+                                        ->whereIn('final_approval', [0, 1]);
                                 });
                             });
-                            $main_query->whereDoesntHave('employee_transfer_target_request', function ($query) use($logged_users) {
-                                $query->where(function($sub_query) use($logged_users){
+                            $main_query->whereDoesntHave('employee_transfer_target_request', function ($query) use ($logged_users) {
+                                $query->where(function ($sub_query) use ($logged_users) {
                                     $sub_query->where('employee_id', $logged_users->id)
-                                    ->where('request_status_by_target_emp', 2);
-                                })->orWhere(function($sub_query){
-                                    $sub_query->where('request_status',1)
-                                    ->whereIn('final_approval',[0,1]);
+                                        ->where('request_status_by_target_emp', 2);
+                                })->orWhere(function ($sub_query) {
+                                    $sub_query->where('request_status', 1)
+                                        ->whereIn('final_approval', [0, 1]);
                                 });
                             });
-                            $search_filter_data=$main_query->get();
+
+                            // ------------- start  multiple mutual transfer code not completed ----------------
+                            // $main_query->where(function ($query) use($logged_users) {
+                            //     // Include records where no transfer data exists
+                            //     $query->whereDoesntHave('employee_transfer_request')
+                            //         ->whereDoesntHave('employee_transfer_target_request');
+
+                            //     // Apply conditions on employee_transfer_request
+                            //     $query->orWhereHas('employee_transfer_request', function ($sub_query) use($logged_users) {
+                            //         $sub_query->where(function ($inner_query_2) use ($logged_users) {
+                            //             $inner_query_2->where('request_status_by_target_emp', '!=', 2)
+                            //                 ->where('target_employee_id', $logged_users->id);
+                            //         })->orWhere(function($inner_query){
+                            //             $inner_query->where(function ($inner_query) {
+                            //                 $inner_query->where('final_approval', 1)
+                            //                     ->where('updated_at', '<', now()->subMonths(2));
+                            //             })->orWhere('final_approval', 2)
+                            //             ->orWhere('request_status', 2);
+                            //         });
+
+                            //     });
+
+                            //     // Apply conditions on employee_transfer_target_request
+                            //     $query->orWhereHas('employee_transfer_target_request', function ($sub_query) use($logged_users){
+                            //         $sub_query->where(function ($inner_query_2) use ($logged_users) {
+                            //             $inner_query_2->where('request_status_by_target_emp', '!=', 2)
+                            //                 ->where('employee_id', $logged_users->id);
+                            //         })->where(function($inner_query){
+                            //             $inner_query->where(function ($inner_query) {
+                            //                 $inner_query->where('final_approval', 1)
+                            //                     ->where('updated_at', '<', now()->subMonths(2));
+                            //             })->orWhere('final_approval', 2)
+                            //                 ->orWhere('request_status', 2);
+                            //         });
+
+                            //     });
+                            // });
+
+                            // ------------- end  multiple mutual transfer code not completed ----------------
+
+                            $search_filter_data = $main_query->get();
                             // $search_all_data = $main_query->get();
                             // $search_filter_data = [];
                             // foreach ($search_all_data as $all_data) {

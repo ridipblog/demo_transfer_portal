@@ -3,7 +3,7 @@
         <div
             class="max-w-7xl mx-auto flex justify-between items-center lg:px-4 py-1 text-[0.625rem] lg:text-xs text-white gap-2">
             <div class="flex gap-1 lg:gap-4">
-                <div class="flex gap-1"><i class="bi bi-telephone"> </i>+91 882 676 2317</div>
+                <div class="flex gap-1"><i class="bi bi-telephone"> </i>+91 970 722 9761</div>
                 <div class="flex gap-1"><i class="bi bi-at"> </i>helpdesk.swagatasatirtha@gmail.com</div>
             </div>
             <div class="">
@@ -58,6 +58,11 @@
                 <a href="{{ route('search.profile', ['lang' => app()->getLocale()]) }}"
                     class="transition-all duration-150 border-b-2 pb- {{ Route::currentRouteName() === 'search.profile' ? 'border-white' : 'border-transparent hover:border-white' }}">
                     @lang('user.nav_menu.apl')
+                </a>
+                |
+                <a href="{{ route('transfer.history', ['lang' => app()->getLocale()]) }}"
+                    class="transition-all duration-150 border-b-2 pb- {{ Route::currentRouteName() === 'transfer.history' ? 'border-white' : 'border-transparent hover:border-white' }}">
+                    @lang('user.nav_menu.t_history')
                 </a>
             </div>
         </div>

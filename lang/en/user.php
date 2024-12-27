@@ -6,6 +6,7 @@ return [
     'nav_menu' => [
         'dash' => 'Dashboard',
         'apl' => 'Applicants',
+        't_history'=>'History',
         'logout' => 'Logout',
     ],
     'heading' => 'Create Your Profile',
@@ -27,6 +28,7 @@ return [
             'apno' => 'Alt. Phone number',
             'email' => 'Email',
             'pan' => 'PAN Number',
+            'h_d'=>'Home District',
             'messages' => [
                 'title' => 'Persional information not found !!',
                 'text' => 'We were unable to find your persional information. Please try again later.',
@@ -36,9 +38,11 @@ return [
             'heading' => 'Employment Information',
             'dist_cp' => 'District (Current Posting)',
             'dept_cp' => 'Department (Current Posting)',
+            'direc_cp'=>'Directorate (Current Posting)',
             'office_cp' => 'Office (Current Posting)',
             'desg_cp' => 'Designation (Current Posting)',
             'doj_fj' => 'Date of Joining (First Joining)',
+            'time_of_service'=>'Time of service',
             'doj_cp' => 'Date of Joining (Current Posting)',
             'g_pay' => 'Grade Pay',
             'p_bank' => 'Pay Band',
@@ -81,6 +85,10 @@ return [
             5 => 'no_govt_due_certificate',
             6 => 'appointment_letter',
             7 => 'first_page_of_service_book',
+        ],
+        'rej_info'=>[
+            'heading'=>'Rejection Information',
+            'main_com'=>'All over comments for this rejections',
         ],
         'submit' => [
             'decl_1' => 'I hereby declare that all information provided is correct to the best of my knowledge. I understand that if any discrepancy is found, my application is liable to be rejected.',
@@ -225,6 +233,18 @@ return [
                 'color' => 'yellow',
                 'header' => 'Transfer is recommend by Department HOD ',
                 'body' => 'Transfer request is recommended by the department HOD, please wait for approval.',
+            ],
+            2 => [
+                'color' => 'red',
+                'header' => 'Transfer is rejected',
+                'body' => 'Transfer application is rejected , now you can request again  ',
+            ],
+        ],
+        'final_approval' => [
+            1 => [
+                'color' => 'yellow',
+                'header' => 'Transfer is approved by Department HOD ',
+                'body' => 'Transfer request is approved by the department HOD.',
             ],
             2 => [
                 'color' => 'red',
