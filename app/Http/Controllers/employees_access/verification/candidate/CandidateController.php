@@ -102,24 +102,6 @@ class CandidateController extends Controller
                                 ->orWhere('target_employee_employment.designation_id', $request->input('post'));
                         });
                     })
-                    // ->when($authority_maps->isNotEmpty(), function ($query) use ($authority_maps, $request) {
-                    //     if ($request->input('office') == null && $request->input('district') == null) {
-                    //         return $query->where(function ($query) use ($authority_maps, $request) {
-                    //             foreach ($authority_maps as $map) {
-                    //                 $query->orWhere(function ($subQuery) use ($map, $request) {
-                    //                     if ($map->office_id && is_null($map->district_id)) {
-                    //                         $subQuery->where('employee_employment.office_id', $map->office_id)->orWhere('target_employee_employment.office_id', $map->office_id);
-                    //                     } elseif ($map->district_id && is_null($map->office_id)) {
-                    //                         $subQuery->where('target_employee_employment.district_id', $map->district_id)->orWhere('target_employee_employment.district_id', $map->district_id);
-                    //                     } elseif ($map->office_id && $map->district_id) {
-                    //                         $subQuery->where('employee_employment.office_id', $map->office_id)->orWhere('target_employee_employment.office_id', $map->office_id)
-                    //                             ->where('employment_details.district_id', $map->district_id)->orWhere('target_employee_employment.district_id', $map->district_id);
-                    //                     }
-                    //                 });
-                    //             }
-                    //         });
-                    //     }
-                    // });
                     ->when($authority_maps->isNotEmpty(), function ($query) use ($authority_maps, $request) {
                         if ($request->input('office') == null && $request->input('district') == null) {
                             return $query->where(function ($query) use ($authority_maps) {
@@ -153,11 +135,13 @@ class CandidateController extends Controller
             } else {
                 $data = $pendingTransfers->whereIn('final_approval', [0, 1])->where('request_status', 1);
             }
+            // dd($data);
             $type = 'pending';
             if ($request->input('status') != '') {
                 $type = $request->input('status');
             }
             if ($request->input('status') == 'approved') {
+                // dd('heere');
                 $verified_users = $data->where('request_status', 1)->where('final_approval', 1)->where('2nd_recommend', 1)->get();
             } else if ($request->input('status') == 'pending') {
                 $verified_users = $data->where('request_status', 1)->where('final_approval', 0)->where(function ($query) {
@@ -1312,6 +1296,7 @@ class CandidateController extends Controller
                         'verified_remarks_status' => $request->forms_number > 0  ? 1 : 0,
                         'verified_remarks' => $request->verifier_remarks,
                         'verified_on' => Carbon::now(),
+                        'noc_generate' => 1,
                         'comment' => $request->input('comment') != null ? $request->input('comment') : null,
                     ]);
                 DB::commit();
@@ -1471,8 +1456,11 @@ class CandidateController extends Controller
                 $decryptedId = Crypt::decryptString($id);
 
                 // Retrieve data for the specific user
-                $data = DB::table('rejected_documents')->where('user_id', $decryptedId)->get();
-                return view('verification.pages.resubmitted-data', compact('data'));
+                $data = DB::table('rejected_documents')->where('user_id', $decryptedId)->first();
+                if ($data != null) {
+                    $data2 = DB::table('authority_rejections')->where('rejected_document_id', $data->id)->get();
+                }
+                return view('verification.pages.resubmitted-data', compact('data2'));
             } catch (Exception $err) {
                 // Handle decryption or other errors
                 return back()->withErrors(['error' => 'An error occurred: ' . $err->getMessage()]);
