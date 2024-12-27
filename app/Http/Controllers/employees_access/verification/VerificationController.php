@@ -86,7 +86,7 @@ class VerificationController extends Controller
 
     public function department_index()
     {
-        if (Auth::guard('user_guard')->check() && Auth::guard('user_guard')->user()->role_id == 7) {
+        if (Auth::guard('user_guard')->check() && Auth::guard('user_guard')->user()->role_id == 2) {
             $verifier = appointing_authorities::where('id', Auth::guard('user_guard')->user()->user_id)->first();
             $uu = appointing_authorities::leftJoin('deptartments', 'appointing_authorities.department', '=', 'deptartments.id')
                 ->leftJoin('districts', 'appointing_authorities.district', '=', 'districts.id')
@@ -98,7 +98,7 @@ class VerificationController extends Controller
                 'department_name' => $uu->department_name,
                 'district_name' => 'All District',
                 'verifier_name' => $uu->verifier_name,
-                'role' =>  Auth::guard('user_guard')->user()->roles->role,
+                'role' =>  Auth::guard('user_guard')->user()->roles->display_name,
                 'office' => 'All Office',
                 'is_dept' => 1,
             ]);
@@ -118,7 +118,7 @@ class VerificationController extends Controller
 
     public function department_all_request()
     {
-        if (Auth::guard('user_guard')->check() && Auth::guard('user_guard')->user()->role_id == 7) {
+        if (Auth::guard('user_guard')->check() && Auth::guard('user_guard')->user()->role_id == 2) {
             $user = appointing_authorities::where('id', Auth::guard('user_guard')->user()->user_id)->first();
             $district = DistrictModel::get(['id', 'name']);
             $department = departments::where('id', $user->department)->first();
@@ -683,14 +683,13 @@ class VerificationController extends Controller
             $uu = $user;
             $authority_maps = $map_data;
             // dd($authority_maps);
-
             if (Auth::guard('user_guard')->user()->role_id == 7) {
                 $dept_ids = authority_office_dist_map::where('user_id', $user->id)->where('role_id', 7)->pluck('department_id')->toArray();
             } else {
                 $dept_ids = authority_office_dist_map::where('user_id', $user->id)->where('role_id', 2)->pluck('department_id')->toArray();
             }
             $d = AllLoginModel::where('user_id', $uu->id)->leftJoin('roles', 'all_login.role_id', '=', 'roles.id')->select('roles.role', 'roles.display_name as display_name')->first();
-
+            $dir = authority_office_dist_map::where('user_id', $user->id)->where('role_id', 2)->pluck('directorate_id')->first();
 
             $pendingTransfers = TransfersModel::where('request_status', 0)->where('final_approval', '!=', 2)->where('2nd_recommend', '!=', 2)->where('request_status', '!=', 0)->where('request_status', '!=', 2)
                 ->leftJoin('user_credentials as employee', 'transafers.employee_id', '=', 'employee.id')
@@ -699,6 +698,11 @@ class VerificationController extends Controller
                 ->leftJoin('employment_details as target_employee_employment', 'transafers.target_employee_id', '=', 'target_employee_employment.user_id')
                 ->whereIn('employee_employment.depertment_id', $dept_ids)
                 ->whereIn('target_employee_employment.depertment_id', $dept_ids);
+            // ->where('employee_employment.directorate_id', $dir)
+            // ->where('target_employee_employment.directorate_id', $dir);
+            if ($dir != null) {
+                $pendingTransfers->where('employee_employment.directorate_id', $dir)->where('target_employee_employment.directorate_id', $dir);
+            }
             if ($authority_maps->isNotEmpty()) {
                 $pendingTransfers->where(function ($query) use ($authority_maps) {
                     foreach ($authority_maps as $map) {
@@ -748,7 +752,12 @@ class VerificationController extends Controller
                 ->leftJoin('employment_details as target_employee_employment', 'transafers.target_employee_id', '=', 'target_employee_employment.user_id')
                 ->whereIn('employee_employment.depertment_id', $dept_ids)
                 ->whereIn('target_employee_employment.depertment_id', $dept_ids);
-
+            // ->where('employee_employment.directorate_id', $dir)
+            // ->where('target_employee_employment.directorate_id', $dir);
+            if ($dir != null) {
+                $allTransfers->where('employee_employment.directorate_id', $dir)->where('target_employee_employment.directorate_id', $dir);
+            }
+            // dd($allTransfers->get());
             // Apply authority map filters if available
             if ($authority_maps->isNotEmpty()) {
                 $allTransfers->where(function ($query) use ($authority_maps) {
@@ -776,8 +785,6 @@ class VerificationController extends Controller
                     }
                 });
             }
-
-
             // Select specific columns, order by updated_at, and get the results
             $allTransfers = $allTransfers->select(
                 'employee.full_name as employee_name',
@@ -799,6 +806,9 @@ class VerificationController extends Controller
                 ->leftJoin('employment_details as target_employee_employment', 'transafers.target_employee_id', '=', 'target_employee_employment.user_id')
                 ->whereIn('employee_employment.depertment_id', $dept_ids)
                 ->whereIn('target_employee_employment.depertment_id', $dept_ids);
+            if ($dir != null) {
+                $rejectedTransfers->where('employee_employment.directorate_id', $dir)->where('target_employee_employment.directorate_id', $dir);
+            }
 
             if ($authority_maps->isNotEmpty()) {
                 $rejectedTransfers->where(function ($query) use ($authority_maps) {
@@ -839,7 +849,6 @@ class VerificationController extends Controller
                 ->orderBy('transafers.updated_at', 'desc')
                 ->get();
 
-
             // $approvedTransfers = TransfersModel::where('final_approval', 1)->get();
             $approvedTransfers = TransfersModel::where('final_approval', 1)->where('request_status', '!=', 0)->where('request_status', '!=', 2)
                 ->leftJoin('user_credentials as employee', 'transafers.employee_id', '=', 'employee.id')
@@ -848,7 +857,6 @@ class VerificationController extends Controller
                 ->leftJoin('employment_details as target_employee_employment', 'transafers.target_employee_id', '=', 'target_employee_employment.user_id')
                 ->whereIn('employee_employment.depertment_id', $dept_ids)
                 ->whereIn('target_employee_employment.depertment_id', $dept_ids);
-
             if ($authority_maps->isNotEmpty()) {
                 $approvedTransfers->where(function ($query) use ($authority_maps) {
                     foreach ($authority_maps as $map) {
@@ -1445,6 +1453,10 @@ class VerificationController extends Controller
                     } else {
                         $department_dash = 0;
                     }
+
+                    // if (in_array(2, $roles)) {
+                    //     $department_dash = 1;
+                    // }
                     // /////////////////////////////////////////////////////////////////////////////////
                     if (in_array(5, $roles) && in_array(6, $roles)) {
                         $attemp_data = [
@@ -1477,6 +1489,11 @@ class VerificationController extends Controller
                             'user_type' => 2,
                             'role_id' => 3
                         ];
+                    }
+
+
+                    if (in_array(2, $roles)) {
+                        $department_dash = 1;
                     }
                     // //////////////////////////////////////////////////////////////////////////////////
                     if (Auth::guard('user_guard')->attempt($attemp_data)) {

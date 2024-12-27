@@ -99,6 +99,7 @@
                             <p class="font-bold">{{ Session::get('verifier_name') }}</p>
                             <p class="text-gray-600 text-xs">
                                 @if (Session::get('is_dept') == 1)
+                                    {{-- {{dd('here')}} --}}
                                     {{ Session::get('role') }}
                                 @else
                                     {{ Session::has('display_role_name') ? Session::get('display_role_name') : 'N/A' }}

@@ -172,17 +172,20 @@ class UserAuthModule extends RequestModule {
         $('.verification-login-error').html('')
         this.formPostReponse = async (response) => {
             console.log(response)
+            // alert('ee')
             if (response.res_data.status == 200) {
                 if (response.res_data.first_login == 1) {
                     if(response.res_data.department_dash == 1){
                         var locale = window.App?.locale;
+                        // alert('here');
                         window.location.href = `/${locale}/department/department-dashboard`;
                     }else{
                         if (response.res_data.role == 'Approver') {
                             var locale = window.App?.locale;
 
                                 var locale = window.App?.locale;
-                                window.location.href = `/${locale}/verifier/verifier-dashboard`;
+                                // window.location.href = `/${locale}/verifier/verifier-dashboard`;
+                                window.location.href = `/${locale}/department/department-dashboard`;
                         } else {                    
                                 var locale = window.App?.locale;                       
                                 window.location.href = `/${locale}/verifier/verifier-dashboard`;
@@ -214,6 +217,7 @@ class UserAuthModule extends RequestModule {
         var form_data = new FormData($(form)[0]);
         $('.verification-login-error').html('')
         this.formPostReponse = async (response) => {
+            // alert('here')
             if (response.res_data.status == 200) {
                 if (response.res_data.first_login == 1) {
                     var locale = window.App?.locale;

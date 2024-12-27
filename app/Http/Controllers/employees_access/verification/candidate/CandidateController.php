@@ -44,6 +44,7 @@ class CandidateController extends Controller
     // department ///////////////////////////////
     public function department_fetch_candidates_approval(Request $request)
     {
+        // dd('here');
         $user = Auth::guard('user_guard')->user();
         $roleName = '';
         if ($user) {
@@ -54,6 +55,7 @@ class CandidateController extends Controller
         try {
             $verifier = appointing_authorities::where('id', Auth::guard('user_guard')->user()->user_id)->first();
             $authority_maps = authority_office_dist_map::where('user_id', $verifier->id)->get();
+            $dir = authority_office_dist_map::where('user_id', $user->id)->where('role_id', 2)->pluck('directorate_id')->first();
             $pendingTransfers = TransfersModel::leftJoin('user_credentials as employee', 'transafers.employee_id', '=', 'employee.id')
                 ->leftJoin('user_credentials as target_employee', 'transafers.target_employee_id', '=', 'target_employee.id')
                 ->leftJoin('employment_details as employee_employment', 'transafers.employee_id', '=', 'employee_employment.user_id')
@@ -64,7 +66,9 @@ class CandidateController extends Controller
                 ->where('target_employee_employment.depertment_id', $verifier->department)
                 ->select('employee.full_name as employee_name', 'target_employee.full_name as target_employee_name', 'transafers.id as id', 'transafers.jto_generate_status', 'transafers.transfer_ref_code', 'transafers.2nd_recommend as second_recommend')
                 ->orderBy('transafers.updated_at', 'desc');
-
+            if ($dir != null) {
+                $pendingTransfers->where('employee_employment.directorate_id', $dir)->where('target_employee_employment.directorate_id', $dir);
+            }
             if ($request->input('office') != null || $request->input('district') != null || $request->input('post') != null || $request->input('pan_search') != null) {
                 $data = $pendingTransfers
                     ->leftJoin('offices_finassam as employee_offices', 'employee_employment.office_id', '=', 'employee_offices.id')
@@ -1326,6 +1330,7 @@ class CandidateController extends Controller
 
     public function fetch_candidates_approval(Request $request)
     {
+        dd('here');
         // dd('hello');
         $user = Auth::guard('user_guard')->user();
         $roleName = '';
@@ -1337,6 +1342,7 @@ class CandidateController extends Controller
         try {
             $verifier = appointing_authorities::where('id', Auth::guard('user_guard')->user()->user_id)->first();
             $authority_maps = authority_office_dist_map::where('user_id', $verifier->id)->get();
+            $dir = authority_office_dist_map::where('user_id', $user->id)->where('role_id', 2)->pluck('directorate_id')->first();
             $pendingTransfers = TransfersModel::leftJoin('user_credentials as employee', 'transafers.employee_id', '=', 'employee.id')->where('2nd_recommend', '!=', 2)
                 ->leftJoin('user_credentials as target_employee', 'transafers.target_employee_id', '=', 'target_employee.id')
                 ->leftJoin('employment_details as employee_employment', 'transafers.employee_id', '=', 'employee_employment.user_id')
@@ -1347,7 +1353,9 @@ class CandidateController extends Controller
                 ->where('target_employee_employment.depertment_id', $verifier->department)
                 ->select('employee.full_name as employee_name', 'target_employee.full_name as target_employee_name', 'transafers.id as id', 'transafers.transfer_ref_code', 'transafers.jto_generate_status', 'transafers.2nd_recommend as second_recommend')
                 ->orderBy('transafers.updated_at', 'desc');
-
+            if ($dir != null) {
+                $pendingTransfers->where('employee_employment.directorate_id', $dir)->where('target_employee_employment.directorate_id', $dir);
+            }
             if ($request->input('office') != null || $request->input('district') != null || $request->input('post') != null || $request->input('pan_search') != null) {
                 $data = $pendingTransfers
                     ->leftJoin('offices_finassam as employee_offices', 'employee_employment.office_id', '=', 'employee_offices.id')

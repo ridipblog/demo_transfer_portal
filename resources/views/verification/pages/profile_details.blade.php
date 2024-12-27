@@ -111,147 +111,145 @@
                             <p class="font-semibold">{{ $candidate->employment_details->departments->name ?? 'N/A' }}</p>
                         </div>
                         <!-- <div class="">
-    <<<<<<< HEAD
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">DDO Code</label>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <p class="font-semibold">{{ $candidate->employment_details->ddo_code ?? 'N/A' }}</p>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </div> -->
-                        =======
-                        <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">DDO Code</label>
-                        <p class="font-semibold">{{ $candidate->employment_details->ddo_code ?? 'N/A' }}</p>
-                    </div> -->
-                    >>>>>>> master
-                    <div class="col-span-2">
-                        <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('user.form.emp_info.office_cp')</label>
-                        <p class="font-semibold">{{ $candidate->employment_details->offices_finassam->name ?? 'N/A' }}
-                        </p>
-                    </div>
-                    <div>
-                        <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('user.form.emp_info.desg_cp')</label>
-                        <p class="font-semibold">{{ $candidate->employment_details->post_names->name ?? 'N/A' }}</p>
-                    </div>
-                    <div>
-                        <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('user.form.emp_info.doj_fj')
-                        </label>
-                        <p class="font-semibold">
-                            {{ \Carbon\Carbon::parse($candidate->employment_details->first_date_of_joining)->format('d-m-Y') ?? 'N/A' }}
-                        </p>
-                    </div>
-                    <div>
-                        <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('user.form.emp_info.doj_cp')
-                        </label>
-                        <p class="font-semibold">
-                            {{ \Carbon\Carbon::parse($candidate->employment_details->current_date_of_joining)->format('d-m-Y') ?? 'N/A' }}
-                        </p>
-                    </div>
-                    <div>
-                        <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('user.form.emp_info.g_pay')</label>
-                        <p class="font-semibold">{{ $candidate->employment_details->pay_grade ?? 'N/A' }}</p>
-                    </div>
-                    <div>
-                        <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('user.form.emp_info.p_bank')</label>
-                        <p class="font-semibold">{{ $candidate->employment_details->pay_band ?? 'N/A' }}</p>
-                    </div>
-                </div>
-                <div class="grid grid-cols-3 gap-4 border border-sky-500 rounded-3xl border-b-4 border-r-4 p-6">
-                    <div class="col-span-3">
-                        <p class="text-lg font-bold text-sky-700">@lang('user.form.prefs.heading')</p>
-                    </div>
-                    @php
-                        $positions = [
-                            '1' => __('user.form.prefs.1'),
-                            '2' => __('user.form.prefs.2'),
-                            '3' => __('user.form.prefs.3'),
-                            '4' => __('user.form.prefs.4'),
-                            '5' => __('user.form.prefs.5'),
-                        ];
-                    @endphp
-                    @foreach ($candidate->preferences_district as $location)
-                        <div class="relative">
-                            <span
-                                class="absolute -translate-y-1/2 font-black top-1/2 left-2.5 italic text-gray-900">{{ $positions[$location->preference_no] }}</span>
-                            <div class="block p-2.5 pl-16 w-full">
-                                <p class="font-semibold">{{ $location->districts->name ?? 'N/A' }}</p>
-                            </div>
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">DDO Code</label>
+            
+                                <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">DDO Code</label>
+                                <p class="font-semibold">{{ $candidate->employment_details->ddo_code ?? 'N/A' }}</p>
+                            </div> -->
+
+                        <div class="col-span-2">
+                            <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('user.form.emp_info.office_cp')</label>
+                            <p class="font-semibold">{{ $candidate->employment_details->offices_finassam->name ?? 'N/A' }}
+                            </p>
                         </div>
-                    @endforeach
-                </div>
-
-                <div
-                    class="grid sm:grid-cols-2 md:grid-cols-3 gap-4 lg:gap-8 border border-sky-500 border-r-4 border-b-4 rounded-2xl p-10">
-                    <div class="sm:col-span-2 md:col-span-3">
-                        <p class="text-lg font-bold text-sky-700">@lang('user.form.addl_info.heading')</p>
+                        <div>
+                            <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('user.form.emp_info.desg_cp')</label>
+                            <p class="font-semibold">{{ $candidate->employment_details->post_names->name ?? 'N/A' }}</p>
+                        </div>
+                        <div>
+                            <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('user.form.emp_info.doj_fj')
+                            </label>
+                            <p class="font-semibold">
+                                {{ \Carbon\Carbon::parse($candidate->employment_details->first_date_of_joining)->format('d-m-Y') ?? 'N/A' }}
+                            </p>
+                        </div>
+                        <div>
+                            <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('user.form.emp_info.doj_cp')
+                            </label>
+                            <p class="font-semibold">
+                                {{ \Carbon\Carbon::parse($candidate->employment_details->current_date_of_joining)->format('d-m-Y') ?? 'N/A' }}
+                            </p>
+                        </div>
+                        <div>
+                            <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('user.form.emp_info.g_pay')</label>
+                            <p class="font-semibold">{{ $candidate->employment_details->pay_grade ?? 'N/A' }}</p>
+                        </div>
+                        <div>
+                            <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('user.form.emp_info.p_bank')</label>
+                            <p class="font-semibold">{{ $candidate->employment_details->pay_band ?? 'N/A' }}</p>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-3 gap-4 border border-sky-500 rounded-3xl border-b-4 border-r-4 p-6">
+                        <div class="col-span-3">
+                            <p class="text-lg font-bold text-sky-700">@lang('user.form.prefs.heading')</p>
+                        </div>
+                        @php
+                            $positions = [
+                                '1' => __('user.form.prefs.1'),
+                                '2' => __('user.form.prefs.2'),
+                                '3' => __('user.form.prefs.3'),
+                                '4' => __('user.form.prefs.4'),
+                                '5' => __('user.form.prefs.5'),
+                            ];
+                        @endphp
+                        @foreach ($candidate->preferences_district as $location)
+                            <div class="relative">
+                                <span
+                                    class="absolute -translate-y-1/2 font-black top-1/2 left-2.5 italic text-gray-900">{{ $positions[$location->preference_no] }}</span>
+                                <div class="block p-2.5 pl-16 w-full">
+                                    <p class="font-semibold">{{ $location->districts->name ?? 'N/A' }}</p>
+                                </div>
+                            </div>
+                        @endforeach
                     </div>
 
+                    <div
+                        class="grid sm:grid-cols-2 md:grid-cols-3 gap-4 lg:gap-8 border border-sky-500 border-r-4 border-b-4 rounded-2xl p-10">
+                        <div class="sm:col-span-2 md:col-span-3">
+                            <p class="text-lg font-bold text-sky-700">@lang('user.form.addl_info.heading')</p>
+                        </div>
 
-                    <div class="">
-                        <label class="block mb-1 text-xs md:text-sm font-semibold reqd text-gray-400">How many
-                            times have you
-                            availed mutual transfer ?</label>
 
-                        <p class="font-semibold truncate">
-                            {{ $candidate->additional_info->times_mutual_transfer ?? 'N/A' }}</p>
+                        <div class="">
+                            <label class="block mb-1 text-xs md:text-sm font-semibold reqd text-gray-400">How many
+                                times have you
+                                availed mutual transfer ?</label>
+
+                            <p class="font-semibold truncate">
+                                {{ $candidate->additional_info->times_mutual_transfer ?? 'N/A' }}</p>
+                        </div>
+
                     </div>
 
-                </div>
+                    {{-- ///////////////////// --}}
 
-                {{-- ///////////////////// --}}
+                    <div
+                        class="grid lg:grid-cols-3 gap-4 border border-sky-500 rounded-3xl border-b-4 border-r-4 p-6 remarks-doc-div">
+                        <div class="lg:col-span-3">
+                            <p class="text-lg font-bold text-sky-700">@lang('user.form.docs.heading')</p>
+                            <p class="text-xs font-bold text-sky-700">If any document is found to be invalid, verifying
+                                officers can provide remarks by selecting the "<span class="text-red-600">Remarks</span>"
+                                option on document.</p>
+                        </div>
 
-                <div
-                    class="grid lg:grid-cols-3 gap-4 border border-sky-500 rounded-3xl border-b-4 border-r-4 p-6 remarks-doc-div">
-                    <div class="lg:col-span-3">
-                        <p class="text-lg font-bold text-sky-700">@lang('user.form.docs.heading')</p>
-                        <p class="text-xs font-bold text-sky-700">If any document is found to be invalid, verifying
-                            officers can provide remarks by selecting the "<span class="text-red-600">Remarks</span>"
-                            option on document.</p>
-                    </div>
+                        @php
+                            $key = 1;
+                        @endphp
+                        @foreach ($candidate->documents as $document)
+                            @if (
+                                $document['document_type'] != 5 ||
+                                    ($document['document_type'] == 5 && $candidate->additional_info->pending_govt_dues == 'no'))
+                                <div class="border rounded-xl bg-neutral-60">
+                                    @php
+                                        $name = config(
+                                            'globalVariables.registration_documtns.' . $document['document_type'],
+                                        );
+                                    @endphp
+                                    <div class="flex items-center justify-between px-2">
+                                        <p class="m-0 p-2 px-8"></p>
+                                        <p class="m-0 p-2 text-xs">
+                                            {{ Str::upper(str_replace('_', ' ', __("user.form.docs.$key"))) }}</p>
 
-                    @php
-                        $key = 1;
-                    @endphp
-                    @foreach ($candidate->documents as $document)
-                        @if (
-                            $document['document_type'] != 5 ||
-                                ($document['document_type'] == 5 && $candidate->additional_info->pending_govt_dues == 'no'))
-                            <div class="border rounded-xl bg-neutral-60">
-                                @php
-                                    $name = config(
-                                        'globalVariables.registration_documtns.' . $document['document_type'],
-                                    );
-                                @endphp
-                                <div class="flex items-center justify-between px-2">
-                                    <p class="m-0 p-2 px-8"></p>
-                                    <p class="m-0 p-2 text-xs">
-                                        {{ Str::upper(str_replace('_', ' ', __("user.form.docs.$key"))) }}</p>
-
-                                    <div class="">
-                                        <input type="hidden" class="get-key"
-                                            value="{{ Str::upper(str_replace('_', ' ', __("user.form.docs.$key"))) }}">
-                                        <button type="button"
-                                            class="border border-red-600 hover:bg-red-600 text-red-600 hover:text-white rounded p-0.5 text-xs px-2 btn-remarks-doc">
-                                            {{-- <i class="bi bi-x-lg"></i> --}}
-                                            Remarks
-                                        </button>
+                                        <div class="">
+                                            <input type="hidden" class="get-key"
+                                                value="{{ Str::upper(str_replace('_', ' ', __("user.form.docs.$key"))) }}">
+                                            <button type="button"
+                                                class="border border-red-600 hover:bg-red-600 text-red-600 hover:text-white rounded p-0.5 text-xs px-2 btn-remarks-doc">
+                                                {{-- <i class="bi bi-x-lg"></i> --}}
+                                                Remarks
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="h-44 p-2 pt-0">
+                                        <img src="{{ Storage::url($document['documet_location'] ?? 'N/A') }}"
+                                            alt="" class="w-full h-full object-contain object-center">
                                     </div>
                                 </div>
-                                <div class="h-44 p-2 pt-0">
-                                    <img src="{{ Storage::url($document['documet_location'] ?? 'N/A') }}" alt=""
-                                        class="w-full h-full object-contain object-center">
-                                </div>
-                            </div>
-                        @endif
-                        @php
-                            $key++;
-                        @endphp
-                    @endforeach
+                            @endif
+                            @php
+                                $key++;
+                            @endphp
+                        @endforeach
 
-                    <div class="mt-6 lg:col-span-3 doc-remarks-label hidden">
-                        <p class="text-xs font-bold text-sky-700">Invalid document remarks</p>
+                        <div class="mt-6 lg:col-span-3 doc-remarks-label hidden">
+                            <p class="text-xs font-bold text-sky-700">Invalid document remarks</p>
+                        </div>
+
                     </div>
 
-                </div>
-
-                {{-- previous documents --}}
-                {{-- @if (count($docs2) != 0)
+                    {{-- previous documents --}}
+                    {{-- @if (count($docs2) != 0)
                         <div class="grid lg:grid-cols-3 gap-4 border border-sky-500 rounded-3xl border-b-4 border-r-4 p-6">
                             <div class="lg:col-span-3">
                                 <p class="text-lg font-bold text-sky-700">
@@ -290,340 +288,340 @@
                     @endif --}}
 
 
-                {{-- Additional documents and comments --}}
+                    {{-- Additional documents and comments --}}
 
 
 
-                @if ($user_role != 'Appointing Authority' || 'Approver')
-                    @if ($candidate->profile_verify_status != 1)
-                        <form
-                            class="grid lg:grid-cols-3 gap-4 border border-sky-500 rounded-3xl border-b-4 border-r-4 p-6 doc-section"
-                            id="form_doc_append" enctype="multipart/form-data">
-                            <div class="lg:col-span-3">
-                                <div class="h-full flex items-end">
-                                    <p class="text-lg font-bold text-sky-700">
-                                        @lang('authority_dashboard.profile_details.additional_documents')
-                                    </p>
-                                    <div class="ml-auto">
-                                        <button type="button" id="add-more"
-                                            class="ml-auto bg-sky-500 hover:bg-sky-600 border border-transparent text-white text-sm rounded-md block px-2 py-0.5">
-                                            <i class="bi bi-plus-lg text-lg pr-1"></i>
-                                            @lang('authority_dashboard.profile_details.add_more')
-                                        </button>
+                    @if ($user_role != 'Appointing Authority' || 'Approver')
+                        @if ($candidate->profile_verify_status != 1)
+                            <form
+                                class="grid lg:grid-cols-3 gap-4 border border-sky-500 rounded-3xl border-b-4 border-r-4 p-6 doc-section"
+                                id="form_doc_append" enctype="multipart/form-data">
+                                <div class="lg:col-span-3">
+                                    <div class="h-full flex items-end">
+                                        <p class="text-lg font-bold text-sky-700">
+                                            @lang('authority_dashboard.profile_details.additional_documents')
+                                        </p>
+                                        <div class="ml-auto">
+                                            <button type="button" id="add-more"
+                                                class="ml-auto bg-sky-500 hover:bg-sky-600 border border-transparent text-white text-sm rounded-md block px-2 py-0.5">
+                                                <i class="bi bi-plus-lg text-lg pr-1"></i>
+                                                @lang('authority_dashboard.profile_details.add_more')
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="lg:col-span-3">
-                                <div class="grid grid-cols-4 gap-2">
-                                    @if ($user_role == 'Appointing Authority' || 'Verifier' || 'Appointing User')
-                                        @if (count($docs) != 0 || $candidate->comment != null)
-                                            @foreach ($docs as $d)
-                                                <a href="{{ asset('storage/' . $d->document_location) }}" target="_blank"
-                                                    class="border block rounded-xl bg-neutral-600">
-                                                    <div class="text-white text-center p-2">{{ $d->remarks }}</div>
-                                                </a>
-                                            @endforeach
+                                <div class="lg:col-span-3">
+                                    <div class="grid grid-cols-4 gap-2">
+                                        @if ($user_role == 'Appointing Authority' || 'Verifier' || 'Appointing User')
+                                            @if (count($docs) != 0 || $candidate->comment != null)
+                                                @foreach ($docs as $d)
+                                                    <a href="{{ asset('storage/' . $d->document_location) }}"
+                                                        target="_blank" class="border block rounded-xl bg-neutral-600">
+                                                        <div class="text-white text-center p-2">{{ $d->remarks }}</div>
+                                                    </a>
+                                                @endforeach
+                                            @endif
                                         @endif
-                                    @endif
+                                    </div>
                                 </div>
-                            </div>
-                            <div id="comment-container" class="lg:col-span-3">
-                                <textarea name="comment" id="comment"
-                                    class="w-full rounded-md border-gray-300 shadow-sm focus:border-sky-500 focus:ring focus:ring-sky-300 focus:ring-opacity-50"
-                                    @if ($user_role != 'Verifier') disabled @endif cols="30" rows="5"
-                                    placeholder="I have concerns regarding">{{ $candidate->comment }}</textarea>
-                            </div>
-                            <input type="hidden" name="verifier_remarks" id="verifier_remarks" value="" />
-                            <input type="hidden" name="employee_id" id="candidate_verify_id" value="" />
-                            <input type="hidden" name="forms_number" id="forms_number" value="" />
-                            <!-- Dynamic divs will be appended here -->
-                        </form>
+                                <div id="comment-container" class="lg:col-span-3">
+                                    <textarea name="comment" id="comment"
+                                        class="w-full rounded-md border-gray-300 shadow-sm focus:border-sky-500 focus:ring focus:ring-sky-300 focus:ring-opacity-50"
+                                        @if ($user_role != 'Verifier') disabled @endif cols="30" rows="5"
+                                        placeholder="I have concerns regarding">{{ $candidate->comment }}</textarea>
+                                </div>
+                                <input type="hidden" name="verifier_remarks" id="verifier_remarks" value="" />
+                                <input type="hidden" name="employee_id" id="candidate_verify_id" value="" />
+                                <input type="hidden" name="forms_number" id="forms_number" value="" />
+                                <!-- Dynamic divs will be appended here -->
+                            </form>
+                        @endif
                     @endif
-                @endif
 
 
 
-                @if ($candidate->profile_verify_status != 0 && $candidate->profile_verify_status != 2)
-                    <!-- Verification and Noc status displayed after verified -->
-                    <div class="grid lg:grid-cols-3 gap-4 border border-sky-500 rounded-3xl border-b-4 border-r-4 p-6">
-                        <div class="lg:col-span-3">
-                            <p class="text-lg font-bold text-sky-700">@lang('authority_dashboard.profile_details.vnr')</p>
-                        </div>
-                        <div>
-                            <label
-                                class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('authority_dashboard.updated_texts.verifier')</label>
-                            <p class="font-semibold">{{ $verified_by != null ? $verified_by->name : 'N/A' }},
-                                {{ $verified_by != null ? $verified_by->designation : 'N/A' }},
-                                N/A,
-                                {{-- {{ $office_name != null ? (is_array($office_name) ? (', ', $office_name) : $office_name) : 'N/A' }}, --}}
-                                {{ $department_name != null ? $department_name : 'N/A' }}</p>
-                        </div>
-                        <div>
-                            <label
-                                class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('authority_dashboard.updated_texts.verifier_remarks')</label>
-                            <p class="font-semibold">
-                                {{ $candidate->verified_remarks != null ? $candidate->verified_remarks : 'N/A' }}</p>
-                        </div>
-                        @if ($candidate->verified_on != null)
+                    @if ($candidate->profile_verify_status != 0 && $candidate->profile_verify_status != 2)
+                        <!-- Verification and Noc status displayed after verified -->
+                        <div class="grid lg:grid-cols-3 gap-4 border border-sky-500 rounded-3xl border-b-4 border-r-4 p-6">
+                            <div class="lg:col-span-3">
+                                <p class="text-lg font-bold text-sky-700">@lang('authority_dashboard.profile_details.vnr')</p>
+                            </div>
                             <div>
                                 <label
-                                    class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('authority_dashboard.profile_details.verifier_on')</label>
-                                <p class="font-semibold">
-                                    {{ $candidate->verified_on != null ? \Carbon\Carbon::parse($candidate->verified_on)->format('d-m-Y') : 'N/A' }}
-                                </p>
+                                    class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('authority_dashboard.updated_texts.verifier')</label>
+                                <p class="font-semibold">{{ $verified_by != null ? $verified_by->name : 'N/A' }},
+                                    {{ $verified_by != null ? $verified_by->designation : 'N/A' }},
+                                    N/A,
+                                    {{-- {{ $office_name != null ? (is_array($office_name) ? (', ', $office_name) : $office_name) : 'N/A' }}, --}}
+                                    {{ $department_name != null ? $department_name : 'N/A' }}</p>
                             </div>
-                        @endif
+                            <div>
+                                <label
+                                    class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('authority_dashboard.updated_texts.verifier_remarks')</label>
+                                <p class="font-semibold">
+                                    {{ $candidate->verified_remarks != null ? $candidate->verified_remarks : 'N/A' }}</p>
+                            </div>
+                            @if ($candidate->verified_on != null)
+                                <div>
+                                    <label
+                                        class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('authority_dashboard.profile_details.verifier_on')</label>
+                                    <p class="font-semibold">
+                                        {{ $candidate->verified_on != null ? \Carbon\Carbon::parse($candidate->verified_on)->format('d-m-Y') : 'N/A' }}
+                                    </p>
+                                </div>
+                            @endif
 
-                        @if ($candidate->noc_generate == 1)
-                            @if ($noc_generated_by != null)
-                                <div>
-                                    <label
-                                        class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('authority_dashboard.profile_details.appointing_authority')</label>
-                                    <p class="font-semibold">
-                                        {{ $noc_generated_by != null ? $noc_generated_by->name : 'N/A' }},
-                                        {{ $noc_generated_by != null ? $noc_generated_by->designation : 'N/A' }}
-                                        {{ $noc_office_name != null ? $noc_office_name : 'N/A' }},
-                                        {{ $noc_department_name != null ? $noc_department_name : 'N/A' }}</p>
-                                </div>
-                                <div>
-                                    <label
-                                        class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('authority_dashboard.updated_texts.appointing_authority_remarks')</label>
-                                    <p class="font-semibold">
-                                        {{ $candidate->noc_remarks != null ? $candidate->noc_remarks : 'N/A' }}</p>
-                                </div>
-                                @if ($candidate->noc_generated_on != null)
+                            @if ($candidate->noc_generate == 1)
+                                @if ($noc_generated_by != null)
                                     <div>
                                         <label
-                                            class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('authority_dashboard.profile_details.recommended_on')</label>
+                                            class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('authority_dashboard.profile_details.appointing_authority')</label>
                                         <p class="font-semibold">
-                                            {{ $candidate->noc_generated_on != null ? \Carbon\Carbon::parse($candidate->noc_generated_on)->format('d-m-Y') : 'N/A' }}
-                                        </p>
+                                            {{ $noc_generated_by != null ? $noc_generated_by->name : 'N/A' }},
+                                            {{ $noc_generated_by != null ? $noc_generated_by->designation : 'N/A' }}
+                                            {{ $noc_office_name != null ? $noc_office_name : 'N/A' }},
+                                            {{ $noc_department_name != null ? $noc_department_name : 'N/A' }}</p>
                                     </div>
+                                    <div>
+                                        <label
+                                            class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('authority_dashboard.updated_texts.appointing_authority_remarks')</label>
+                                        <p class="font-semibold">
+                                            {{ $candidate->noc_remarks != null ? $candidate->noc_remarks : 'N/A' }}</p>
+                                    </div>
+                                    @if ($candidate->noc_generated_on != null)
+                                        <div>
+                                            <label
+                                                class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('authority_dashboard.profile_details.recommended_on')</label>
+                                            <p class="font-semibold">
+                                                {{ $candidate->noc_generated_on != null ? \Carbon\Carbon::parse($candidate->noc_generated_on)->format('d-m-Y') : 'N/A' }}
+                                            </p>
+                                        </div>
+                                    @endif
+                                @endif
+
+                                @if ($approval_status == 1)
+                                    @if ($approved_by != null)
+                                        <div>
+                                            <label
+                                                class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('authority_dashboard.updated_texts.approved_by')</label>
+                                            <p class="font-semibold">
+                                                {{ $approved_by->name != null ? $approved_by->name : 'N/A' }},
+                                                {{ $approved_by->designation != null ? $approved_by->designation : 'N/A' }}
+                                                {{ $approver_office_name != null ? $approver_office_name : 'N/A' }},
+                                                {{ $approver_department_name != null ? $approver_department_name : 'N/A' }}
+                                            </p>
+                                        </div>
+                                    @endif
+                                    @if ($approved_by != null)
+                                        <div>
+                                            <label
+                                                class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('authority_dashboard.updated_texts.approver_remarks')</label>
+                                            <p class="font-semibold">
+                                                {{ $approver_remarks == null ? 'N/A' : $approver_remarks }}
+                                            </p>
+                                        </div>
+                                    @endif
+                                    @if ($approved_by != null)
+                                        <div>
+                                            <label
+                                                class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('authority_dashboard.profile_details.approved_on')</label>
+                                            <p class="font-semibold">
+                                                {{ \Carbon\Carbon::parse($approved_on)->format('d-m-Y') }}
+                                            </p>
+                                        </div>
+                                    @endif
                                 @endif
                             @endif
 
-                            @if ($approval_status == 1)
-                                @if ($approved_by != null)
-                                    <div>
-                                        <label
-                                            class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('authority_dashboard.updated_texts.approved_by')</label>
-                                        <p class="font-semibold">
-                                            {{ $approved_by->name != null ? $approved_by->name : 'N/A' }},
-                                            {{ $approved_by->designation != null ? $approved_by->designation : 'N/A' }}
-                                            {{ $approver_office_name != null ? $approver_office_name : 'N/A' }},
-                                            {{ $approver_department_name != null ? $approver_department_name : 'N/A' }}
-                                        </p>
-                                    </div>
-                                @endif
-                                @if ($approved_by != null)
-                                    <div>
-                                        <label
-                                            class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('authority_dashboard.updated_texts.approver_remarks')</label>
-                                        <p class="font-semibold">
-                                            {{ $approver_remarks == null ? 'N/A' : $approver_remarks }}
-                                        </p>
-                                    </div>
-                                @endif
-                                @if ($approved_by != null)
-                                    <div>
-                                        <label
-                                            class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('authority_dashboard.profile_details.approved_on')</label>
-                                        <p class="font-semibold">
-                                            {{ \Carbon\Carbon::parse($approved_on)->format('d-m-Y') }}
-                                        </p>
-                                    </div>
-                                @endif
-                            @endif
-                        @endif
 
 
 
-
-                    </div>
-                    <!-- Verification and Noc status displayed after verified end -->
-                @endif
-            </div>
-        </div>
-        <div class="mt-12">
-            <div class="flex items-center justify-between gap-4">
-                <div>
-                    <a href="/{{ app()->getLocale() }}/verifier/verifier-dashboard"
-                        class="hover:bg-gray-200 border border-transparent text-gray-900 hover:text-black rounded-md block px-2 py-1.5 duration-300"><i
-                            class="bi bi-arrow-left"></i>@lang('authority_dashboard.profile_details.btd')</a>
+                        </div>
+                        <!-- Verification and Noc status displayed after verified end -->
+                    @endif
                 </div>
-                <div class="flex items-center gap-1">
-                    @if ($candidate->profile_verify_status != 1 && Auth::guard('user_guard')->user()->role_id == 6)
-                        {{-- @if ($candidate->profile_verify_status != 1) --}}
-                        <button type="button"
-                            class="bg-red-500 hover:bg-red-600 border border-transparent text-white text-sm rounded-md block px-4 py-1.5 disabled:opacity-80 disabled:bg-sky-300 rejectRequestBtn">@lang('authority_dashboard.profile_details.reject')</button>
-                        <button type="button"
-                            class="bg-sky-500 hover:bg-sky-600 border border-transparent text-white text-sm rounded-md block px-4 py-1.5 disabled:opacity-80 disabled:bg-sky-300 directRequest">@lang('authority_dashboard.profile_details.certify')</button>
-                    @else
-                        @if ($user_role == 'Appointing Authority' || $user_role == 'Appointing User')
-                            @if ($candidate->noc_generate != 1 && $candidate->profile_verify_status == 1)
-                                {{-- {{ dd(Session::has('allow_recommend')) }} --}}
-                                {{-- @if (Session::has('allow_recommend')) --}}
+            </div>
+            <div class="mt-12">
+                <div class="flex items-center justify-between gap-4">
+                    <div>
+                        <a href="/{{ app()->getLocale() }}/verifier/verifier-dashboard"
+                            class="hover:bg-gray-200 border border-transparent text-gray-900 hover:text-black rounded-md block px-2 py-1.5 duration-300"><i
+                                class="bi bi-arrow-left"></i>@lang('authority_dashboard.profile_details.btd')</a>
+                    </div>
+                    <div class="flex items-center gap-1">
+                        @if ($candidate->profile_verify_status != 1 && Auth::guard('user_guard')->user()->role_id == 6)
+                            {{-- @if ($candidate->profile_verify_status != 1) --}}
+                            <button type="button"
+                                class="bg-red-500 hover:bg-red-600 border border-transparent text-white text-sm rounded-md block px-4 py-1.5 disabled:opacity-80 disabled:bg-sky-300 rejectRequestBtn">@lang('authority_dashboard.profile_details.reject')</button>
+                            <button type="button"
+                                class="bg-sky-500 hover:bg-sky-600 border border-transparent text-white text-sm rounded-md block px-4 py-1.5 disabled:opacity-80 disabled:bg-sky-300 directRequest">@lang('authority_dashboard.profile_details.certify')</button>
+                        @else
+                            @if ($user_role == 'Appointing Authority' || $user_role == 'Appointing User')
+                                @if ($candidate->noc_generate != 1 && $candidate->profile_verify_status == 1)
+                                    {{-- {{ dd(Session::has('allow_recommend')) }} --}}
+                                    {{-- @if (Session::has('allow_recommend')) --}}
+                                    <button type="button"
+                                        class="bg-sky-500 hover:bg-sky-600 border border-transparent text-white text-sm rounded-md block px-4 py-1.5 disabled:opacity-80 disabled:bg-sky-300 directNOC">@lang('authority_dashboard.profile_details.ir')</button>
+                                    <button type="button"
+                                        class="bg-red-500 hover:bg-red-600 border border-transparent text-white text-sm rounded-md block px-4 py-1.5 disabled:opacity-80 disabled:bg-sky-300 rejectRequestBtn2">@lang('authority_dashboard.profile_details.idr')</button>
+                                    {{-- @endif --}}
+                                @endif
+                            @elseif($user_role == 'Verifier')
+                                @if ($candidate->profile_verify_status != 1)
+                                    <button type="button"
+                                        class="bg-sky-500 hover:bg-sky-600 border border-transparent text-white text-sm rounded-md block px-4 py-1.5 disabled:opacity-80 disabled:bg-sky-300 directRequest">@lang('authority_dashboard.profile_details.certify')</button>
+                                @endif
+                            @elseif($user_role == 'Approver')
                                 <button type="button"
                                     class="bg-sky-500 hover:bg-sky-600 border border-transparent text-white text-sm rounded-md block px-4 py-1.5 disabled:opacity-80 disabled:bg-sky-300 directNOC">@lang('authority_dashboard.profile_details.ir')</button>
                                 <button type="button"
                                     class="bg-red-500 hover:bg-red-600 border border-transparent text-white text-sm rounded-md block px-4 py-1.5 disabled:opacity-80 disabled:bg-sky-300 rejectRequestBtn2">@lang('authority_dashboard.profile_details.idr')</button>
-                                {{-- @endif --}}
+                                <a href="#"
+                                    class="hover:bg-gray-200 border border-transparent text-gray-900 hover:text-black rounded-md block px-2 py-1.5 duration-300">@lang('authority_dashboard.profile_details.next')<i
+                                        class="bi bi-arrow-right"></i></a>
                             @endif
-                        @elseif($user_role == 'Verifier')
-                            @if ($candidate->profile_verify_status != 1)
-                                <button type="button"
-                                    class="bg-sky-500 hover:bg-sky-600 border border-transparent text-white text-sm rounded-md block px-4 py-1.5 disabled:opacity-80 disabled:bg-sky-300 directRequest">@lang('authority_dashboard.profile_details.certify')</button>
-                            @endif
-                        @elseif($user_role == 'Approver')
-                            <button type="button"
-                                class="bg-sky-500 hover:bg-sky-600 border border-transparent text-white text-sm rounded-md block px-4 py-1.5 disabled:opacity-80 disabled:bg-sky-300 directNOC">@lang('authority_dashboard.profile_details.ir')</button>
-                            <button type="button"
-                                class="bg-red-500 hover:bg-red-600 border border-transparent text-white text-sm rounded-md block px-4 py-1.5 disabled:opacity-80 disabled:bg-sky-300 rejectRequestBtn2">@lang('authority_dashboard.profile_details.idr')</button>
-                            <a href="#"
-                                class="hover:bg-gray-200 border border-transparent text-gray-900 hover:text-black rounded-md block px-2 py-1.5 duration-300">@lang('authority_dashboard.profile_details.next')<i
-                                    class="bi bi-arrow-right"></i></a>
                         @endif
-                    @endif
-                </div>
-            </div>
-
-            <!-- modal -->
-            <div class="hidden fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black/30 p-4 z-[99]"
-                id="directRequestModal">
-                <div class="max-w-xl w-full bg-white rounded-2xl p-6 py-10">
-                    <div class="space-y-2 mb-6">
-                        <p class="text-3xl font-semibold">@lang('authority_dashboard.profile_details.verify_profile')</p>
                     </div>
-                    <div action="/verifier/verify-candidates" method="">
-                        <div class="grid gap-8">
-                            <input type="hidden" id="cd_id" value="{{ Crypt::encryptString($candidate->id) }}">
-                            <div class="flex gap-3">
-                                <input type="hidden" id="verify_comment" name="comment" value="">
-                                <input type="checkbox"
-                                    class=" border border-gray-300 text-sky-600 text-sm rounded-md focus:ring-sky-600 focus:border-sky-600 block p-1.5 mt-0.5"
-                                    required>
-                                <p class="text-xs text-gray-900">@lang('authority_dashboard.profile_details.vrmsg')</p>
-                            </div>
-                            <div>
-                                <label
-                                    class="block mb-1 text-xs md:text-sm font-bold text-gray-800">@lang('authority_dashboard.profile_details.remarks')</label>
-                                <textarea name="verifier_remarks" id="verification_remarks_id" value=""
-                                    class="disabled:bg-gray-100 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full"
-                                    rows="4">Verified</textarea>
-                            </div>
-                            <div class="flex gap-1 justify-end">
-                                <button type="button"
-                                    class="bg-white hover:bg-gray-200 border border-transparent text-gray-900 hover:text-black rounded-md block px-2 py-1.5 duration-300"
-                                    id="closeDirectRequestModalButton">@lang('authority_dashboard.profile_details.close')</button>
-                                <button type="button"
-                                    class="bg-sky-500 hover:bg-sky-600 border border-transparent text-white rounded-md block px-2 py-1.5 w-fit"
-                                    id="verify_submit">@lang('authority_dashboard.profile_details.submit')</button>
+                </div>
+
+                <!-- modal -->
+                <div class="hidden fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black/30 p-4 z-[99]"
+                    id="directRequestModal">
+                    <div class="max-w-xl w-full bg-white rounded-2xl p-6 py-10">
+                        <div class="space-y-2 mb-6">
+                            <p class="text-3xl font-semibold">@lang('authority_dashboard.profile_details.verify_profile')</p>
+                        </div>
+                        <div action="/verifier/verify-candidates" method="">
+                            <div class="grid gap-8">
+                                <input type="hidden" id="cd_id" value="{{ Crypt::encryptString($candidate->id) }}">
+                                <div class="flex gap-3">
+                                    <input type="hidden" id="verify_comment" name="comment" value="">
+                                    <input type="checkbox"
+                                        class=" border border-gray-300 text-sky-600 text-sm rounded-md focus:ring-sky-600 focus:border-sky-600 block p-1.5 mt-0.5"
+                                        required>
+                                    <p class="text-xs text-gray-900">@lang('authority_dashboard.profile_details.vrmsg')</p>
+                                </div>
+                                <div>
+                                    <label
+                                        class="block mb-1 text-xs md:text-sm font-bold text-gray-800">@lang('authority_dashboard.profile_details.remarks')</label>
+                                    <textarea name="verifier_remarks" id="verification_remarks_id" value=""
+                                        class="disabled:bg-gray-100 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full"
+                                        rows="4">Verified</textarea>
+                                </div>
+                                <div class="flex gap-1 justify-end">
+                                    <button type="button"
+                                        class="bg-white hover:bg-gray-200 border border-transparent text-gray-900 hover:text-black rounded-md block px-2 py-1.5 duration-300"
+                                        id="closeDirectRequestModalButton">@lang('authority_dashboard.profile_details.close')</button>
+                                    <button type="button"
+                                        class="bg-sky-500 hover:bg-sky-600 border border-transparent text-white rounded-md block px-2 py-1.5 w-fit"
+                                        id="verify_submit">@lang('authority_dashboard.profile_details.submit')</button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
 
-            <!-- reject modal -->
-            <div class="hidden fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black/30 p-4 z-[99]"
-                id="rejectModal">
-                <div class="max-w-md w-full bg-white rounded-2xl p-6 py-10">
-                    <div class="space-y-2 mb-6">
-                        <p class="text-3xl font-semibold">@lang('authority_dashboard.profile_details.reject')</p>
-                    </div>
-                    <form action="{{ url('verifier/reject-candidates') }}" method="post" id="reject_new">
-                        @csrf
-                        <div class="grid gap-8">
-                            <div>
-                                <input type="hidden" id="reject_comment" name="comment" value="">
-                                <input type="hidden" id="candidate_reject_id" name="candidate_reject_id"
-                                    value="{{ $candidate->id }}">
-                                <label
-                                    class="block mb-1 text-xs md:text-sm font-bold text-gray-800">@lang('authority_dashboard.profile_details.verify_reject_heading')</label>
-                                <textarea name="reject_message"
-                                    class="disabled:bg-gray-100 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full"
-                                    rows="4" required></textarea>
-                            </div>
-                            <div class="flex gap-1 justify-end">
-                                <button type="button"
-                                    class="bg-white hover:bg-gray-200 border border-transparent text-gray-900 hover:text-black rounded-md block px-2 py-1.5 duration-300"
-                                    id="closeRejectModalButton">@lang('authority_dashboard.profile_details.close')</button>
-                                <button type="button" id="reject_noc_btn"
-                                    class="bg-red-500 hover:bg-red-600 border border-transparent text-white rounded-md block px-2 py-1.5 w-fit">@lang('authority_dashboard.profile_details.reject_verify_btn')</button>
-                            </div>
+                <!-- reject modal -->
+                <div class="hidden fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black/30 p-4 z-[99]"
+                    id="rejectModal">
+                    <div class="max-w-md w-full bg-white rounded-2xl p-6 py-10">
+                        <div class="space-y-2 mb-6">
+                            <p class="text-3xl font-semibold">@lang('authority_dashboard.profile_details.reject')</p>
                         </div>
-                    </form>
-                </div>
-            </div>
-
-            {{-- reject recommendationmodel --}}
-            <div class="hidden fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black/30 p-4 z-[99]"
-                id="rejectModal2">
-                <div class="max-w-md w-full bg-white rounded-2xl p-6 py-10">
-                    <div class="space-y-2 mb-6">
-                        <p class="text-3xl font-semibold">@lang('authority_dashboard.profile_details.reject')</p>
+                        <form action="{{ url('verifier/reject-candidates') }}" method="post" id="reject_new">
+                            @csrf
+                            <div class="grid gap-8">
+                                <div>
+                                    <input type="hidden" id="reject_comment" name="comment" value="">
+                                    <input type="hidden" id="candidate_reject_id" name="candidate_reject_id"
+                                        value="{{ $candidate->id }}">
+                                    <label
+                                        class="block mb-1 text-xs md:text-sm font-bold text-gray-800">@lang('authority_dashboard.profile_details.verify_reject_heading')</label>
+                                    <textarea name="reject_message"
+                                        class="disabled:bg-gray-100 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full"
+                                        rows="4" required></textarea>
+                                </div>
+                                <div class="flex gap-1 justify-end">
+                                    <button type="button"
+                                        class="bg-white hover:bg-gray-200 border border-transparent text-gray-900 hover:text-black rounded-md block px-2 py-1.5 duration-300"
+                                        id="closeRejectModalButton">@lang('authority_dashboard.profile_details.close')</button>
+                                    <button type="button" id="reject_noc_btn"
+                                        class="bg-red-500 hover:bg-red-600 border border-transparent text-white rounded-md block px-2 py-1.5 w-fit">@lang('authority_dashboard.profile_details.reject_verify_btn')</button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
-                    <form action="{{ url('verifier/reject-candidates') }}" method="post">
-                        @csrf
-                        <div class="grid gap-8">
-                            <div>
-                                <input type="hidden" id="candidate_reject_id" name="candidate_reject_id"
-                                    value="{{ $candidate->id }}">
-                                <label
-                                    class="block mb-1 text-xs md:text-sm font-bold text-gray-800">@lang('authority_dashboard.profile_details.verify_reject_heading')</label>
-                                <textarea name="reject_message"
-                                    class="disabled:bg-gray-100 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full"
-                                    rows="4" required>@lang('authority_dashboard.profile_details.idr')</textarea>
-                            </div>
-                            <div class="flex gap-1 justify-end">
-                                <button type="button"
-                                    class="bg-white hover:bg-gray-200 border border-transparent text-gray-900 hover:text-black rounded-md block px-2 py-1.5 duration-300"
-                                    id="closeRejectModalButton2">@lang('authority_dashboard.profile_details.close')</button>
-                                <button type="button" id="reject_noc_btn2"
-                                    class="bg-red-500 hover:bg-red-600 border border-transparent text-white rounded-md block px-2 py-1.5 w-fit">@lang('authority_dashboard.profile_details.reject_recommendation_btn')</button>
-                            </div>
-                        </div>
-                    </form>
                 </div>
-            </div>
 
-
-            <!-- NOC modal -->
-            <div class="hidden fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black/30 p-4 z-[99]"
-                id="directNOCModal">
-                <div class="max-w-md w-full bg-white rounded-2xl p-6 py-10">
-                    <div class="space-y-2 mb-6">
-                        <p class="text-3xl font-semibold">@lang('authority_dashboard.tab.recommendation')</p>
+                {{-- reject recommendationmodel --}}
+                <div class="hidden fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black/30 p-4 z-[99]"
+                    id="rejectModal2">
+                    <div class="max-w-md w-full bg-white rounded-2xl p-6 py-10">
+                        <div class="space-y-2 mb-6">
+                            <p class="text-3xl font-semibold">@lang('authority_dashboard.profile_details.reject')</p>
+                        </div>
+                        <form action="{{ url('verifier/reject-candidates') }}" method="post">
+                            @csrf
+                            <div class="grid gap-8">
+                                <div>
+                                    <input type="hidden" id="candidate_reject_id" name="candidate_reject_id"
+                                        value="{{ $candidate->id }}">
+                                    <label
+                                        class="block mb-1 text-xs md:text-sm font-bold text-gray-800">@lang('authority_dashboard.profile_details.verify_reject_heading')</label>
+                                    <textarea name="reject_message"
+                                        class="disabled:bg-gray-100 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full"
+                                        rows="4" required>@lang('authority_dashboard.profile_details.idr')</textarea>
+                                </div>
+                                <div class="flex gap-1 justify-end">
+                                    <button type="button"
+                                        class="bg-white hover:bg-gray-200 border border-transparent text-gray-900 hover:text-black rounded-md block px-2 py-1.5 duration-300"
+                                        id="closeRejectModalButton2">@lang('authority_dashboard.profile_details.close')</button>
+                                    <button type="button" id="reject_noc_btn2"
+                                        class="bg-red-500 hover:bg-red-600 border border-transparent text-white rounded-md block px-2 py-1.5 w-fit">@lang('authority_dashboard.profile_details.reject_recommendation_btn')</button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
-                    <form action="{{ url('verifier/noc-update') }}" method="post">
-                        @csrf
-                        <div class="grid gap-8">
-                            <input type="hidden" name="direct_noc_id" id="direct_noc_id"
-                                value="{{ $candidate->id }}" />
-
-                            <div>
-                                <label
-                                    class="block mb-1 text-xs md:text-sm font-bold text-gray-800">@lang('authority_dashboard.profile_details.remarks')</label>
-                                <textarea name="noc_remarks"
-                                    class="disabled:bg-gray-100 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full"
-                                    rows="4">@lang('authority_dashboard.profile_details.ir')</textarea>
-                            </div>
-                            <div class="flex gap-1 justify-end">
-                                <button type="button"
-                                    class="bg-white hover:bg-gray-200 border border-transparent text-gray-900 hover:text-black rounded-md block px-2 py-1.5 duration-300"
-                                    id="closeDirectNOCModalButton">@lang('authority_dashboard.profile_details.close')</button>
-                                <button type="button" id="recommend_btn"
-                                    class="bg-sky-500 hover:bg-sky-600 border border-transparent text-white rounded-md block px-2 py-1.5 w-fit">@lang('authority_dashboard.profile_details.ir')
-                                </button>
-                            </div>
-                        </div>
-                    </form>
                 </div>
-            </div>
 
+
+                <!-- NOC modal -->
+                <div class="hidden fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black/30 p-4 z-[99]"
+                    id="directNOCModal">
+                    <div class="max-w-md w-full bg-white rounded-2xl p-6 py-10">
+                        <div class="space-y-2 mb-6">
+                            <p class="text-3xl font-semibold">@lang('authority_dashboard.tab.recommendation')</p>
+                        </div>
+                        <form action="{{ url('verifier/noc-update') }}" method="post">
+                            @csrf
+                            <div class="grid gap-8">
+                                <input type="hidden" name="direct_noc_id" id="direct_noc_id"
+                                    value="{{ $candidate->id }}" />
+
+                                <div>
+                                    <label
+                                        class="block mb-1 text-xs md:text-sm font-bold text-gray-800">@lang('authority_dashboard.profile_details.remarks')</label>
+                                    <textarea name="noc_remarks"
+                                        class="disabled:bg-gray-100 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full"
+                                        rows="4">@lang('authority_dashboard.profile_details.ir')</textarea>
+                                </div>
+                                <div class="flex gap-1 justify-end">
+                                    <button type="button"
+                                        class="bg-white hover:bg-gray-200 border border-transparent text-gray-900 hover:text-black rounded-md block px-2 py-1.5 duration-300"
+                                        id="closeDirectNOCModalButton">@lang('authority_dashboard.profile_details.close')</button>
+                                    <button type="button" id="recommend_btn"
+                                        class="bg-sky-500 hover:bg-sky-600 border border-transparent text-white rounded-md block px-2 py-1.5 w-fit">@lang('authority_dashboard.profile_details.ir')
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
         </div>
-    </div>
     </div>
     </div>
     <!-- footer -->
@@ -659,7 +657,10 @@
 
             $('.btn-remarks-doc').on('click', function() {
                 <<
-                << << < HEAD
+                <<
+                <<
+                <
+                HEAD
                 // Show the remarks label
                 $('.doc-remarks-label').removeClass('hidden');
 
@@ -688,7 +689,8 @@
                 if ($('.doc-remarks').length === 0) {
                     $('.doc-remarks-label').addClass('hidden');
                 } ===
-                === =
+                ===
+                =
                 $('.doc-remarks-label').removeClass('hidden');
                 var key = $(this).closest('div').find('.get-key').val();
                 var append_data = `
@@ -711,7 +713,9 @@
                         $('.doc-remarks-label').addClass('hidden');
                     }
                 }); >>>
-                >>> > master
+                >>>
+                >
+                master
             });
 
 
