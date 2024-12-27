@@ -106,11 +106,8 @@ class CandidateController extends Controller
                         if ($request->input('office') == null && $request->input('district') == null) {
                             return $query->where(function ($query) use ($authority_maps) {
                                 foreach ($authority_maps as $map) {
-                                    // Add conditions for each map using orWhere
                                     $query->orWhere(function ($subQuery) use ($map) {
-                                        // Handle cases based on the map values
                                         if ($map->office_id && is_null($map->district_id)) {
-                                            // Only office_id is available
                                             $subQuery->where('employee_employment.office_id', $map->office_id)
                                                 ->orWhere('target_employee_employment.office_id', $map->office_id);
                                         } elseif ($map->district_id && is_null($map->office_id)) {
@@ -118,7 +115,6 @@ class CandidateController extends Controller
                                             $subQuery->where('employee_employment.district_id', $map->district_id)
                                                 ->orWhere('target_employee_employment.district_id', $map->district_id);
                                         } elseif ($map->office_id && $map->district_id) {
-                                            // Both office_id and district_id are available
                                             $subQuery->where(function ($nestedQuery) use ($map) {
                                                 $nestedQuery->where('employee_employment.office_id', $map->office_id)
                                                     ->where('employee_employment.district_id', $map->district_id);
@@ -135,6 +131,7 @@ class CandidateController extends Controller
             } else {
                 $data = $pendingTransfers->whereIn('final_approval', [0, 1])->where('request_status', 1);
             }
+            // dd($data->get());
             // dd($data);
             $type = 'pending';
             if ($request->input('status') != '') {
@@ -142,12 +139,9 @@ class CandidateController extends Controller
             }
             if ($request->input('status') == 'approved') {
                 // dd('heere');
-                $verified_users = $data->where('request_status', 1)->where('final_approval', 1)->where('2nd_recommend', 1)->get();
+                $verified_users = $data->where('request_status', 1)->where('final_approval', 1)->get();
             } else if ($request->input('status') == 'pending') {
-                $verified_users = $data->where('request_status', 1)->where('final_approval', 0)->where(function ($query) {
-                    $query->where('2nd_recommend', 1)
-                        ->orWhere('2nd_recommend', 0);
-                })->get();
+                $verified_users = $data->where('request_status', 1)->where('final_approval', 0)->get();
             } else {
                 $verified_users = $data->where('request_status', 1)->where('final_approval', 0)->get();
             }
@@ -393,8 +387,16 @@ class CandidateController extends Controller
                     ['id', $id],
                 ];
                 $query = EmployeeModule::getEmployeesAllData($conditions);
-                $data = $query->get();
 
+                $data = $query->get();
+                $dept = $data[0]->employment_details->depertment_id;
+
+                $conditional_data = DB::table('additional_conditions')->where('department_id', $dept)->get();
+                if ($conditional_data->isEmpty()) {
+                    $conditional_data = [];
+                } else {
+                    $conditional_data =  $conditional_data;
+                }
                 if (count($data) == 0) {
                     dd("No Data found ");
                 } else {
@@ -537,6 +539,7 @@ class CandidateController extends Controller
                                     $sr_office_name = null;
                                 }
                             } else {
+                                $sr_office_name = null;
                                 $sr_department_name = null;
                             }
                         } else {
@@ -570,6 +573,7 @@ class CandidateController extends Controller
                                     $approver_office_name = null;
                                 }
                             } else {
+                                $approver_office_name = null;
                                 $approver_department_name = null;
                             }
                         } else {
@@ -587,7 +591,7 @@ class CandidateController extends Controller
                     }
                     $rej = DB::table('rejected_documents')->where('user_id', $data->id)->count();
 
-                    return view('verification.pages.profile_details')->with(['rej' => $rej, 'approval_status' => $approval_status, 'docs2' => $docPaths2, 'approver_department_name' => $approver_department_name, 'approver_office_name' => $approver_office_name, 'sr_department_name' => $sr_department_name, 'sr_office_name' => $sr_office_name, 'noc_department_name' => $noc_department_name, 'noc_office_name' => $noc_office_name, 'department_name' => $department_name, 'office_name' => $office_name, 'approved_by' => $approved_by, 'approved_on' => $approved_on, 'second_recommended_on' => $second_Recommend_on, 'sr' => $sr, 'srr' => $srr,  'approver_remarks' => $approver_remarks, 'candidate' => $data, 'user_role' => $roleName, 'docs' => $docs, 'verified_by' => $verified_by, 'noc_generated_by' => $noc_generated_by]);
+                    return view('verification.pages.profile_details')->with(['cond' => $conditional_data, 'rej' => $rej, 'approval_status' => $approval_status, 'docs2' => $docPaths2, 'approver_department_name' => $approver_department_name, 'approver_office_name' => $approver_office_name, 'sr_department_name' => $sr_department_name, 'sr_office_name' => $sr_office_name, 'noc_department_name' => $noc_department_name, 'noc_office_name' => $noc_office_name, 'department_name' => $department_name, 'office_name' => $office_name, 'approved_by' => $approved_by, 'approved_on' => $approved_on, 'second_recommended_on' => $second_Recommend_on, 'sr' => $sr, 'srr' => $srr,  'approver_remarks' => $approver_remarks, 'candidate' => $data, 'user_role' => $roleName, 'docs' => $docs, 'verified_by' => $verified_by, 'noc_generated_by' => $noc_generated_by]);
                 }
             } else {
                 return redirect('/verifier/verifier-dashboard');
