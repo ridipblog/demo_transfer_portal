@@ -5,7 +5,7 @@ return [
         '2' => 'signature',
         '3' => "pan_card",
         '4' => "depertment_card",
-        // '5' => "no_govt_due_certificate",
+        '5' => "no_govt_due_certificate",
         // '6' => 'appoinment_letter', //optional document
         // '7' => 'first_page_of_service_book' //optional document
     ],

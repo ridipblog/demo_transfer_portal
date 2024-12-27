@@ -19,6 +19,7 @@ class authority_office_dist_map extends Model
         'district_id',
         'department_id',
         'role_id',
+        'directorate_id'
     ];
     public function office_fin_assam()
     {
@@ -36,8 +37,8 @@ class authority_office_dist_map extends Model
     {
         return $this->belongsTo(DistrictModel::class, 'district_id');
     }
-    public function roles(){
-        return $this->belongsTo(RolesModel::class,'role_id');
+    public function roles()
+    {
+        return $this->belongsTo(RolesModel::class, 'role_id');
     }
-
 }

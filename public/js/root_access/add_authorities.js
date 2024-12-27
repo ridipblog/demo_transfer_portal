@@ -43,4 +43,6 @@ $(document).ready(function(){
         console.log($(this).val())
         authorities_module.viewAssignData($(this).val());
     })
+
+
 });

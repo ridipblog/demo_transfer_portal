@@ -13,5 +13,8 @@ class RejectedDocumentsModel extends Model
         'user_id',
         'old_update_on',
         'old_documents',
+        'authority_id',
+        'rejection_type',
+        'commnents'
     ];
 }

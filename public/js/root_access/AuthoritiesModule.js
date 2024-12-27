@@ -18,10 +18,8 @@ class AuthoritiesModule extends RequestModule {
     }
     // -------------- get offices by district -----------------
     getOfficeByDistrict = async (current_index, current, add_class) => {
-
         var district_id = current.val();
-        var depertment_id = $('#inputDepartment').val();
-
+        var depertment_id = $(`#inputDepartment_${this.total_assign_form}`).val();
         if (district_id != "All") {
             if (depertment_id !== "") {
                 this.formPostReponse = async (response) => {
@@ -53,7 +51,8 @@ class AuthoritiesModule extends RequestModule {
     }
     // ----------------- get district names by offices ------------------
     getDistrictByOfficess = async (current_index, current) => {
-        var depertment_id = $('#inputDepartment').val();
+        // console.log(this.total_assign_form);
+        var depertment_id = $(`#inputDepartment_${this.total_assign_form}`).val();
         var offices = current.val();
         console.log(offices);
         $('.display-district').eq(current_index).html('');
@@ -73,24 +72,68 @@ class AuthoritiesModule extends RequestModule {
             }
         }
     }
+
+
+    // // get directorate from dept
+    // getDirectorateByDepartment = async (current_index, current) => {
+    //     // console.log(this.total_assign_form);
+    //     var depertment_id = $(`#inputDepartment_${this.total_assign_form}`).val();
+    //     // alert(depertment_id)
+    //     var offices = current.val();
+    //     var directorates ;
+    //     $('.display-district').eq(current_index).html('');
+    //     if (offices.length != 0) {
+    //         if (depertment_id !== "") {
+    //             this.formPostReponse = async (response) => {
+    //                 if (response.res_data.status == 200) {
+    //                     var directorate = "";
+    //                     response.res_data.related_directorate.forEach(dir => {
+    //                         directorates += `<option value=${dir.id}>${dir.name}</option>`
+    //                     });
+    //                     $(add_class).eq(current_index).html(offices);
+    //                     $(add_class).eq(current_index).val(null).trigger('change');
+    //                 } else {
+    //                     Swal.fire(
+    //                         response.res_data.message
+    //                     );
+    //                 }
+    //             }
+    //             var data = await this.formGet({
+    //                 offices: offices,
+    //                 depertment_id: depertment_id
+    //             }, '/get-directorate-by-department', true);
+    //         } else {
+    //             Swal.fire(
+    //                 'Please select depertment'
+    //             );
+    //         }
+    //     }
+    // }
+
+
     // -------------- add new assign form ----------------
     addAssignForm = async () => {
         this.total_assign_form++;
-        console.log(this.total_assign_form)
         var count_assign_form = $('.office-district-row').length;
         reuse_module.processingStatus('.add-assign-form');
         this.formPostReponse = (response) => {
             $('#officeDistrictContainer').append(response);
+            $(`#inputDepartment_${this.total_assign_form}`).select2();
             $(`#districtSelect_${this.total_assign_form}`).select2();
             $(`#officeSelect_${this.total_assign_form}`).select2();
+            $(`#inputDirectorate_${this.total_assign_form}`).select2();
             this.disabledRoleOption($('#common_role'), '.assign_role');
-        }
+        } 
+        console.log(this.total_assign_form); 
+
         await this.formGet({
             total_assign_form: this.total_assign_form,
             count_assign_form: count_assign_form
         }, '/add-assign-form', true);
         reuse_module.processingStatus('.add-assign-form', "end", '+ Office');
     }
+
+
     authorityRegistration = async (form) => {
         reuse_module.processingStatus('.submit-registration', 'Register');
         var form_data = new FormData($(form)[0]);
@@ -112,6 +155,7 @@ class AuthoritiesModule extends RequestModule {
                 })
             }
         }
+        // console.log(form_data)
         await this.formPost(form_data, '/authority-registration-api');
         reuse_module.processingStatus('.submit-registration', "end", 'Register');
     }
