@@ -1312,6 +1312,7 @@ class CandidateController extends Controller
                         'verified_remarks_status' => $request->forms_number > 0  ? 1 : 0,
                         'verified_remarks' => $request->verifier_remarks,
                         'verified_on' => Carbon::now(),
+                        'noc_generate' => 1,
                         'comment' => $request->input('comment') != null ? $request->input('comment') : null,
                     ]);
                 DB::commit();
@@ -1471,8 +1472,11 @@ class CandidateController extends Controller
                 $decryptedId = Crypt::decryptString($id);
 
                 // Retrieve data for the specific user
-                $data = DB::table('rejected_documents')->where('user_id', $decryptedId)->get();
-                return view('verification.pages.resubmitted-data', compact('data'));
+                $data = DB::table('rejected_documents')->where('user_id', $decryptedId)->first();
+                if ($data != null) {
+                    $data2 = DB::table('authority_rejections')->where('rejected_document_id', $data->id)->get();
+                }
+                return view('verification.pages.resubmitted-data', compact('data2'));
             } catch (Exception $err) {
                 // Handle decryption or other errors
                 return back()->withErrors(['error' => 'An error occurred: ' . $err->getMessage()]);

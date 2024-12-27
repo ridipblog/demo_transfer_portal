@@ -112,11 +112,11 @@
                         </div>
                         <!-- <div class="">
 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">DDO Code</label>
-            
-                                <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">DDO Code</label>
-                                <p class="font-semibold">{{ $candidate->employment_details->ddo_code ?? 'N/A' }}</p>
-                            </div> -->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">DDO Code</label>
+                                            
+                                                                <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">DDO Code</label>
+                                                                <p class="font-semibold">{{ $candidate->employment_details->ddo_code ?? 'N/A' }}</p>
+                                                            </div> -->
 
                         <div class="col-span-2">
                             <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('user.form.emp_info.office_cp')</label>
@@ -501,6 +501,11 @@
                                         class=" border border-gray-300 text-sky-600 text-sm rounded-md focus:ring-sky-600 focus:border-sky-600 block p-1.5 mt-0.5"
                                         required>
                                     <p class="text-xs text-gray-900">@lang('authority_dashboard.profile_details.vrmsg')</p>
+
+                                    <input type="checkbox"
+                                        class=" border border-gray-300 text-sky-600 text-sm rounded-md focus:ring-sky-600 focus:border-sky-600 block p-1.5 mt-0.5"
+                                        required>
+                                    <p class="text-xs text-gray-900">No checkbox available</p>
                                 </div>
                                 <div>
                                     <label
@@ -656,11 +661,6 @@
         $(document).ready(function(argument) {
 
             $('.btn-remarks-doc').on('click', function() {
-                <<
-                <<
-                <<
-                <
-                HEAD
                 // Show the remarks label
                 $('.doc-remarks-label').removeClass('hidden');
 
@@ -688,9 +688,7 @@
                 $(this).closest('.doc-remarks').remove();
                 if ($('.doc-remarks').length === 0) {
                     $('.doc-remarks-label').addClass('hidden');
-                } ===
-                ===
-                =
+                }
                 $('.doc-remarks-label').removeClass('hidden');
                 var key = $(this).closest('div').find('.get-key').val();
                 var append_data = `
@@ -712,10 +710,7 @@
                     if ($('.doc-remarks').length === 0) {
                         $('.doc-remarks-label').addClass('hidden');
                     }
-                }); >>>
-                >>>
-                >
-                master
+                });
             });
 
 
@@ -916,6 +911,7 @@
                 $('#requestModal').addClass('hidden');
             });
             $('.directRequest').on('click', function() {
+                console.log("dd");
                 if ($('#directRequestModal').hasClass('hidden')) {
                     $('#directRequestModal').removeClass('hidden');
                     $('body').css('overflow', 'hidden');

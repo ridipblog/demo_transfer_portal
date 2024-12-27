@@ -37,10 +37,10 @@
                                     view document
                                     <i class="bi bi-arrow-up-right"></i>
                                 </a>
-                                @else
+                            @else
                                 <p class="ms-auto  text-gray-900 text-xs">
                                     No Document Available
-                            </p>
+                                </p>
                             @endif
 
                         </div>
