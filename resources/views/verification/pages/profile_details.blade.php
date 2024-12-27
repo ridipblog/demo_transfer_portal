@@ -112,11 +112,11 @@
                         </div>
                         <!-- <div class="">
 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">DDO Code</label>
-                                            
-                                                                <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">DDO Code</label>
-                                                                <p class="font-semibold">{{ $candidate->employment_details->ddo_code ?? 'N/A' }}</p>
-                                                            </div> -->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">DDO Code</label>
+                                                                                
+                                                                                                    <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">DDO Code</label>
+                                                                                                    <p class="font-semibold">{{ $candidate->employment_details->ddo_code ?? 'N/A' }}</p>
+                                                                                                </div> -->
 
                         <div class="col-span-2">
                             <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('user.form.emp_info.office_cp')</label>
@@ -495,18 +495,26 @@
                         <div action="/verifier/verify-candidates" method="">
                             <div class="grid gap-8">
                                 <input type="hidden" id="cd_id" value="{{ Crypt::encryptString($candidate->id) }}">
-                                <div class="flex gap-3">
+                                <div class="flex flex-col gap-3">
                                     <input type="hidden" id="verify_comment" name="comment" value="">
-                                    <input type="checkbox"
-                                        class=" border border-gray-300 text-sky-600 text-sm rounded-md focus:ring-sky-600 focus:border-sky-600 block p-1.5 mt-0.5"
-                                        required>
-                                    <p class="text-xs text-gray-900">@lang('authority_dashboard.profile_details.vrmsg')</p>
-
-                                    <input type="checkbox"
-                                        class=" border border-gray-300 text-sky-600 text-sm rounded-md focus:ring-sky-600 focus:border-sky-600 block p-1.5 mt-0.5"
-                                        required>
-                                    <p class="text-xs text-gray-900">No checkbox available</p>
+                                    <div class="flex items-center gap-2">
+                                        <input type="checkbox" name="verification[]" value="general"
+                                            class="border border-gray-300 text-sky-600 text-sm rounded-md focus:ring-sky-600 focus:border-sky-600 block p-1.5 mt-0.5"
+                                            required>
+                                        <p class="text-xs text-gray-900">@lang('authority_dashboard.profile_details.vrmsg')</p>
+                                    </div>
+                                    @if (count($cond) != 0)
+                                        @foreach ($cond as $c)
+                                            <div class="flex items-center gap-2">
+                                                <input type="checkbox" name="verification[]" value="{{ $c->id }}"
+                                                    class="border border-gray-300 text-sky-600 text-sm rounded-md focus:ring-sky-600 focus:border-sky-600 block p-1.5 mt-0.5 additional_conditions"
+                                                    required>
+                                                <p class="text-xs text-gray-900">{{ $c->conditions }}</p>
+                                            </div>
+                                        @endforeach
+                                    @endif
                                 </div>
+
                                 <div>
                                     <label
                                         class="block mb-1 text-xs md:text-sm font-bold text-gray-800">@lang('authority_dashboard.profile_details.remarks')</label>
@@ -518,12 +526,13 @@
                                     <button type="button"
                                         class="bg-white hover:bg-gray-200 border border-transparent text-gray-900 hover:text-black rounded-md block px-2 py-1.5 duration-300"
                                         id="closeDirectRequestModalButton">@lang('authority_dashboard.profile_details.close')</button>
-                                    <button type="button"
+                                    <button type="submit"
                                         class="bg-sky-500 hover:bg-sky-600 border border-transparent text-white rounded-md block px-2 py-1.5 w-fit"
                                         id="verify_submit">@lang('authority_dashboard.profile_details.submit')</button>
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
 
@@ -1006,6 +1015,7 @@
             $('#verify_submit').on('click', function() {
                 var comment = $('#comment').val();
                 $('#verify_comment').val(comment);
+
                 Swal.fire({
                     title: 'Are you sure?',
                     text: 'You won\'t be able to revert this.',
@@ -1015,22 +1025,44 @@
                     cancelButtonColor: "#d33",
                     confirmButtonText: "Yes, Verify"
                 }).then((result) => {
-                    console.log();
                     if (result.isConfirmed) {
-                        let checkbox1 = $('input[type="checkbox"]').eq(0).prop('checked');
-                        if (!checkbox1) {
-                            alert('Please ensure the checkbox is selected before proceeding.');
+                        // Check if the main checkbox is selected
+                        let mainCheckbox = $('input[type="checkbox"]').eq(0).prop('checked');
+                        if (!mainCheckbox) {
+                            alert('Please ensure the main checkbox is selected before proceeding.');
                             return false;
                         }
+
+                        // Check if additional conditions are available
+                        let additionalConditions = $('.additional_conditions');
+                        if (additionalConditions.length > 0) {
+                            let allChecked = true;
+
+                            // Verify all additional checkboxes are checked
+                            additionalConditions.each(function() {
+                                if (!$(this).prop('checked')) {
+                                    allChecked = false;
+                                }
+                            });
+
+                            if (!allChecked) {
+                                alert(
+                                    'Please ensure all additional conditions are checked before proceeding.');
+                                return false;
+                            }
+                        }
+
+                        // Proceed with form submission if all validations pass
                         let remarks = $('#verification_remarks_id').val();
-                        let id = $('#cd_id').val()
+                        let id = $('#cd_id').val();
                         $('#verifier_remarks').val(remarks);
                         $('#candidate_verify_id').val(id);
+
                         let docsLength = $('.sub-form-div').length;
                         let form = $('#form_doc_append')[0];
                         $('#forms_number').val(docsLength);
+
                         let formData = new FormData(form);
-                        console.log("Ok");
                         $.ajax({
                             type: "POST",
                             url: "/verifier/verify-candidates",
@@ -1042,16 +1074,15 @@
                             contentType: false,
                             processData: false,
                             success: function(response) {
-                                console.log(response)
                                 if (response.res_data.status == 200) {
                                     window.location.reload();
                                 } else {
                                     for (var i = 0; i < response.res_data.message
                                         .length; i++) {
                                         $('.file_error').text(response.res_data.message[
-                                            0].document)
+                                            0].document);
                                         $('.remakrs_error').text(response.res_data
-                                            .message[0].text)
+                                            .message[0].text);
                                     }
                                 }
                             }
@@ -1059,6 +1090,7 @@
                     }
                 });
             });
+
             // Document
             $(document).on('click', '.up_doc_rmv_btn', function() {
                 var up_prev_rmv = $(this);
