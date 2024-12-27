@@ -112,11 +112,11 @@
                         </div>
                         <!-- <div class="">
 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">DDO Code</label>
-                                                                                
-                                                                                                    <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">DDO Code</label>
-                                                                                                    <p class="font-semibold">{{ $candidate->employment_details->ddo_code ?? 'N/A' }}</p>
-                                                                                                </div> -->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">DDO Code</label>
+                                                                                                                                                                                                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                                                                                                                                                                                <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">DDO Code</label>
+                                                                                                                                                                                                                                                                                                                                                                                                                <p class="font-semibold">{{ $candidate->employment_details->ddo_code ?? 'N/A' }}</p>
+                                                                                                                                                                                                                                                                                                                                                                                                            </div> -->
 
                         <div class="col-span-2">
                             <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('user.form.emp_info.office_cp')</label>
@@ -193,59 +193,64 @@
                     </div>
 
                     {{-- ///////////////////// --}}
+                    <div class="border border-sky-500 rounded-3xl border-b-4 border-r-4 p-6">
 
-                    <div
-                        class="grid lg:grid-cols-3 gap-4 border border-sky-500 rounded-3xl border-b-4 border-r-4 p-6 remarks-doc-div">
-                        <div class="lg:col-span-3">
-                            <p class="text-lg font-bold text-sky-700">@lang('user.form.docs.heading')</p>
-                            <p class="text-xs font-bold text-sky-700">If any document is found to be invalid, verifying
-                                officers can provide remarks by selecting the "<span class="text-red-600">Remarks</span>"
-                                option on document.</p>
-                        </div>
 
-                        @php
-                            $key = 1;
-                        @endphp
-                        @foreach ($candidate->documents as $document)
-                            @if (
-                                $document['document_type'] != 5 ||
-                                    ($document['document_type'] == 5 && $candidate->additional_info->pending_govt_dues == 'no'))
-                                <div class="border rounded-xl bg-neutral-60">
-                                    @php
-                                        $name = config(
-                                            'globalVariables.registration_documtns.' . $document['document_type'],
-                                        );
-                                    @endphp
-                                    <div class="flex items-center justify-between px-2">
-                                        <p class="m-0 p-2 px-8"></p>
-                                        <p class="m-0 p-2 text-xs">
-                                            {{ Str::upper(str_replace('_', ' ', __("user.form.docs.$key"))) }}</p>
+                        <div class="grid lg:grid-cols-3 gap-4 remarks-doc-div">
+                            <div class="lg:col-span-3">
+                                <p class="text-lg font-bold text-sky-700">@lang('user.form.docs.heading')</p>
+                                <p class="text-xs font-bold text-sky-700">If any document is found to be invalid, verifying
+                                    officers can provide remarks by selecting the "<span
+                                        class="text-red-600">Remarks</span>"
+                                    option on document.</p>
+                            </div>
 
-                                        <div class="">
-                                            <input type="hidden" class="get-key"
-                                                value="{{ Str::upper(str_replace('_', ' ', __("user.form.docs.$key"))) }}">
-                                            <button type="button"
-                                                class="border border-red-600 hover:bg-red-600 text-red-600 hover:text-white rounded p-0.5 text-xs px-2 btn-remarks-doc">
-                                                {{-- <i class="bi bi-x-lg"></i> --}}
-                                                Remarks
-                                            </button>
+                            @php
+                                $key = 1;
+                            @endphp
+                            @foreach ($candidate->documents as $document)
+                                @if (
+                                    $document['document_type'] != 5 ||
+                                        ($document['document_type'] == 5 && $candidate->additional_info->pending_govt_dues == 'no'))
+                                    <div class="border rounded-xl bg-neutral-60">
+                                        @php
+                                            $name = config(
+                                                'globalVariables.registration_documtns.' . $document['document_type'],
+                                            );
+                                        @endphp
+                                        <div class="flex items-center justify-between px-2">
+                                            <p class="m-0 p-2 px-8"></p>
+                                            <p class="m-0 p-2 text-xs">
+                                                {{ Str::upper(str_replace('_', ' ', __("user.form.docs.$key"))) }}</p>
+                                            <div class="">
+                                                <input type="hidden" class="get-key">
+                                                <button type="button" value="{{ $document['document_type'] }}"
+                                                    class="border border-red-600 hover:bg-red-600 text-red-600 hover:text-white rounded p-0.5 text-xs px-2 btn-remarks-doc">
+                                                    {{-- <i class="bi bi-x-lg"></i> --}}
+                                                    Remarks
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="h-44 p-2 pt-0">
+                                            <img src="{{ Storage::url($document['documet_location'] ?? 'N/A') }}"
+                                                alt="" class="w-full h-full object-contain object-center">
                                         </div>
                                     </div>
-                                    <div class="h-44 p-2 pt-0">
-                                        <img src="{{ Storage::url($document['documet_location'] ?? 'N/A') }}"
-                                            alt="" class="w-full h-full object-contain object-center">
-                                    </div>
-                                </div>
-                            @endif
-                            @php
-                                $key++;
-                            @endphp
-                        @endforeach
+                                @endif
+                                @php
+                                    $key++;
+                                @endphp
+                            @endforeach
 
-                        <div class="mt-6 lg:col-span-3 doc-remarks-label hidden">
-                            <p class="text-xs font-bold text-sky-700">Invalid document remarks</p>
+                            <div class="mt-6 lg:col-span-3 doc-remarks-label hidden">
+                                <p class="text-xs font-bold text-sky-700">Invalid document remarks</p>
+                            </div>
+
+
                         </div>
+                        <form class="remarks-document-div w-full" id="reject-on-verify" action="/ridip" method="post">
 
+                        </form>
                     </div>
 
                     {{-- previous documents --}}
@@ -544,28 +549,28 @@
                         <div class="space-y-2 mb-6">
                             <p class="text-3xl font-semibold">@lang('authority_dashboard.profile_details.reject')</p>
                         </div>
-                        <form action="{{ url('verifier/reject-candidates') }}" method="post" id="reject_new">
-                            @csrf
-                            <div class="grid gap-8">
-                                <div>
-                                    <input type="hidden" id="reject_comment" name="comment" value="">
-                                    <input type="hidden" id="candidate_reject_id" name="candidate_reject_id"
-                                        value="{{ $candidate->id }}">
-                                    <label
-                                        class="block mb-1 text-xs md:text-sm font-bold text-gray-800">@lang('authority_dashboard.profile_details.verify_reject_heading')</label>
-                                    <textarea name="reject_message"
-                                        class="disabled:bg-gray-100 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full"
-                                        rows="4" required></textarea>
-                                </div>
-                                <div class="flex gap-1 justify-end">
-                                    <button type="button"
-                                        class="bg-white hover:bg-gray-200 border border-transparent text-gray-900 hover:text-black rounded-md block px-2 py-1.5 duration-300"
-                                        id="closeRejectModalButton">@lang('authority_dashboard.profile_details.close')</button>
-                                    <button type="button" id="reject_noc_btn"
-                                        class="bg-red-500 hover:bg-red-600 border border-transparent text-white rounded-md block px-2 py-1.5 w-fit">@lang('authority_dashboard.profile_details.reject_verify_btn')</button>
-                                </div>
+                        {{-- <form action="{{ url('verifier/reject-candidates') }}" method="post" id="reject_new"> --}}
+                        @csrf
+                        <div class="grid gap-8">
+                            <div>
+                                <input type="hidden" id="reject_comment" name="comment" value="">
+                                <input type="hidden" id="candidate_reject_id" name="candidate_reject_id"
+                                    value="{{ $candidate->id }}">
+                                <label
+                                    class="block mb-1 text-xs md:text-sm font-bold text-gray-800">@lang('authority_dashboard.profile_details.verify_reject_heading')</label>
+                                <textarea name="reject_message"
+                                    class="disabled:bg-gray-100 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full"
+                                    rows="4" required></textarea>
                             </div>
-                        </form>
+                            <div class="flex gap-1 justify-end">
+                                <button type="button"
+                                    class="bg-white hover:bg-gray-200 border border-transparent text-gray-900 hover:text-black rounded-md block px-2 py-1.5 duration-300"
+                                    id="closeRejectModalButton">@lang('authority_dashboard.profile_details.close')</button>
+                                <button type="button" id="reject_noc_btn" value="{{ $candidate->id }}"
+                                    class="bg-red-500 hover:bg-red-600 border border-transparent text-white rounded-md block px-2 py-1.5 w-fit">@lang('authority_dashboard.profile_details.reject_verify_btn')</button>
+                            </div>
+                        </div>
+                        {{-- </form> --}}
                     </div>
                 </div>
 
@@ -669,110 +674,135 @@
     <script>
         $(document).ready(function(argument) {
 
+
             $('.btn-remarks-doc').on('click', function() {
                 // Show the remarks label
-                $('.doc-remarks-label').removeClass('hidden');
+                const myGlobalVariable = @json(config('globalVariables.registration_documtns'));
+                let name = myGlobalVariable[$(this).val()].replaceAll('_', ' ');
 
-                // Get the document type key
-                var key = $(this).closest('div').find('.get-key').val();
-
-                // Create the dynamic remark section HTML
                 var append_data = `
-        <div class="doc-remarks">
-            <label for="message"
-                class="block mb-2 text-xs font-semibold text-gray-900 dark:text-white">Remarks for
-                ` + key + `</label>
-            <textarea id="message" rows="2"
-                class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
-                placeholder="Write here..."></textarea>
-            <!-- Cross button to remove the div -->
-            <button type="button" class="remove-remarks-btn text-red-600 hover:text-red-800 mt-2 text-sm">
-                &times; Remove
-            </button>
-        </div>`;
-                $('.remarks-doc-div').append(append_data);
+            <div class="doc-remarks">
+                <label for="message"
+                    class="block mb-2 text-xs font-semibold text-gray-900 dark:text-white">Remarks for ${name}</label>
+                    <input type="hidden" value="${$(this).val()}" name="">
+                <textarea id="message" rows="2"
+                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="Write here..."></textarea>
+                <!-- Cross button to remove the div -->
+                <button type="button" class="remove-remarks-btn text-red-600 hover:text-red-800 mt-2 text-sm">
+                    &times; Remove
+                </button>
+            </div>`;
+                $('.remarks-document-div').append(append_data);
+                //         $('.doc-remarks-label').removeClass('hidden');
+
+                //         // Get the document type key
+                //         var key = $(this).closest('div').find('.get-key').val();
+                //         var global =
+                //             // Create the dynamic remark section HTML
+                //             var append_data = `
+            // <div class="doc-remarks">
+            //     <label for="message"
+            //         class="block mb-2 text-xs font-semibold text-gray-900 dark:text-white">Remarks for
+            //         ` + key + `</label>
+            //     <textarea id="message" rows="2"
+            //         class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+            //         placeholder="Write here..."></textarea>
+            //     <!-- Cross button to remove the div -->
+            //     <button type="button" class="remove-remarks-btn text-red-600 hover:text-red-800 mt-2 text-sm">
+            //         &times; Remove
+            //     </button>
+            // </div>`;
+                //         $('.remarks-doc-div').append(append_data);
             });
 
-            $('.remarks-doc-div').on('click', '.remove-remarks-btn', function() {
-                $(this).closest('.doc-remarks').remove();
-                if ($('.doc-remarks').length === 0) {
-                    $('.doc-remarks-label').addClass('hidden');
-                }
-                $('.doc-remarks-label').removeClass('hidden');
-                var key = $(this).closest('div').find('.get-key').val();
-                var append_data = `
-<div class="doc-remarks">
-    <label for="message"
-        class="block mb-2 text-xs font-semibold text-gray-900 dark:text-white">Remarks for
-        ` + key + `</label>
-    <textarea id="message" rows="2"
-        class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
-        placeholder="Write here..."></textarea>
-    <!-- Cross button to remove the div -->
-    <button type="button" class="remove-remarks-btn text-red-600 hover:text-red-800 mt-2 text-sm">
-        &times; Remove
-    </button>
-</div>`;
-                $('.remarks-doc-div').append(append_data);
-                $('.remove-remarks-btn').on('click', function() {
-                    $(this).closest('.doc-remarks').remove();
-                    if ($('.doc-remarks').length === 0) {
-                        $('.doc-remarks-label').addClass('hidden');
-                    }
-                });
+            $(document).on('click', '.remove-remarks-btn', function() {
+                console.log("Ok");
+                let doc_index = $(this).closest('.doc-remarks').index();
+                //                 $(this).closest('.doc-remarks').remove();
+                //                 if ($('.doc-remarks').length === 0) {
+                //                     $('.doc-remarks-label').addClass('hidden');
+                //                 }
+                //                 $('.doc-remarks-label').removeClass('hidden');
+                //                 var key = $(this).closest('div').find('.get-key').val();
+                //                 var append_data = `
+            // <div class="doc-remarks">
+            //     <label for="message"
+            //         class="block mb-2 text-xs font-semibold text-gray-900 dark:text-white">Remarks for
+            //         ` + key + `</label>
+            //     <textarea id="message" rows="2"
+            //         class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+            //         placeholder="Write here..."></textarea>
+            //     <!-- Cross button to remove the div -->
+            //     <button type="button" class="remove-remarks-btn text-red-600 hover:text-red-800 mt-2 text-sm">
+            //         &times; Remove
+            //     </button>
+            // </div>`;
+                //                 $('.remarks-doc-div').append(append_data);
+                //                 $('.remove-remarks-btn').on('click', function() {
+                //                     $(this).closest('.doc-remarks').remove();
+                //                     if ($('.doc-remarks').length === 0) {
+                //                         $('.doc-remarks-label').addClass('hidden');
+                //                     }
+                //                 });
             });
 
 
 
 
-            $('#reject_noc_btn').on('click', function() {
+            $('#reject_noc_btn').on('click', function(e) {
+                console.log($(this).val());
+                e.preventDefault();
+                $('#reject-on-verify').append(
+                    `<input type="hidden" value=${$(this).val()} name="candidate_id">`);
+                // $('#reject-on-verify').submit();
                 var comment = $('#comment').val();
-                $('#reject_comment').val(
-                    comment); // Append the general comment to the hidden input in the modal
+                // $('#reject_comment').val(
+                //     comment); // Append the general comment to the hidden input in the modal
 
-                // Initialize an array to store all document-specific remarks
-                var allRemarks = [];
-                $('.doc-remarks').each(function() {
-                    // Get the document name/key and clean it
-                    var docKey = $(this).find('label').text().replace(/^Remarks for\s*[\n\r]*\s*/,
-                        '').trim();
+                // // Initialize an array to store all document-specific remarks
+                // var allRemarks = [];
+                // $('.doc-remarks').each(function() {
+                //     // Get the document name/key and clean it
+                //     var docKey = $(this).find('label').text().replace(/^Remarks for\s*[\n\r]*\s*/,
+                //         '').trim();
 
-                    // Get the remark text entered by the user
-                    var remarkText = $(this).find('textarea').val();
+                //     // Get the remark text entered by the user
+                //     var remarkText = $(this).find('textarea').val();
 
-                    // Store the data in an object and push it to the allRemarks array
-                    if (remarkText.trim() !== '') { // Only add remarks that are not empty
-                        allRemarks.push({
-                            document: docKey,
-                            remark: remarkText
-                        });
-                    }
-                });
+                //     // Store the data in an object and push it to the allRemarks array
+                //     if (remarkText.trim() !== '') { // Only add remarks that are not empty
+                //         allRemarks.push({
+                //             document: docKey,
+                //             remark: remarkText
+                //         });
+                //     }
+                // });
 
-                // Append the allRemarks array as a hidden input in the modal form
-                $('#reject_new').append('<input type="hidden" name="allRemarks" value=\'' + JSON.stringify(
-                    allRemarks) + '\'>');
+                // // Append the allRemarks array as a hidden input in the modal form
+                // $('#reject_new').append('<input type="hidden" name="allRemarks" value=\'' + JSON.stringify(
+                //     allRemarks) + '\'>');
 
-                // Get the number of sub-forms (if applicable)
-                let docsLength = $('.sub-form-div').length;
-                $('#reject_new').append('<input type="hidden" name="forms_number" value="' + docsLength +
-                    '">');
+                // // Get the number of sub-forms (if applicable)
+                // let docsLength = $('.sub-form-div').length;
+                // $('#reject_new').append('<input type="hidden" name="forms_number" value="' + docsLength +
+                //     '">');
 
-                // Create FormData object from the form
-                let form = $('#form_doc_append')[0];
-                let formData = new FormData(form);
+                // // Create FormData object from the form
+                // let form = $('#form_doc_append')[0];
+                // let formData = new FormData(form);
 
-                // Append each FormData item as hidden inputs to the modal form
-                for (let [key, value] of formData.entries()) {
-                    if (key === 'remarks_documents') {
-                        // Handle file inputs separately (if any)
-                        $('#reject_new').append('<input type="hidden" name="' + key + '" value="' + value
-                            .name + '">');
-                    } else {
-                        $('#reject_new').append('<input type="hidden" name="' + key + '" value="' + value +
-                            '">');
-                    }
-                }
+                // // Append each FormData item as hidden inputs to the modal form
+                // for (let [key, value] of formData.entries()) {
+                //     if (key === 'remarks_documents') {
+                //         // Handle file inputs separately (if any)
+                //         $('#reject_new').append('<input type="hidden" name="' + key + '" value="' + value
+                //             .name + '">');
+                //     } else {
+                //         $('#reject_new').append('<input type="hidden" name="' + key + '" value="' + value +
+                //             '">');
+                //     }
+                // }
 
                 // Show a confirmation modal using SweetAlert
                 Swal.fire({
@@ -1047,7 +1077,8 @@
 
                             if (!allChecked) {
                                 alert(
-                                    'Please ensure all additional conditions are checked before proceeding.');
+                                    'Please ensure all additional conditions are checked before proceeding.'
+                                );
                                 return false;
                             }
                         }

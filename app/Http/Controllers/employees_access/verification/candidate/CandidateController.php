@@ -1561,6 +1561,7 @@ class CandidateController extends Controller
                         //     'old_documents' => null,
                         //     'authority_id' => $user->user_id,
                         // ]);
+                        // dd($request->all());
 
                         $rejectedDocument = RejectedDocumentsModel::create([
                             'user_id' => $request->input('candidate_reject_id'),
@@ -1579,7 +1580,9 @@ class CandidateController extends Controller
                             $doc_name = $remark['document'];
                             $documents = config('globalVariables.registration_documtns');
                             $documentKey = null;
+                            // dd($documents);
                             foreach ($documents as $key => $value) {
+                                dd(strtolower($doc_name));
                                 if (strtolower($doc_name) == strtolower(str_replace('_', ' ', $value))) {
                                     $documentKey = $key;
                                     break;
@@ -1587,6 +1590,7 @@ class CandidateController extends Controller
                             }
 
                             $doc = DocumentModel::where('user_id', $request->input('candidate_reject_id'))->where('document_type', $documentKey)->first();
+
                             if ($doc != null) {
                                 DB::table('authority_rejections')->insert([
                                     'rejected_document_id' => $rejectedDocument->id,
