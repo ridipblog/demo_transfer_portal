@@ -75,7 +75,8 @@ return [
         'sro' => 'Second Recommended On',
         'approved_by' => 'Approved By',
         'approved_on' => 'Approved On',
-        'previous_documents' => 'Previous Documents'
+        'previous_documents' => 'Previous Documents',
+        'view_resubmission' => 'View Verification History'
     ],
     'search_profiles' => [
         'heading' => 'All Profiles',
