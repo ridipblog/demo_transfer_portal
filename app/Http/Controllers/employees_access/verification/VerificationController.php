@@ -700,7 +700,7 @@ class VerificationController extends Controller
                 ->whereIn('target_employee_employment.depertment_id', $dept_ids);
             // ->where('employee_employment.directorate_id', $dir)
             // ->where('target_employee_employment.directorate_id', $dir);
-            if ($dir != null) {
+            if ($dir != null && $dir != 0) {
                 $pendingTransfers->where('employee_employment.directorate_id', $dir)->where('target_employee_employment.directorate_id', $dir);
             }
             if ($authority_maps->isNotEmpty()) {
@@ -754,7 +754,7 @@ class VerificationController extends Controller
                 ->whereIn('target_employee_employment.depertment_id', $dept_ids);
             // ->where('employee_employment.directorate_id', $dir)
             // ->where('target_employee_employment.directorate_id', $dir);
-            if ($dir != null) {
+            if ($dir != null && $dir != 0) {
                 $allTransfers->where('employee_employment.directorate_id', $dir)->where('target_employee_employment.directorate_id', $dir);
             }
             // dd($allTransfers->get());
@@ -806,7 +806,7 @@ class VerificationController extends Controller
                 ->leftJoin('employment_details as target_employee_employment', 'transafers.target_employee_id', '=', 'target_employee_employment.user_id')
                 ->whereIn('employee_employment.depertment_id', $dept_ids)
                 ->whereIn('target_employee_employment.depertment_id', $dept_ids);
-            if ($dir != null) {
+            if ($dir != null && $dir != 0) {
                 $rejectedTransfers->where('employee_employment.directorate_id', $dir)->where('target_employee_employment.directorate_id', $dir);
             }
 
@@ -857,6 +857,9 @@ class VerificationController extends Controller
                 ->leftJoin('employment_details as target_employee_employment', 'transafers.target_employee_id', '=', 'target_employee_employment.user_id')
                 ->whereIn('employee_employment.depertment_id', $dept_ids)
                 ->whereIn('target_employee_employment.depertment_id', $dept_ids);
+            if ($dir != null && $dir != 0) {
+                $approvedTransfers->where('employee_employment.directorate_id', $dir)->where('target_employee_employment.directorate_id', $dir);
+            }
             if ($authority_maps->isNotEmpty()) {
                 $approvedTransfers->where(function ($query) use ($authority_maps) {
                     foreach ($authority_maps as $map) {

@@ -183,7 +183,6 @@ Route::get('/switch-role/{role_id}', [VerificationController::class, 'switch_rol
 Route::group(['prefix' => 'verifier', 'middleware' => ['user_protect:roles,view,Approver']], function () {
 
     Route::post('/approval-second-recommend', [VerificationController::class, 'approver_second_recommend'])->name('verification.approver.second.recommend');
-
     // Route::get('/approval-dashboard', [VerificationController::class, 'approver_index'])->name('verification.approver.dashboard');
 
     // Route::get('/approval-dashboard', [VerificationController::class, 'approver_index'])->name('verification.approver.dashboard');

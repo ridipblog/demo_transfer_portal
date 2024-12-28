@@ -17,8 +17,7 @@
                         <div class="flex gap-4">
                             <i class="bi bi-exclamation-triangle mt-0.5"></i>
                             <div class="">
-                                <p class="text-xl font-semibold mb-1">
-                                    @lang('authority_dashboard.profile_details.verification_progress')</p>
+                                <p class="text-xl font-semibold mb-1">@lang('authority_dashboard.profile_details.verification_progress')</p>
                                 <p class="text-sm">@lang('authority_dashboard.profile_details.verification_under_review')</p>
                             </div>
                         </div>
@@ -39,9 +38,11 @@
                     <div class="col-span-3 flex items-center justify-end">
 
                         {{-- {{ dd(Crypt::encryptString($candidate->id)) }} --}}
+
+
                         <a href=" {{ route('resubmitted.profile', ['id' => Crypt::encryptString($candidate->id)]) }}"
                             class="hover:underline text-gray-900 text-xs">
-                            @lang('authority_dashboard.profile_details.view_resubmission')
+                            View All Rejected Profile's
                             <i class="bi bi-arrow-up-right"></i>
                         </a>
                     </div>
@@ -111,11 +112,11 @@
                         </div>
                         <!-- <div class="">
 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">DDO Code</label>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">DDO Code</label>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <p class="font-semibold">{{ $candidate->employment_details->ddo_code ?? 'N/A' }}</p>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </div> -->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">DDO Code</label>
+                                                                                                                
+                                                                                                                                    <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">DDO Code</label>
+                                                                                                                                    <p class="font-semibold">{{ $candidate->employment_details->ddo_code ?? 'N/A' }}</p>
+                                                                                                                                </div> -->
 
                         <div class="col-span-2">
                             <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('user.form.emp_info.office_cp')</label>
@@ -186,72 +187,65 @@
                                 availed mutual transfer ?</label>
 
                             <p class="font-semibold truncate">
-                                {{ $candidate->additional_info->times_mutual_transfer ?? 'N/A' }}
-                            </p>
+                                {{ $candidate->additional_info->times_mutual_transfer ?? 'N/A' }}</p>
                         </div>
 
                     </div>
 
                     {{-- ///////////////////// --}}
-                    <div class="border border-sky-500 rounded-3xl border-b-4 border-r-4 p-6">
 
+                    <div
+                        class="grid lg:grid-cols-3 gap-4 border border-sky-500 rounded-3xl border-b-4 border-r-4 p-6 remarks-doc-div">
+                        <div class="lg:col-span-3">
+                            <p class="text-lg font-bold text-sky-700">@lang('user.form.docs.heading')</p>
+                            <p class="text-xs font-bold text-sky-700">If any document is found to be invalid, verifying
+                                officers can provide remarks by selecting the "<span class="text-red-600">Remarks</span>"
+                                option on document.</p>
+                        </div>
 
-                        <div class="grid lg:grid-cols-3 gap-4 remarks-doc-div">
-                            <div class="lg:col-span-3">
-                                <p class="text-lg font-bold text-sky-700">@lang('user.form.docs.heading')</p>
-                                <p class="text-xs font-bold text-sky-700">If any document is found to be invalid, verifying
-                                    officers can provide remarks by selecting the "<span
-                                        class="text-red-600">Remarks</span>"
-                                    option on document.</p>
-                            </div>
+                        @php
+                            $key = 1;
+                        @endphp
+                        @foreach ($candidate->documents as $document)
+                            @if (
+                                $document['document_type'] != 5 ||
+                                    ($document['document_type'] == 5 && $candidate->additional_info->pending_govt_dues == 'no'))
+                                <div class="border rounded-xl bg-neutral-60">
+                                    @php
+                                        $name = config(
+                                            'globalVariables.registration_documtns.' . $document['document_type'],
+                                        );
+                                    @endphp
+                                    <div class="flex items-center justify-between px-2">
+                                        <p class="m-0 p-2 px-8"></p>
+                                        <p class="m-0 p-2 text-xs">
+                                            {{ Str::upper(str_replace('_', ' ', __("user.form.docs.$key"))) }}</p>
 
-                            @php
-                                $key = 1;
-                            @endphp
-                            @foreach ($candidate->documents as $document)
-                                @if (
-                                    $document['document_type'] != 5 ||
-                                        ($document['document_type'] == 5 && $candidate->additional_info->pending_govt_dues == 'no'))
-                                    <div class="border rounded-xl bg-neutral-60">
-                                        @php
-                                            $name = config(
-                                                'globalVariables.registration_documtns.' . $document['document_type'],
-                                            );
-                                        @endphp
-                                        <div class="flex items-center justify-between px-2">
-                                            <p class="m-0 p-2 px-8"></p>
-                                            <p class="m-0 p-2 text-xs">
-                                                {{ Str::upper(str_replace('_', ' ', __("user.form.docs.$key"))) }}
-                                            </p>
-                                            <div class="">
-                                                <input type="hidden" class="get-key">
-                                                <button type="button" value="{{ $document['document_type'] }}"
-                                                    class="border border-red-600 hover:bg-red-600 text-red-600 hover:text-white rounded p-0.5 text-xs px-2 btn-remarks-doc">
-                                                    {{-- <i class="bi bi-x-lg"></i> --}}
-                                                    Remarks
-                                                </button>
-                                            </div>
-                                        </div>
-                                        <div class="h-44 p-2 pt-0">
-                                            <img src="{{ Storage::url($document['documet_location'] ?? 'N/A') }}"
-                                                alt="" class="w-full h-full object-contain object-center">
+                                        <div class="">
+                                            <input type="hidden" class="get-key"
+                                                value="{{ Str::upper(str_replace('_', ' ', __("user.form.docs.$key"))) }}">
+                                            <button type="button"
+                                                class="border border-red-600 hover:bg-red-600 text-red-600 hover:text-white rounded p-0.5 text-xs px-2 btn-remarks-doc">
+                                                {{-- <i class="bi bi-x-lg"></i> --}}
+                                                Remarks
+                                            </button>
                                         </div>
                                     </div>
-                                @endif
-                                @php
-                                    $key++;
-                                @endphp
-                            @endforeach
+                                    <div class="h-44 p-2 pt-0">
+                                        <img src="{{ Storage::url($document['documet_location'] ?? 'N/A') }}"
+                                            alt="" class="w-full h-full object-contain object-center">
+                                    </div>
+                                </div>
+                            @endif
+                            @php
+                                $key++;
+                            @endphp
+                        @endforeach
 
-                            <div class="mt-6 lg:col-span-3 doc-remarks-label hidden">
-                                <p class="text-xs font-bold text-sky-700">Invalid document remarks</p>
-                            </div>
-
-
+                        <div class="mt-6 lg:col-span-3 doc-remarks-label hidden">
+                            <p class="text-xs font-bold text-sky-700">Invalid document remarks</p>
                         </div>
-                        <form class="remarks-document-div w-full" id="reject-on-verify" action="/ridip" method="post">
 
-                        </form>
                     </div>
 
                     {{-- previous documents --}}
@@ -277,20 +271,21 @@
                                             @endphp
                                             <div class="text-white text-center p-2 text-xs">
                                                 {{ Str::upper(str_replace('_', ' ', __("user.form.docs.$document->document_type"))) }}
-            </div>
-            <div class="h-44 p-2 pt-0">
-                <img src="{{ Storage::url($document->documet_location ?? 'N/A') }}"
-                    alt="Document {{ $document->document_type }}" class="w-full h-full object-contain object-center">
-            </div>
-        </div>
-        @endif
-        @php
-        $key++;
-        @endphp
-        @endforeach
-        @endforeach
-    </div>
-    @endif --}}
+                                            </div>
+                                            <div class="h-44 p-2 pt-0">
+                                                <img src="{{ Storage::url($document->documet_location ?? 'N/A') }}"
+                                                    alt="Document {{ $document->document_type }}"
+                                                    class="w-full h-full object-contain object-center">
+                                            </div>
+                                        </div>
+                                    @endif
+                                    @php
+                                        $key++;
+                                    @endphp
+                                @endforeach
+                            @endforeach
+                        </div>
+                    @endif --}}
 
 
                     {{-- Additional documents and comments --}}
@@ -303,7 +298,7 @@
                                 class="grid lg:grid-cols-3 gap-4 border border-sky-500 rounded-3xl border-b-4 border-r-4 p-6 doc-section"
                                 id="form_doc_append" enctype="multipart/form-data">
                                 <div class="lg:col-span-3">
-                                    <div class="h-full flex items-top">
+                                    <div class="h-full flex items-end">
                                         <p class="text-lg font-bold text-sky-700">
                                             @lang('authority_dashboard.profile_details.additional_documents')
                                         </p>
@@ -311,11 +306,8 @@
                                             <button type="button" id="add-more"
                                                 class="ml-auto bg-sky-500 hover:bg-sky-600 border border-transparent text-white text-sm rounded-md block px-2 py-0.5">
                                                 <i class="bi bi-plus-lg text-lg pr-1"></i>
-                                                {{-- @lang('authority_dashboard.profile_details.add_more') --}}
-                                                Add Document
+                                                @lang('authority_dashboard.profile_details.add_more')
                                             </button>
-                                            <div class="text-right text-[0.65rem] font-bold text-gray-400">(if applicable)
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -361,17 +353,14 @@
                                 <p class="font-semibold">{{ $verified_by != null ? $verified_by->name : 'N/A' }},
                                     {{ $verified_by != null ? $verified_by->designation : 'N/A' }},
                                     N/A,
-                                    {{-- {{ $office_name != null ? (is_array($office_name) ? (', ', $office_name) : $office_name) : 'N/A' }},
-                --}}
-                                    {{ $department_name != null ? $department_name : 'N/A' }}
-                                </p>
+                                    {{-- {{ $office_name != null ? (is_array($office_name) ? (', ', $office_name) : $office_name) : 'N/A' }}, --}}
+                                    {{ $department_name != null ? $department_name : 'N/A' }}</p>
                             </div>
                             <div>
                                 <label
                                     class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('authority_dashboard.updated_texts.verifier_remarks')</label>
                                 <p class="font-semibold">
-                                    {{ $candidate->verified_remarks != null ? $candidate->verified_remarks : 'N/A' }}
-                                </p>
+                                    {{ $candidate->verified_remarks != null ? $candidate->verified_remarks : 'N/A' }}</p>
                             </div>
                             @if ($candidate->verified_on != null)
                                 <div>
@@ -392,15 +381,13 @@
                                             {{ $noc_generated_by != null ? $noc_generated_by->name : 'N/A' }},
                                             {{ $noc_generated_by != null ? $noc_generated_by->designation : 'N/A' }}
                                             {{ $noc_office_name != null ? $noc_office_name : 'N/A' }},
-                                            {{ $noc_department_name != null ? $noc_department_name : 'N/A' }}
-                                        </p>
+                                            {{ $noc_department_name != null ? $noc_department_name : 'N/A' }}</p>
                                     </div>
                                     <div>
                                         <label
                                             class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('authority_dashboard.updated_texts.appointing_authority_remarks')</label>
                                         <p class="font-semibold">
-                                            {{ $candidate->noc_remarks != null ? $candidate->noc_remarks : 'N/A' }}
-                                        </p>
+                                            {{ $candidate->noc_remarks != null ? $candidate->noc_remarks : 'N/A' }}</p>
                                     </div>
                                     @if ($candidate->noc_generated_on != null)
                                         <div>
@@ -567,18 +554,17 @@
                                     <label
                                         class="block mb-1 text-xs md:text-sm font-bold text-gray-800">@lang('authority_dashboard.profile_details.verify_reject_heading')</label>
                                     <textarea name="reject_message"
-                                        class="disabled:bg-gray-100 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full reject_msg"
+                                        class="disabled:bg-gray-100 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full"
                                         rows="4" required></textarea>
                                 </div>
                                 <div class="flex gap-1 justify-end">
                                     <button type="button"
                                         class="bg-white hover:bg-gray-200 border border-transparent text-gray-900 hover:text-black rounded-md block px-2 py-1.5 duration-300"
                                         id="closeRejectModalButton">@lang('authority_dashboard.profile_details.close')</button>
-                                    <button type="button" id="reject_noc_btn" value="{{ $candidate->id }}"
+                                    <button type="button" id="reject_noc_btn"
                                         class="bg-red-500 hover:bg-red-600 border border-transparent text-white rounded-md block px-2 py-1.5 w-fit">@lang('authority_dashboard.profile_details.reject_verify_btn')</button>
                                 </div>
                             </div>
-
                         </form>
                     </div>
                 </div>
@@ -663,11 +649,7 @@
     @if (session('flash_message'))
         <script>
             $(document).ready(function() {
-                var count = {
-                    {
-                        session('flash_message')
-                    }
-                };
+                var count = {{ session('flash_message') }};
                 var message = "{{ session('message') }}";
                 console.log(message)
                 if (count == 1) {
@@ -686,225 +668,129 @@
 
     <script>
         $(document).ready(function(argument) {
+
             $('.btn-remarks-doc').on('click', function() {
                 // Show the remarks label
-                const myGlobalVariable = @json(config('globalVariables.registration_documtns'));
-                let name = myGlobalVariable[$(this).val()].replaceAll('_', ' ');
-                var k = $(this).val();
-                if ($('.doc-remarks .send-key').filter(function() {
-                        return $(this).val() === k;
-                    }).length > 0) {
-                    return;
-                }
+                $('.doc-remarks-label').removeClass('hidden');
+
+                // Get the document type key
+                var key = $(this).closest('div').find('.get-key').val();
+
+                // Create the dynamic remark section HTML
                 var append_data = `
-            <div class="doc-remarks">
-                <label for="message"
-                    class="block mb-2 text-xs font-semibold text-gray-900 dark:text-white" data-id="${$(this).val()}">Remarks for ${name}</label>
-                    <input class="send-key" type="hidden" value="${$(this).val()}" name="">
-                <textarea id="message" rows="2"
-                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
-                    placeholder="Write here..."></textarea>
-                <!-- Cross button to remove the div -->
-                <button type="button" class="remove-remarks-btn text-red-600 hover:text-red-800 mt-2 text-sm">
-                    &times; Remove
-                </button>
-            </div>`;
-                $('.remarks-document-div').append(append_data);
+        <div class="doc-remarks">
+            <label for="message"
+                class="block mb-2 text-xs font-semibold text-gray-900 dark:text-white">Remarks for
+                ` + key + `</label>
+            <textarea id="message" rows="2"
+                class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Write here..."></textarea>
+            <!-- Cross button to remove the div -->
+            <button type="button" class="remove-remarks-btn text-red-600 hover:text-red-800 mt-2 text-sm">
+                &times; Remove
+            </button>
+        </div>`;
+                $('.remarks-doc-div').append(append_data);
             });
-            // $(document).on('click', '.remove-remarks-btn', function() {
-            //     let doc_index = $(this).closest('.doc-remarks').index();
-            //     console.log($doc_index);
-            // });
-            $(document).on('click', '.remove-remarks-btn', function() {
+
+            $('.remarks-doc-div').on('click', '.remove-remarks-btn', function() {
                 $(this).closest('.doc-remarks').remove();
                 if ($('.doc-remarks').length === 0) {
                     $('.doc-remarks-label').addClass('hidden');
                 }
+                $('.doc-remarks-label').removeClass('hidden');
+                var key = $(this).closest('div').find('.get-key').val();
+                var append_data = `
+<div class="doc-remarks">
+    <label for="message"
+        class="block mb-2 text-xs font-semibold text-gray-900 dark:text-white">Remarks for
+        ` + key + `</label>
+    <textarea id="message" rows="2"
+        class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+        placeholder="Write here..."></textarea>
+    <!-- Cross button to remove the div -->
+    <button type="button" class="remove-remarks-btn text-red-600 hover:text-red-800 mt-2 text-sm">
+        &times; Remove
+    </button>
+</div>`;
+                $('.remarks-doc-div').append(append_data);
+                $('.remove-remarks-btn').on('click', function() {
+                    $(this).closest('.doc-remarks').remove();
+                    if ($('.doc-remarks').length === 0) {
+                        $('.doc-remarks-label').addClass('hidden');
+                    }
+                });
             });
 
-            // $('#reject_noc_btn').on('click', function(e) {
-            //     console.log($(this).val());
-            //     e.preventDefault();
-            //     $('#reject-on-verify').append(
-            //         `<input type="hidden" value=${$(this).val()} name="candidate_id">`);
-            //     var comment = $('#comment').val();
 
-            //     let form = $('#form_doc_append')[0];
-            //     let formData = new FormData(form);
-            //     // Append each FormData item as hidden inputs to the modal form
-            //     for (let [key, value] of formData.entries()) {
-            //         // console.log(value);
-            //         if (key === 'remarks_documents') {
-            //             $('#reject_new').append('<input type="hidden" name="' + key + '" value="' + value
-            //                 .name + '">');
-            //         } else {
-            //             $('#reject_new').append('<input type="hidden" name="' + key + '" value="' + value +
-            //                 '">');
-            //         }
-            //     }
-            //     // Show a confirmation modal using SweetAlert
-            //     Swal.fire({
-            //         title: 'Are you sure?',
-            //         text: 'You won\'t be able to revert this.',
-            //         icon: "warning",
-            //         showCancelButton: true,
-            //         confirmButtonColor: "#3085d6",
-            //         cancelButtonColor: "#d33",
-            //         confirmButtonText: "Yes, Reject"
-            //     }).then((result) => {
-            //         if (result.isConfirmed) {
-            //             $('#reject_new').submit();
-            //         }
-            //     });
-            // });
 
-            $('#reject_noc_btn').on('click', function(e) {
-                e.preventDefault();
-                let form = $('#form_doc_append')[0];
-                let formData = new FormData(form);
-                formData.append('candidate_id', $(this).val());
-                formData.append('comment', $('#comment').val());
 
+            $('#reject_noc_btn').on('click', function() {
+                var comment = $('#comment').val();
+                $('#reject_comment').val(
+                    comment); // Append the general comment to the hidden input in the modal
+
+                // Initialize an array to store all document-specific remarks
                 var allRemarks = [];
                 $('.doc-remarks').each(function() {
-                    var docKey = $(this).find('label').data('id');
+                    // Get the document name/key and clean it
+                    var docKey = $(this).find('label').text().replace(/^Remarks for\s*[\n\r]*\s*/,
+                        '').trim();
+
+                    // Get the remark text entered by the user
                     var remarkText = $(this).find('textarea').val();
-                    if (remarkText.trim() !== '') {
+
+                    // Store the data in an object and push it to the allRemarks array
+                    if (remarkText.trim() !== '') { // Only add remarks that are not empty
                         allRemarks.push({
                             document: docKey,
                             remark: remarkText
                         });
                     }
                 });
-                // $('.all_remarks').html('');
-                $('#reject_new').append(
-                    '<input type="hidden" name="allRemarks" value="' +
-                    JSON.stringify(allRemarks).replace(/'/g, '&#39;') +
-                    '">'
-                );
-                var reject_msg = $('.reject_msg').val();
-                // Confirm append
-                formData.append('allRemarks', JSON.stringify(allRemarks));
-                formData.append('reject_message', reject_msg);
 
+                // Append the allRemarks array as a hidden input in the modal form
+                $('#reject_new').append('<input type="hidden" name="allRemarks" value=\'' + JSON.stringify(
+                    allRemarks) + '\'>');
 
-                // alert('ee')
-                Swal.fire({
-                    title: 'Are you sure?',
-                    text: 'You won\'t be able to revert this.',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, Reject',
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        // Send the FormData using AJAX
-                        $.ajax({
-                            url: $('#reject_new').attr('action'),
-                            type: 'POST',
-                            data: formData,
-                            headers: {
-                                'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
-                            },
-                            processData: false, // Prevent jQuery from automatically processing the FormData
-                            contentType: false, // Prevent jQuery from setting the content type
-                            success: function(response) {
-                                var locale = window.App?.locale;
-                                Swal.fire('Rejected!',
-                                    'The candidate has been rejected.', 'success');
-                                // window.history.back();
-                                window.location.href =
-                                    `/en/verifier/verifier-dashboard`;
-                            },
-                            error: function(response) {
-                                Swal.fire('Error!',
-                                    'An error occurred while rejecting.', 'error');
-                                // Optionally, handle error response
-                            },
-                        });
+                // Get the number of sub-forms (if applicable)
+                let docsLength = $('.sub-form-div').length;
+                $('#reject_new').append('<input type="hidden" name="forms_number" value="' + docsLength +
+                    '">');
+
+                // Create FormData object from the form
+                let form = $('#form_doc_append')[0];
+                let formData = new FormData(form);
+                // Append each FormData item as hidden inputs to the modal form
+                for (let [key, value] of formData.entries()) {
+                    // console.log(value);
+                    if (key === 'remarks_documents') {
+                        $('#reject_new').append('<input type="hidden" name="' + key + '" value="' + value
+                            .name + '">');
+                    } else {
+                        $('#reject_new').append('<input type="hidden" name="' + key + '" value="' + value +
+                            '">');
                     }
-                });
+                }
+
+                // Show a confirmation modal using SweetAlert
+                // Swal.fire({
+                //     title: 'Are you sure?',
+                //     text: 'You won\'t be able to revert this.',
+                //     icon: "warning",
+                //     showCancelButton: true,
+                //     confirmButtonColor: "#3085d6",
+                //     cancelButtonColor: "#d33",
+                //     confirmButtonText: "Yes, Reject"
+                // }).then((result) => {
+                //     if (result.isConfirmed) {
+                //         // Submit the form with all the appended data
+                //         $('#reject_new').submit();
+                //     }
+                // });
             });
 
 
-
-
-
-            // $('#reject_noc_btn').on('click', function() {
-            //     var comment = $('#comment').val();
-            //     $('#reject_comment').val(comment);
-
-            //     var allRemarks = [];
-            //     $('.doc-remarks').each(function() {
-            //         // Get the document name/key and clean it
-            //         var docKey = $(this).find('label').text().replace(/^Remarks for\s*[\n\r]*\s*/,
-            //             '').trim();
-
-            //         // Get the remark text entered by the user
-            //         var remarkText = $(this).find('textarea').val();
-
-            //         // Store the data in an object and push it to the allRemarks array
-            //         if (remarkText.trim() !== '') {
-            //             allRemarks.push({
-            //                 document: docKey,
-            //                 remark: remarkText
-            //             });
-            //         }
-            //     });
-
-            //     // Append remarks array to FormData
-            //     let form = $('#form_doc_append')[0];
-            //     let formData = new FormData(form);
-            //     formData.append('allRemarks', JSON.stringify(allRemarks));
-
-            //     $('.doc-remarks input[type="file"]').each(function(index) {
-            //         let file = this.files[0];
-            //         if (file) {
-            //             formData.append(`remarks_documents[${index}]`, file);
-            //         }
-            //     });
-
-            //     // Append the number of sub-forms
-            //     let docsLength = $('.sub-form-div').length;
-            //     formData.append('forms_number', docsLength);
-
-            //     // Debug FormData
-            //     for (let [key, value] of formData.entries()) {
-            //         console.log(key, value);
-            //     }
-
-            //     // Show confirmation modal
-            //     Swal.fire({
-            //         title: 'Are you sure?',
-            //         text: 'You won\'t be able to revert this.',
-            //         icon: 'warning',
-            //         showCancelButton: true,
-            //         confirmButtonColor: '#3085d6',
-            //         cancelButtonColor: '#d33',
-            //         confirmButtonText: 'Yes, Reject'
-            //     }).then((result) => {
-            //         if (result.isConfirmed) {
-            //             // Submit the form via AJAX
-            //             $.ajax({
-            //                 url: $('#reject_new').attr('action'),
-            //                 method: 'POST',
-            //                 data: formData,
-            //                 headers: {
-            //                     'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
-            //                 },
-            //                 processData: false,
-            //                 contentType: false,
-            //                 success: function(response) {
-            //                     console.log('Form submitted successfully:', response);
-            //                 },
-            //                 error: function(error) {
-            //                     console.error('Error submitting form:', error);
-            //                 }
-            //             });
-            //         }
-            //     });
-            // });
 
 
             $('#reject_noc_btn2').on('click', function() {
@@ -1018,16 +904,16 @@
 
             $('#add-more').click(function() {
                 var content = `
-        <div class="border rounded-xl bg-neutral- p-4 flex flex-col gap-2 doc-upload sub-form-div">
-            <div class="flex items-start gap-2">
-                <input type="file" name="remarks_documents[]" class="w-10/12 p-1 border border-gray-200 rounded-xl bg-neutral-100" value="">
-                <button class="ml-auto p- text-gray-300 hover:text-red-400 doc-close">
-                    <i class="bi bi-x-lg text-xl"></i>
+        <div class="border rounded-xl bg-neutral-600 p-2 px-2.5 flex flex-col gap-2 doc-upload sub-form-div">
+            <div class="flex">
+                <p class="text-white text-center">Document Name</p>
+                <button class="ml-auto p-2 text-gray-300 hover:text-red-400 doc-close">
+                    <i class="bi bi-x-lg text-lg"></i>
                 </button>
             </div>
-            
+            <input type="file" name="remarks_documents[]" class="border rounded-xl bg-neutral-600" value="">
             <span class="file_error text-red-500"></span>
-            <label class="block mb-0 text-xs md:text-sm font-bold text">Document For:</label>
+            <label class="block mb-0 text-xs md:text-sm font-bold text-white">Document For:</label>
             <textarea name="remarks_text[]" class="disabled:bg-gray-100 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full" rows="1" required></textarea>
             <span class="remakrs_error text-red-500"></span>
         </div>`;
