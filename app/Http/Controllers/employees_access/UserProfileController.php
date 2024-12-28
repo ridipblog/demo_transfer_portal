@@ -293,9 +293,9 @@ class UserProfileController extends Controller
                     // 'mutual_transfer_number' => 'required_if:before_mutual_transfer,yes',
                     // 'pending_govt_dues' => $required,
                     'photo' => ['max:5000', 'mimes:jpg,jpeg,png'],
-                    'signature' => 'max:5000|mimes:jpg,jpeg,png',
-                    'pan_card' => 'max:5000|mimes:jpg,jpeg,png',
-                    'depertmental_card' => 'max:5000|mimes:jpg,jpeg,png',
+                    'signature' => 'max:5000|mimes:jpg,jpeg,png,pdf',
+                    'pan_card' => 'max:5000|mimes:jpg,jpeg,png,pdf',
+                    'depertmental_card' => 'max:5000|mimes:jpg,jpeg,png,pdf',
                     // 'no_govt_due_certificate' => 'max:5000|mimes:jpg,jpeg,png',
                     // 'appointment_letter' => 'max:5000|mimes:jpg,jpeg,png',
                     // 'first_page_of_service_book' => 'max:5000|mimes:jpg,jpeg,png'

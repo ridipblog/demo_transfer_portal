@@ -38,11 +38,11 @@ return [
             'heading' => 'Employment Information',
             'dist_cp' => 'District (Current Posting)',
             'dept_cp' => 'Department (Current Posting)',
-            'direc_cp'=>'Directorate (Current Posting)',
+            'direc_cp'=>'Directorate/Commissionerate',
             'office_cp' => 'Office (Current Posting)',
             'desg_cp' => 'Designation (Current Posting)',
             'doj_fj' => 'Date of Joining (First Joining)',
-            'time_of_service'=>'Time of service',
+            'time_of_service'=>'Service tenure',
             'doj_cp' => 'Date of Joining (Current Posting)',
             'g_pay' => 'Grade Pay',
             'p_bank' => 'Pay Band',
@@ -110,7 +110,7 @@ return [
     ],
     'profile_status' => [
         'status' => [
-            'pending' => 'Pending',
+            'pending' => 'Pending for verification',
             'verified' => 'Verified',
             'not_recc' => 'Not Recommended',
             'recc' => 'Recommended',

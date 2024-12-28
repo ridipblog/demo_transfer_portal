@@ -6,7 +6,8 @@
         </div>
         <div class="grid gap-6">
 
-            <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-4 border border-sky-500 rounded-3xl border-b-4 border-r-4 p-6">
+            <div
+                class="grid sm:grid-cols-2 md:grid-cols-3 gap-4 border border-sky-500 rounded-3xl border-b-4 border-r-4 p-6">
                 <div class="sm:col-span-2 md:col-span-3">
                     <p class="text-lg font-semibold text-sky-500">@lang('user.form.basic_info.heading')</p>
                 </div>
@@ -56,7 +57,8 @@
                 </div>
             </div>
 
-            <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-4 border border-sky-500 rounded-3xl border-b-4 border-r-4 p-6">
+            <div
+                class="grid sm:grid-cols-2 md:grid-cols-3 gap-4 border border-sky-500 rounded-3xl border-b-4 border-r-4 p-6">
                 <div class="sm:col-span-2 md:col-span-3">
                     <p class="text-lg font-semibold text-sky-500">@lang('user.form.emp_info.heading')</p>
                 </div>
@@ -106,43 +108,50 @@
                 </div>
             </div>
 
-            <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-4 border border-sky-500 rounded-3xl border-b-4 border-r-4 p-6">
+            <div
+                class="grid sm:grid-cols-2 md:grid-cols-3 gap-4 border border-sky-500 rounded-3xl border-b-4 border-r-4 p-6">
                 <div class="sm:col-span-2 md:col-span-3">
                     <p class="text-lg font-semibold text-sky-500">@lang('user.form.prefs.heading')</p>
                 </div>
                 <div class="relative">
-                    <span class="absolute -translate-y-1/2 font-black top-1/2 left-2.5 italic text-gray-500">@lang('user.form.prefs.1')</span>
+                    <span
+                        class="absolute -translate-y-1/2 font-black top-1/2 left-2.5 italic text-gray-500">@lang('user.form.prefs.1')</span>
                     <div class="block p-2.5 pl-16 w-full">
                         <p class="font-semibold preview_data">Nagaon</p>
                     </div>
                 </div>
                 <div class="relative">
-                    <span class="absolute -translate-y-1/2 font-black top-1/2 left-2.5 italic text-gray-500">@lang('user.form.prefs.2')</span>
+                    <span
+                        class="absolute -translate-y-1/2 font-black top-1/2 left-2.5 italic text-gray-500">@lang('user.form.prefs.2')</span>
                     <div class="block p-2.5 pl-16 w-full">
                         <p class="font-semibold preview_data">Cachar</p>
                     </div>
                 </div>
                 <div class="relative">
-                    <span class="absolute -translate-y-1/2 font-black top-1/2 left-2.5 italic text-gray-500">@lang('user.form.prefs.3')</span>
+                    <span
+                        class="absolute -translate-y-1/2 font-black top-1/2 left-2.5 italic text-gray-500">@lang('user.form.prefs.3')</span>
                     <div class="block p-2.5 pl-16 w-full">
                         <p class="font-semibold preview_data">Kamrup</p>
                     </div>
                 </div>
                 <div class="relative">
-                    <span class="absolute -translate-y-1/2 font-black top-1/2 left-2.5 italic text-gray-500">@lang('user.form.prefs.4')</span>
+                    <span
+                        class="absolute -translate-y-1/2 font-black top-1/2 left-2.5 italic text-gray-500">@lang('user.form.prefs.4')</span>
                     <div class="block p-2.5 pl-16 w-full">
                         <p class="font-semibold preview_data">Kamrup</p>
                     </div>
                 </div>
                 <div class="relative">
-                    <span class="absolute -translate-y-1/2 font-black top-1/2 left-2.5 italic text-gray-500">@lang('user.form.prefs.5')</span>
+                    <span
+                        class="absolute -translate-y-1/2 font-black top-1/2 left-2.5 italic text-gray-500">@lang('user.form.prefs.5')</span>
                     <div class="block p-2.5 pl-16 w-full">
                         <p class="font-semibold preview_data">Kamrup</p>
                     </div>
                 </div>
             </div>
 
-            <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-4 lg:gap-8 border border-sky-500 border-r-4 border-b-4 rounded-2xl p-10">
+            <div
+                class="grid sm:grid-cols-2 md:grid-cols-3 gap-4 lg:gap-8 border border-sky-500 border-r-4 border-b-4 rounded-2xl p-10">
                 {{-- <div class="sm:col-span-2 md:col-span-3">
                     <p class="text-lg font-bold text-sky-700">@lang('user.form.addl_info.heading')</p>
                 </div>
@@ -167,12 +176,14 @@
                     <p class="font-semibold preview_data" id="peddning-govt-due">Yes / No</p>
                 </div> --}}
                 <div class="">
-                    <label class="block mb-1 text-xs md:text-sm font-bold reqd text-gray-400">How many times have you availed mutual transfer ?</label>
+                    <label class="block mb-1 text-xs md:text-sm font-bold reqd text-gray-400">How many times have you
+                        availed mutual transfer ?</label>
                     <p class="font-semibold preview_data" id="preview_times_mutual_transfer">1</p>
                 </div>
             </div>
 
-            <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-4 border border-sky-500 rounded-3xl border-b-4 border-r-4 p-6">
+            <div
+                class="grid sm:grid-cols-2 md:grid-cols-3 gap-4 border border-sky-500 rounded-3xl border-b-4 border-r-4 p-6">
                 <div class="sm:col-span-2 md:col-span-3">
                     <p class="text-lg font-semibold text-sky-500">@lang('user.form.docs.heading')</p>
                 </div>
@@ -188,23 +199,28 @@
                         $image_url = in_array($key, $document_arr)
                             ? Storage::url($viewData['save_data']->documents[$image_count]->documet_location ?? null)
                             : null;
+                            $doc_extension=$image_url ? strtolower(pathinfo($image_url, PATHINFO_EXTENSION)) : null;
                     @endphp
-                    <div class="border rounded-xl bg-neutral-600 review-document-image-div {{ $image_url ?: 'hidden' }} ">
+                    <div class="border rounded-xl bg-neutral- review-document-image-div {{ $image_url ?: 'hidden' }} ">
 
-                        <div class="text-white text-center p-2 mb-1">
+                        <div class="text- text-center p-2 mb-1">
                             @php
-                                $docKey = $key; // Assuming $key is zero-based, add 1 to match the doc number.
+                                $docKey = $key;
                             @endphp
                             {{ Str::upper(str_replace('_', ' ', __("user.form.docs.$docKey"))) }}
                         </div>
-                        <div class="h-44 p-2">
-                            {{-- {{ in_array($key, $document_arr) ? $image_count++ : '' }} --}}
-
+                        <div class="h-44 p-2 contain-document-image {{$doc_extension ? ($doc_extension!="pdf" ?:'hidden'):'hidden'}}">
                             <img src="{{ $image_url }}" alt="NO image"
-                                class="w-full h-full object-contain object-center preview_registration_document ">
+                                class="w-full h-full object-contain object-center preview_registration_document selected-document-img   ">
+                        </div>
+                        <div class="h-44 p-2 flex items-center justify-center contain-document-pdf {{$doc_extension ? ($doc_extension=="pdf" ?:'hidden'):'hidden'}}">
+                                <a href="{{$image_url}}" class="selected-document-pdf  " target="_blank" >
+                                    <i class="bi bi-filetype-pdf text-5xl"></i>
+                                </a>
                         </div>
                     </div>
                 @endforeach
+
             </div>
 
             <div class="flex gap-2 justify-end">

@@ -49,7 +49,7 @@ return [
         'current_district' => 'The current district cannot be selected as a preference.',
         'data_save' => 'Your data has been saved successfully.',
         'data_submit' => 'Data submitted successfully.',
-        'data_updated' => 'Data updated successfully.',
+        'data_updated' => 'Success data resubmitted successfully.',
         'select_office' => 'Please select an office name.',
         'already_verified' => 'Your profile has already been verified.',
     ],

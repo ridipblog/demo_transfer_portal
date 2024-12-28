@@ -67,4 +67,6 @@
             </div>
         </div>
     </div>
+    <p class="px-4 py-0.5 text-xs font-semibold text-gray-500 text-right">( This website works best on Google Chrome for a smooth experience. )</p>
 </nav>
+
