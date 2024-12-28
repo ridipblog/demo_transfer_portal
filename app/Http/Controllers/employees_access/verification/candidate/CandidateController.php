@@ -66,7 +66,7 @@ class CandidateController extends Controller
                 ->where('target_employee_employment.depertment_id', $verifier->department)
                 ->select('employee.full_name as employee_name', 'target_employee.full_name as target_employee_name', 'transafers.id as id', 'transafers.jto_generate_status', 'transafers.transfer_ref_code', 'transafers.2nd_recommend as second_recommend')
                 ->orderBy('transafers.updated_at', 'desc');
-            if ($dir != null) {
+            if ($dir != null && $dir != 0) {
                 $pendingTransfers->where('employee_employment.directorate_id', $dir)->where('target_employee_employment.directorate_id', $dir);
             }
             if ($request->input('office') != null || $request->input('district') != null || $request->input('post') != null || $request->input('pan_search') != null) {
@@ -1456,21 +1456,35 @@ class CandidateController extends Controller
     {
         if (Auth::guard('user_guard')->check()) {
             try {
-                // Decrypt the ID
                 $decryptedId = Crypt::decryptString($id);
+                $data = DB::table('rejected_documents')->where('user_id', $decryptedId)->get();
+                $data2 = []; // Initialize an empty array to store rejection data
 
-                // Retrieve data for the specific user
-                $data = DB::table('rejected_documents')->where('user_id', $decryptedId)->first();
-                if ($data != null) {
-                    $data2 = DB::table('authority_rejections')->where('rejected_document_id', $data->id)->get();
+                if (!$data->isEmpty()) {
+                    foreach ($data as $d) {
+                        // Get the related rejections for the current rejected document
+                        $rejections = DB::table('authority_rejections')
+                            ->where('rejected_document_id', $d->id)
+                            ->get();
+
+                        foreach ($rejections as $r) {
+                            // Append rejection data to the $data2 array
+                            $data2[] = [
+                                'document_type' => $r->document_type,
+                                'document_location' => $r->document_location,
+                                'remarks' => $r->remarks,
+                                'rejection_id' => $r->rejected_document_id
+                            ];
+                        }
+                    }
                 }
-                return view('verification.pages.resubmitted-data', compact('data2'));
+                // dd($data2);
+                return view('verification.pages.resubmitted-data', compact('data2', 'data'));
             } catch (Exception $err) {
-                // Handle decryption or other errors
+                dd($err->getMessage());
                 return back()->withErrors(['error' => 'An error occurred: ' . $err->getMessage()]);
             }
         } else {
-            // Redirect if user is not authenticated
             return redirect()->back();
         }
     }
@@ -1478,7 +1492,7 @@ class CandidateController extends Controller
 
     public function reject_candidates(Request $request)
     {
-
+        // dd($request->all());
         if (Auth::guard('user_guard')->check()) {
             $user = Auth::guard('user_guard')->user();
             $roleName = $user->roles->role;
@@ -1520,9 +1534,8 @@ class CandidateController extends Controller
                     }
                 }
             } else {
-                // dd($request->all());
                 $incoming_data = [
-                    'candidate_reject_id' => 'required'
+                    'candidate_id' => 'required'
                 ];
 
                 $validate = ReuseModule::validateIncomingData($request, $incoming_data, $request->all());
@@ -1532,12 +1545,12 @@ class CandidateController extends Controller
                     return redirect()->back();
                 } else {
                     try {
-                        // dd($request->input('comment'));
-                        $candidate = UserCredentialsModel::findOrFail($request->input('candidate_reject_id'));
+
+                        $candidate = UserCredentialsModel::findOrFail($request->input('candidate_id'));
                         $candidate->update([
                             'profile_verify_status' => 2,
                             'verified_remarks' => $request->has('reject_message') != null ? $request->input('reject_message') : null,
-                            'comment' => $request->input('comment') != '' ? $request->input('comment') : null,
+                            'comment' => $request->has('comment') ? $request->input('comment') : null,
                         ]);
                         $office = EmploymentDetailsModel::where('user_id', $candidate->id)->pluck('office_id')->first();
                         rejections::create([
@@ -1548,45 +1561,35 @@ class CandidateController extends Controller
                             'created_by' =>  $user->user_id,
                             'role' => $user->role_id
                         ]);
-                        // dd($user->user_id);
                         $comment = $request->has('comment') ? $request->input('comment') : null;
                         $rejectionType = 1;
-                        // dd(auth()->user()->id);
-                        // Create a new RejectedDocumentsModel record with only the relevant fields
-                        // RejectedDocumentsModel::create([
-                        //     'user_id' => $request->input('candidate_reject_id'),
-                        //     'commnents' => $comment,
-                        //     'rejection_type' => $rejectionType,
-                        //     'old_update_on' => null,
-                        //     'old_documents' => null,
-                        //     'authority_id' => $user->user_id,
-                        // ]);
 
                         $rejectedDocument = RejectedDocumentsModel::create([
-                            'user_id' => $request->input('candidate_reject_id'),
-                            'commnents' => $comment, // The rejection comment
-                            'rejection_type' => $rejectionType, // The rejection type (e.g., manual)
-                            'old_update_on' => null, // Set to null as required
-                            'old_documents' => null, // Set to null as required
-                            'authority_id' => $user->user_id, // Authority ID (assuming it's the logged-in user's ID)
+                            'user_id' => $request->input('candidate_id'),
+                            'commnents' => $comment,
+                            'rejection_type' => $rejectionType,
+                            'old_update_on' => null,
+                            'old_documents' => null,
+                            'authority_id' => $user->user_id,
                         ]);
 
 
                         $remarksData = json_decode($request->input('allRemarks'), true);
-
                         // dd($request->all());
                         foreach ($remarksData as $remark) {
-                            $doc_name = $remark['document'];
+                            $doc_key = $remark['document'];
                             $documents = config('globalVariables.registration_documtns');
                             $documentKey = null;
+                            // dd($remarksData);
                             foreach ($documents as $key => $value) {
-                                if (strtolower($doc_name) == strtolower(str_replace('_', ' ', $value))) {
+                                if ($doc_key == $key) {
                                     $documentKey = $key;
                                     break;
                                 }
                             }
 
-                            $doc = DocumentModel::where('user_id', $request->input('candidate_reject_id'))->where('document_type', $documentKey)->first();
+                            $doc = DocumentModel::where('user_id', $request->input('candidate_id'))->where('document_type', $documentKey)->first();
+
                             if ($doc != null) {
                                 DB::table('authority_rejections')->insert([
                                     'rejected_document_id' => $rejectedDocument->id,
@@ -1599,51 +1602,35 @@ class CandidateController extends Controller
                             }
                         }
                         try {
-                            if ($request->input('forms_number') > 0) {
-                                for ($i = 0; $i < $request->input('forms_number'); $i++) {
-                                    // Handle file uploads if present
-                                    if ($request->hasFile('remarks_documents.' . $i)) {
-                                        $file = $request->file('remarks_documents.' . $i);
-                                        // dd($file);
-                                        // Define the upload path
-                                        $photo_path = 'uploads/verification_remarks/' . $user->user_id . '/' . $request->input('candidate_reject_id') . '/';
+                            if ($request->hasFile('remarks_documents')) {
 
-                                        // Upload the file
-                                        $file_location = ReuseModule::uploadPhoto(
-                                            $file,
-                                            $photo_path,
-                                            $file->getClientOriginalName()
-                                        );
+                                $remarksDocuments = $request->file('remarks_documents');
 
-                                        // Insert file-related data into the database
-                                        DB::table('authority_rejections')->insert([
-                                            'rejected_document_id' => $rejectedDocument->id,
-                                            'document_location' => $file_location,
-                                            'document_type' => 10,
-                                            'remarks' => $request->remarks_text[$i] ?? null,
-                                            'created_at' => now(),
-                                            'updated_at' => now(),
-                                        ]);
+                                if (count($remarksDocuments) > 0) {
+                                    foreach ($remarksDocuments as $index => $file) {
+                                        if ($file->isValid()) {
+
+                                            $photo_path = 'uploads/verification_remarks/' . $user->user_id . '/' . $request->input('candidate_reject_id') . '/';
+                                            $file_location = ReuseModule::uploadPhoto(
+                                                $file,
+                                                $photo_path,
+                                                $file->getClientOriginalName()
+                                            );
+
+                                            DB::table('authority_rejections')->insert([
+                                                'rejected_document_id' => $rejectedDocument->id,
+                                                'document_location' => $file_location,
+                                                'document_type' => 0,
+                                                'remarks' => $request->remarks_text[$index] ?? null,
+                                                'created_at' => now(),
+                                                'updated_at' => now(),
+                                            ]);
+                                        }
                                     }
                                 }
                             }
-
-                            // Handle general remarks (allRemarks JSON)
-                            if ($request->has('allRemarks')) {
-                                $allRemarks = json_decode($request->input('allRemarks'), true);
-                                foreach ($allRemarks as $remark) {
-                                    DB::table('authority_rejections')->insert([
-                                        'rejected_document_id' => $rejectedDocument->id,
-                                        'document_location' => null,
-                                        'document_type' => 0,
-                                        'remarks' => $remark['remark'],
-                                        'created_at' => now(),
-                                        'updated_at' => now(),
-                                    ]);
-                                }
-                            }
                         } catch (Exception $err) {
-                            dd($err->getMessage());
+                            // dd($err->getMessage());
                         }
 
 
@@ -1652,7 +1639,7 @@ class CandidateController extends Controller
                         session()->flash('message', ' User profile rejected successfully');
                         return redirect()->route('verifier.dashboard', ['lang' => app()->getLocale()]);
                     } catch (Exception $e) {
-                        dd($e->getMessage());
+                        // dd($e->getMessage());
                         Log::error('Reject error: ' . $e->getMessage());
                         session()->flash('flash_message', 2);
                         session()->flash('message', 'Something went wrong');
