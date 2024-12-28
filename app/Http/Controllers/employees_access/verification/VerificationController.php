@@ -35,6 +35,92 @@ use Illuminate\Support\Facades\Validator;
 
 class VerificationController extends Controller
 {
+
+    public function correct()
+    {
+        // $actual_data = appointing_authorities::pluck('phone')->toArray(); 
+     
+        // $actual_data_lookup = array_flip($actual_data);
+
+        // $a = AllLoginModel::get();
+
+        // $ids_to_delete = [];
+        // foreach ($a as $aa) {
+        //     if (!isset($actual_data_lookup[$aa->phone])) {
+        //         $ids_to_delete[] = $aa->id;
+        //     }
+        // }
+
+        // if (!empty($ids_to_delete)) {
+        //     AllLoginModel::whereIn('id', $ids_to_delete)->delete();
+        // }
+        // dd('done');
+        DB::beginTransaction();  
+        try {
+            $actual_data = appointing_authorities::pluck('phone')->toArray(); 
+   
+            $actual_data = appointing_authorities::pluck('phone')->toArray(); 
+        $actual_data_lookup = array_flip($actual_data);
+
+        $appointing_authorities_bckp = DB::table('appointing_authorities1')->get(); 
+        $user_ids = [];   
+        
+        foreach ($appointing_authorities_bckp as $d) {
+            if (!isset($actual_data_lookup[$d->phone])) {
+                array_push($user_ids, $d->id);
+                appointing_authorities::create([
+                    // 'id' => $d->id,
+                    'name' => $d->name,
+                    'designation' => $d->designation,
+                    'phone' => $d->phone,
+                    'department' => $d->department,
+                    'office' => null,
+                    'district' => null,
+                    'first_login' => $d->first_login,
+                    'created_at' => $d->created_at,
+                    'updated_at' => $d->updated_at
+                ]);
+            }
+        }
+            
+            $all_login_bckp = DB::table('all_login1')->get(); 
+            foreach ($all_login_bckp as $b) {
+                if (!in_array($b->user_id, $user_ids)) {
+                    AllLoginModel::create([
+                        'user_id' => $b->user_id,
+                        'user_type' => $b->user_type,
+                        'phone' => $b->phone,
+                        'password' => $b->password,
+                        'role_id' => 6,
+                        'status' => $b->status,
+                        'created_at' => $b->created_at,
+                        'updated_at' => $b->updated_at
+                    ]);
+                }
+            }
+    
+            $map_bkp = DB::table('authority_office_dist_maps1')->get();
+            foreach ($map_bkp as $m) {
+                if (!in_array($m->user_id, $user_ids)) {
+                    authority_office_dist_map::create([
+                        'user_id' => $m->user_id,
+                        'office_id' => $m->office_id,
+                        'district_id' => $m->district_id,
+                        'department_id' => $m->department_id,
+                        'created_at' => $m->created_at,
+                        'role_id' => 6,
+                        'directorate_id' => $m->directorate_id,
+                        'updated_at' => $m->updated_at
+                    ]);
+                }
+            }
+    
+            DB::commit(); 
+        } catch (Exception $err) {
+            DB::rollBack(); 
+            dd($err->getMessage());
+        }
+    }
     public function index_login()
     {
         // dd(app()->getLocale());
