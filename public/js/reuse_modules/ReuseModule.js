@@ -53,11 +53,22 @@ class ReuseModule extends RequestModule {
     previewImage = async (image_class, preview_class = null) => {
         $(document).on('change', image_class, function (event) {
             var index = $(this).index(image_class);
-            let file = event.target.files[0];
+            let file = $(this)[0].files[0];
             if (file) {
+                let extension = file.name.split('.').pop().toLowerCase();
+
                 let render = new FileReader();
                 render.onload = function (e) {
-                    $('.preview_registration_document').eq(index).attr('src', e.target.result);
+                    if(extension=="pdf"){
+                        $('.selected-document-pdf').eq(index).attr('href',e.target.result);
+                        $('.contain-document-image').eq(index).addClass('hidden');
+                        $('.contain-document-pdf').eq(index).removeClass('hidden');
+                    }else{
+                        $('.selected-document-img').eq(index).attr('src',e.target.result);
+                        $('.contain-document-pdf').eq(index).addClass('hidden');
+                        $('.contain-document-image').eq(index).removeClass('hidden');
+                    }
+                    // $('.preview_registration_document').eq(index).attr('src', e.target.result);
                     $('.review-document-image-div').eq(index).show();
                 }
                 render.readAsDataURL(file);
@@ -173,7 +184,7 @@ class ReuseModule extends RequestModule {
         //     months += 12;
         // }
 
-        return `${years} years ${months} months ${days} days`;
+        return `${years} years ${months} months`;
     }
 
     // ------------- fetch office by district and depertment -------------
@@ -183,7 +194,7 @@ class ReuseModule extends RequestModule {
             depertment_id: depertment_id
         }
         this.formPostReponse = async (response) => {
-            console.log(response);
+
             let offices = `<option disabled >Select</option>`;
             if (response.res_data.status == 400) {
 
@@ -207,7 +218,7 @@ class ReuseModule extends RequestModule {
             depertment_id: depertment_id
         };
         this.formPostReponse = async (response) => {
-            console.log(response)
+
             let options = `<option selected disabled >- Select -</option>`;
             if (response.res_data.status == 200) {
                 options += `<option value="0">Not Applicable</option>`;
