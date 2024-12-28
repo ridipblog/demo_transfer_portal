@@ -61,7 +61,7 @@ Route::group(['prefix' => '{lang?}', 'middleware' => 'setlocale', 'where' => ['l
 
     Route::group(['prefix' => 'verifier', 'middleware' => ['user_protect:roles,view,Verifier,Appointing Authority,Appointing User,Approver,Department Hod']], function () {
         Route::get('/verifier-dashboard', [VerificationController::class, 'verifier_index'])->name('verifier.dashboard');
-        Route::get('/candidate-verify/{type}', [VerificationController::class, 'candidate_verify_index'])->name('verifier.candidate_verify');
+        Route::get('/candidate-verify/{type}/{re_submit?}', [VerificationController::class, 'candidate_verify_index'])->name('verifier.candidate_verify');
         Route::get('/approval-all-requests', [VerificationController::class, 'approval_all'])->name('verification.approval-all');
         Route::get('/candidate-profile/{id?}/{type}/{tab_recommend?}', [CandidateController::class, 'candidate_profile_index'])->name('candidate.profile');
         Route::get('/approval-profile/{id}', [VerificationController::class, 'approver_profile_details'])->name('verification.approver.profile');

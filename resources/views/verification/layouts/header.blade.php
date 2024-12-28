@@ -80,8 +80,6 @@
                         class="text-xs font-medium text-black">GOVT. OF ASSAM</small></p>
             </div>
             {{-- @if (!request()->routeIs('depertmentLogin')) --}}
-
-
             {{-- <div class="flex items-center gap-4 text-gray-900 text-xs md:text-base">
                     <a href="{{ route('home') }}" class="border-b-2 border-sky-600 text-sky-600 pb-2">Home</a>
                     <a href="{{ route('about') }}"
@@ -112,7 +110,8 @@
                             <div class="grid divide-z">
                                 <div class="p-4">
                                     <div class="text-sm">
-                                        <p class="font-bold">{{ Auth::guard('user_guard')->user()->roles->role }}</p>
+                                        <p class="font-bold">
+                                            {{ Auth::guard('user_guard')->user()->roles->display_name }}</p>
                                         <p class="text-gray-600 text-xs">
                                             @if (Auth::guard('user_guard')->user()->appointing_authorities->designation != null)
                                                 {{ Auth::guard('user_guard')->user()->appointing_authorities->designation }}

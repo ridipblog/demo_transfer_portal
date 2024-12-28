@@ -643,6 +643,7 @@ class VerificationController extends Controller
                         'deptartments.name as department_name',
                         'post_names.name as designation_name'
                     );
+
                 $categorizedResults = [];
                 foreach ($authority_maps as $map) {
                     // if (is_null($map->office_id) && is_null($map->district_id)) {
@@ -755,7 +756,8 @@ class VerificationController extends Controller
                     $noc_completed = $all_noc->where('noc_generate', 1)->where('profile_verify_status', 1);
                 }
 
-                return view('verification.club_dashboard')->with(['verify_pending_recommend_club' => $verify_recommend_pending_recommend, 'verify_completed_club' => $verify_recommend_completed, 'verify_pending_club' => $verify_pending_verify, 'verify_recommend' => $verify_recommend, 'dept_count' => $dept_count, 'employees' => $employees, 'allTransfers' => $allTransfers, 'approvedTransfers' => $approvedTransfers, 'rejectedTransfers' => $rejectedTransfers, 'pendingTransfers' => $pendingTransfers, 'user_roles_arr' => $role_names_arr, 'all_users' => $all_users, 'pending_users' => $pending_users, 'noc_pending' => $noc_pending, 'verified_profiles' => $verified_users, 'profile_pics' => $docs_path, 'noc_completed' => $noc_completed, 'all_noc' => $all_noc]);
+                $resubmited_count =  count($usersQuery->join('rejected_documents as rd', 'user_credentials.id', '=', 'rd.user_id')->distinct('rd.user_id')->get());
+                return view('verification.club_dashboard')->with(['resubmit' => $resubmited_count, 'verify_pending_recommend_club' => $verify_recommend_pending_recommend, 'verify_completed_club' => $verify_recommend_completed, 'verify_pending_club' => $verify_pending_verify, 'verify_recommend' => $verify_recommend, 'dept_count' => $dept_count, 'employees' => $employees, 'allTransfers' => $allTransfers, 'approvedTransfers' => $approvedTransfers, 'rejectedTransfers' => $rejectedTransfers, 'pendingTransfers' => $pendingTransfers, 'user_roles_arr' => $role_names_arr, 'all_users' => $all_users, 'pending_users' => $pending_users, 'noc_pending' => $noc_pending, 'verified_profiles' => $verified_users, 'profile_pics' => $docs_path, 'noc_completed' => $noc_completed, 'all_noc' => $all_noc]);
             }
         } else {
             Log::error('Verification login: User_type: ' . $user . ', not suitable for login. user_id: ' . Auth::guard('user_guard')->user()->user_id);
@@ -1708,8 +1710,12 @@ class VerificationController extends Controller
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public function candidate_verify_index(Request $request, $lang = null, $type = null)
+    public function candidate_verify_index(Request $request, $lang = null, $type = null, $re_submit = null)
     {
+        Session::forget('re_submit');
+        if ($re_submit != null) {
+            Session::put('re_submit', 1);
+        }
         $switch_user_id = Auth::guard('user_guard')->user()->id;
         if ($type == null) {
             return redirect()->back();

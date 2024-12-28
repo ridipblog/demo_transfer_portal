@@ -224,104 +224,9 @@
             </div>
         </div>
     </div>
-    <!-- modal -->
-    <div class="hidden fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black/30 p-4 z-[99]"
-        id="directRequestModal">
-        <div class="max-w-md w-full bg-white rounded-2xl p-6 py-10">
-            <div class="space-y-2 mb-6">
-                <p class="text-3xl font-semibold">@lang('authority_dashboard.table.status')</p>
-            </div>
-            <form action="{{ url('verifier/verify-candidates') }}" method="post">
-                @csrf
-                <div class="grid gap-8">
-                    <input type="hidden" id="candidate_verify_id" name="candidate_verify_id" value="">
-                    <div class="flex gap-3">
-                        <input type="checkbox"
-                            class=" border border-gray-300 text-sky-600 text-sm rounded-md focus:ring-sky-600 focus:border-sky-600 block p-1.5 mt-0.5"
-                            required>
-                        <p class="text-xs text-gray-900">I have thoroughly verified the employee's details, and I confirm
-                            that all details provided, including personal, employment, and contact information, are correct
-                            and matches the official records.</p>
-                    </div>
-                    <div class="flex gap-1 justify-end">
-                        <button type="button"
-                            class="bg-white hover:bg-gray-200 border border-transparent text-gray-900 hover:text-black rounded-md block px-2 py-1.5 duration-300"
-                            id="closeDirectRequestModalButton">Close</button>
-                        <button type="submit"
-                            class="bg-sky-500 hover:bg-sky-600 border border-transparent text-white rounded-md block px-2 py-1.5 w-fit">Submit</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-    <!-- reject modal -->
-    <div class="hidden fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black/30 p-4 z-[99]"
-        id="rejectModal">
-        <div class="max-w-md w-full bg-white rounded-2xl p-6 py-10">
-            <div class="space-y-2 mb-6">
-                <p class="text-3xl font-semibold">Reject Profile</p>
-            </div>
-            <form action="{{ url('/verifier/reject-candidates') }}" method="post">
-                @csrf
-                <div class="grid gap-8">
-                    <div>
-                        <input type="hidden" id="candidate_reject_id" name="candidate_reject_id" value="">
-                        <label class="block mb-1 text-xs md:text-sm font-bold text-gray-800">Rejection Reason</label>
-                        <textarea name="reject_message"
-                            class="disabled:bg-gray-100 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full"
-                            rows="4" required></textarea>
-                    </div>
-                    <div class="flex gap-1 justify-end">
-                        <button type="button"
-                            class="bg-white hover:bg-gray-200 border border-transparent text-gray-900 hover:text-black rounded-md block px-2 py-1.5 duration-300"
-                            id="closeRejectModalButton">Close</button>
-                        <button type="submit"
-                            class="bg-sky-500 hover:bg-sky-600 border border-transparent text-white rounded-md block px-2 py-1.5 w-fit">Submit</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-    <!-- NOC modal -->
-    <div class="hidden fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black/30 p-4 z-[99]"
-        id="directNOCModal">
-        <div class="max-w-md w-full bg-white rounded-2xl p-6 py-10">
-            <div class="space-y-2 mb-6">
-                <p class="text-3xl font-semibold">Generate NOC</p>
-            </div>
-            <form action="{{ url('verifier/noc-update') }}" method="post">
-                @csrf
-                <div class="grid gap-8">
-                    <div class="">
-                        <input type="hidden" name="direct_noc_id" id="direct_noc_id" value="" />
-                        <div class="flex gap-3">
-                            <input type="checkbox"
-                                class=" border border-gray-300 text-sky-600 text-sm rounded-md focus:ring-sky-600 focus:border-sky-600 block p-1.5 mt-0.5"
-                                required>
-                            <p class="text-xs text-gray-900">I confirm that all profiles have been successfully generated
-                                and are ready for review.</p>
-                        </div>
-                    </div>
-                    <div class="">
-                        <div class="flex gap-3">
-                            <input type="checkbox"
-                                class=" border border-gray-300 text-sky-600 text-sm rounded-md focus:ring-sky-600 focus:border-sky-600 block p-1.5 mt-0.5"
-                                required>
-                            <p class="text-xs text-gray-900">I acknowledge that all required documents are in order and
-                                approve the NOC generation.</p>
-                        </div>
-                    </div>
-                    <div class="flex gap-1 justify-end">
-                        <button type="button"
-                            class="bg-white hover:bg-gray-200 border border-transparent text-gray-900 hover:text-black rounded-md block px-2 py-1.5 duration-300"
-                            id="closeDirectNOCModalButton">Close</button>
-                        <button type="submit"
-                            class="bg-sky-500 hover:bg-sky-600 border border-transparent text-white rounded-md block px-2 py-1.5 w-fit">Generate</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
+
+
+
     <!-- filter modal -->
 
     <!-- footer -->
@@ -435,6 +340,11 @@
                 },
                 dataType: "json",
                 success: function(response) {
+                    if (response.re_submit == 1) {
+                        const checkbox = document.getElementById('default-checkbox');
+                        checkbox.checked = true;
+                    }
+
                     var locale = @json(app()->getLocale());
                     $('.divide-y').empty();
                     $('#divide-y-verified').empty();
@@ -455,7 +365,7 @@
                                                     <p class="text-gray-500 font-bold text-lg">No Applicants Found!</p></div>`
                                 );
                             } else {
-                                console.log(response)
+
                                 $('#pending .hide-div').removeClass('hidden');
                                 $('.table_nfDiv').addClass('hidden');
                                 // $('#pending div:first').removeClass('hidden');
