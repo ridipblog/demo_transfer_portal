@@ -112,7 +112,7 @@
                             <div class="grid divide-z">
                                 <div class="p-4">
                                     <div class="text-sm">
-                                        <p class="font-bold">{{ Session::get('verifier_name') }}</p>
+                                        <p class="font-bold">{{ Auth::guard('user_guard')->user()->roles->role }}</p>
                                         <p class="text-gray-600 text-xs">
                                             @if (Auth::guard('user_guard')->user()->appointing_authorities->designation != null)
                                                 {{ Auth::guard('user_guard')->user()->appointing_authorities->designation }}

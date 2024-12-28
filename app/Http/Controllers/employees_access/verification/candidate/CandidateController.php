@@ -1458,17 +1458,15 @@ class CandidateController extends Controller
             try {
                 $decryptedId = Crypt::decryptString($id);
                 $data = DB::table('rejected_documents')->where('user_id', $decryptedId)->get();
-                $data2 = []; // Initialize an empty array to store rejection data
+                $data2 = [];
 
                 if (!$data->isEmpty()) {
                     foreach ($data as $d) {
-                        // Get the related rejections for the current rejected document
                         $rejections = DB::table('authority_rejections')
                             ->where('rejected_document_id', $d->id)
                             ->get();
 
                         foreach ($rejections as $r) {
-                            // Append rejection data to the $data2 array
                             $data2[] = [
                                 'document_type' => $r->document_type,
                                 'document_location' => $r->document_location,
@@ -1478,7 +1476,6 @@ class CandidateController extends Controller
                         }
                     }
                 }
-                // dd($data2);
                 return view('verification.pages.resubmitted-data', compact('data2', 'data'));
             } catch (Exception $err) {
                 dd($err->getMessage());

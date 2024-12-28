@@ -28,6 +28,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
@@ -39,7 +40,7 @@ class VerificationController extends Controller
     public function correct()
     {
         // $actual_data = appointing_authorities::pluck('phone')->toArray(); 
-     
+
         // $actual_data_lookup = array_flip($actual_data);
 
         // $a = AllLoginModel::get();
@@ -55,35 +56,35 @@ class VerificationController extends Controller
         //     AllLoginModel::whereIn('id', $ids_to_delete)->delete();
         // }
         // dd('done');
-        DB::beginTransaction();  
+        DB::beginTransaction();
         try {
-            $actual_data = appointing_authorities::pluck('phone')->toArray(); 
-   
-            $actual_data = appointing_authorities::pluck('phone')->toArray(); 
-        $actual_data_lookup = array_flip($actual_data);
+            $actual_data = appointing_authorities::pluck('phone')->toArray();
 
-        $appointing_authorities_bckp = DB::table('appointing_authorities1')->get(); 
-        $user_ids = [];   
-        
-        foreach ($appointing_authorities_bckp as $d) {
-            if (!isset($actual_data_lookup[$d->phone])) {
-                array_push($user_ids, $d->id);
-                appointing_authorities::create([
-                    // 'id' => $d->id,
-                    'name' => $d->name,
-                    'designation' => $d->designation,
-                    'phone' => $d->phone,
-                    'department' => $d->department,
-                    'office' => null,
-                    'district' => null,
-                    'first_login' => $d->first_login,
-                    'created_at' => $d->created_at,
-                    'updated_at' => $d->updated_at
-                ]);
+            $actual_data = appointing_authorities::pluck('phone')->toArray();
+            $actual_data_lookup = array_flip($actual_data);
+
+            $appointing_authorities_bckp = DB::table('appointing_authorities1')->get();
+            $user_ids = [];
+
+            foreach ($appointing_authorities_bckp as $d) {
+                if (!isset($actual_data_lookup[$d->phone])) {
+                    array_push($user_ids, $d->id);
+                    appointing_authorities::create([
+                        // 'id' => $d->id,
+                        'name' => $d->name,
+                        'designation' => $d->designation,
+                        'phone' => $d->phone,
+                        'department' => $d->department,
+                        'office' => null,
+                        'district' => null,
+                        'first_login' => $d->first_login,
+                        'created_at' => $d->created_at,
+                        'updated_at' => $d->updated_at
+                    ]);
+                }
             }
-        }
-            
-            $all_login_bckp = DB::table('all_login1')->get(); 
+
+            $all_login_bckp = DB::table('all_login1')->get();
             foreach ($all_login_bckp as $b) {
                 if (!in_array($b->user_id, $user_ids)) {
                     AllLoginModel::create([
@@ -98,7 +99,7 @@ class VerificationController extends Controller
                     ]);
                 }
             }
-    
+
             $map_bkp = DB::table('authority_office_dist_maps1')->get();
             foreach ($map_bkp as $m) {
                 if (!in_array($m->user_id, $user_ids)) {
@@ -114,10 +115,10 @@ class VerificationController extends Controller
                     ]);
                 }
             }
-    
-            DB::commit(); 
+
+            DB::commit();
         } catch (Exception $err) {
-            DB::rollBack(); 
+            DB::rollBack();
             dd($err->getMessage());
         }
     }
