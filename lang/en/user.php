@@ -42,7 +42,7 @@ return [
             'office_cp' => 'Office (Current Posting)',
             'desg_cp' => 'Designation (Current Posting)',
             'doj_fj' => 'Date of Joining (First Joining)',
-            'time_of_service'=>'Service tenure',
+            'time_of_service'=>'Years of Service(As on Date)',
             'doj_cp' => 'Date of Joining (Current Posting)',
             'g_pay' => 'Grade Pay',
             'p_bank' => 'Pay Band',
