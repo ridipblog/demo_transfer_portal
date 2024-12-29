@@ -43,6 +43,10 @@ Route::post('previous-user-fetch', [UserRegistrationController::class, 'fetch_pr
 Route::post('fetch-directorates', [UserRegistrationController::class, 'fetch_directorates'])->name('fetch-directorates');
 Route::post('re-assign-user', [UserRegistrationController::class, 're_assign']);
 
+Route::get('re-assign-authority', [UserRegistrationController::class, 're_assign_authority_index']);
+Route::post('fetch_off_dist',[UserRegistrationController::class, 'fetch_off_dist']);
+
+Route::post('fetch_off_dist_assign',[UserRegistrationController::class, 'fetch_off_dist_assign']);
 
 Route::get('correct-names', [UserRegistrationController::class, 'correct_office_name']);
 

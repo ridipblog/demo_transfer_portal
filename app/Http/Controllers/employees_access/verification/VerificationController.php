@@ -780,7 +780,7 @@ class VerificationController extends Controller
             $d = AllLoginModel::where('user_id', $uu->id)->leftJoin('roles', 'all_login.role_id', '=', 'roles.id')->select('roles.role', 'roles.display_name as display_name')->first();
             $dir = authority_office_dist_map::where('user_id', $user->id)->where('role_id', 2)->pluck('directorate_id')->first();
 
-            $pendingTransfers = TransfersModel::where('request_status', 0)->where('final_approval', '!=', 2)->where('2nd_recommend', '!=', 2)->where('request_status', '!=', 0)->where('request_status', '!=', 2)
+            $pendingTransfers = TransfersModel::whereIn('request_status', [0, 1])->where('final_approval', 0)
                 ->leftJoin('user_credentials as employee', 'transafers.employee_id', '=', 'employee.id')
                 ->leftJoin('user_credentials as target_employee', 'transafers.target_employee_id', '=', 'target_employee.id')
                 ->leftJoin('employment_details as employee_employment', 'transafers.employee_id', '=', 'employee_employment.user_id')
@@ -834,7 +834,6 @@ class VerificationController extends Controller
 
             $allTransfers = TransfersModel::whereIn('request_status', [0, 1])
                 ->where('final_approval', '!=', 2)
-                ->where('2nd_recommend', '!=', 2)->where('request_status', '!=', 0)->where('request_status', '!=', 2)
                 ->leftJoin('user_credentials as employee', 'transafers.employee_id', '=', 'employee.id')
                 ->leftJoin('user_credentials as target_employee', 'transafers.target_employee_id', '=', 'target_employee.id')
                 ->leftJoin('employment_details as employee_employment', 'transafers.employee_id', '=', 'employee_employment.user_id')
@@ -1151,7 +1150,7 @@ class VerificationController extends Controller
                         if ($verified_by->office != null && ($data2[0]->employment_details->office_id == $verified_by->office)) {
                             $office_name = OfficeFinAsssamModel::where('id', $verified_by->office)->pluck('name')->first();
                         } else {
-                            $office_name = null;
+                            $office_name = 'All Office';
                         }
                     } else {
                         $verified_by = [];
@@ -1231,7 +1230,7 @@ class VerificationController extends Controller
                         if ($appr_by->office != null && ($data2[0]->employment_details->office_id == $appr_by->office)) {
                             $approver_office_name = OfficeFinAsssamModel::where('id', $appr_by->office)->pluck('name')->first();
                         } else {
-                            $approver_office_name = null;
+                            $approver_office_name = 'All Office';
                         }
                     } else {
                         $appr_by = null;

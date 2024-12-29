@@ -370,7 +370,7 @@
                                         <label
                                             class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('authority_dashboard.updated_texts.verifier_remarks')</label>
                                         <p class="font-semibold">
-                                            {{ $candidate2->verified_remarks != null ? $candidate2->verified_remarks : 'N/A' }}
+                                            {{ $candidate1->verified_remarks != null ? $candidate1->verified_remarks : 'N/A' }}
                                         </p>
                                     </div>
                                     <div>
@@ -384,27 +384,27 @@
                                                                                                                                                                                                                                                                                                                                                                                                                         <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">Appointing Authority</label>
                                                                                                                                                                                                                                                                                                                                                                                                                         <p class="font-semibold">{{ $candidate2->noc_generate == 1 ? 'Yes' : 'No' }}</p>
                                                                                                                                                                                                                                                                                                                                                                                                                     </div> -->
-                                    <div>
+                                    {{-- <div>
                                         <label
                                             class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('authority_dashboard.profile_details.appointing_authority')</label>
                                         <p class="font-semibold">
                                             {{ $noc_generated_by != null ? $noc_generated_by->name : 'N/A' }},
                                             {{ $noc_generated_by != null ? $noc_generated_by->designation : 'N/A' }},{{ $noc_office_name != null ? $noc_office_name : 'N/A' }},
                                             {{ $noc_department_name != null ? $noc_department_name : 'N/A' }}</p>
-                                    </div>
-                                    <div>
+                                    </div> --}}
+                                    {{-- <div>
                                         <label
                                             class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('authority_dashboard.updated_texts.appointing_authority_remarks')</label>
                                         <p class="font-semibold">
                                             {{ $candidate2->noc_remarks != null ? $candidate2->noc_remarks : 'N/A' }}</p>
-                                    </div>
-                                    <div>
+                                    </div> --}}
+                                    {{-- <div>
                                         <label
                                             class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('authority_dashboard.profile_details.recommended_on')</label>
                                         <p class="font-semibold">
                                             {{ $noc_generated_on == null ? 'N/A' : \Carbon\Carbon::parse($noc_generated_on)->format('d-m-Y') }}
                                         </p>
-                                    </div>
+                                    </div> --}}
 
                                     @if ($approved_by != null)
                                         <div>
@@ -778,27 +778,27 @@
                                                                                                                                                                                                                                                                                                                                                                                                                         <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">Appointing Authority</label>
                                                                                                                                                                                                                                                                                                                                                                                                                         <p class="font-semibold">{{ $candidate2->noc_generate == 1 ? 'Yes' : 'No' }}</p>
                                                                                                                                                                                                                                                                                                                                                                                                                   </div> -->
-                                    <div>
+                                    {{-- <div>
                                         <label
                                             class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('authority_dashboard.profile_details.appointing_authority')</label>
                                         <p class="font-semibold">
                                             {{ $noc_generated_by != null ? $noc_generated_by->name : 'N/A' }},
                                             {{ $noc_generated_by != null ? $noc_generated_by->designation : 'N/A' }},{{ $noc_office_name != null ? $noc_office_name : 'N/A' }},
                                             {{ $noc_department_name != null ? $noc_department_name : 'N/A' }}</p>
-                                    </div>
-                                    <div>
+                                    </div> --}}
+                                    {{-- <div>
                                         <label
                                             class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('authority_dashboard.updated_texts.appointing_authority_remarks')</label>
                                         <p class="font-semibold">
                                             {{ $candidate2->noc_remarks != null ? $candidate2->noc_remarks : 'N/A' }}</p>
-                                    </div>
-                                    <div>
+                                    </div> --}}
+                                    {{-- <div>
                                         <label
                                             class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('authority_dashboard.profile_details.recommended_on')</label>
                                         <p class="font-semibold">
                                             {{ $noc_generated_on == null ? 'N/A' : \Carbon\Carbon::parse($noc_generated_on)->format('d-m-Y') }}
                                         </p>
-                                    </div>
+                                    </div> --}}
 
                                     @if ($approved_by != null)
                                         <div>

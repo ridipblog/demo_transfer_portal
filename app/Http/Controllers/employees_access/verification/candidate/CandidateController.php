@@ -223,7 +223,7 @@ class CandidateController extends Controller
                     if ($verified_by->office != null && ($data2[0]->employment_details->office_id == $verified_by->office)) {
                         $office_name = OfficeFinAsssamModel::where('id', $verified_by->office)->pluck('name')->first();
                     } else {
-                        $office_name = null;
+                        $office_name = 'All Office';
                     }
                 } else {
                     $verified_by = [];
@@ -301,7 +301,7 @@ class CandidateController extends Controller
                     if ($appr_by->office != null && ($data2[0]->employment_details->office_id == $appr_by->office)) {
                         $approver_office_name = OfficeFinAsssamModel::where('id', $appr_by->office)->pluck('name')->first();
                     } else {
-                        $approver_office_name = null;
+                        $approver_office_name = 'All Office';
                     }
                 } else {
                     $appr_by = null;
@@ -498,8 +498,10 @@ class CandidateController extends Controller
                         }
                     }
                     $verifier_office = array_unique($verifier_office);
-                    $office_name = !empty($verifier_office) ? implode(', ', $verifier_office) : null;
-
+                    $verifier_office_name = !empty($verifier_office) ? implode(', ', $verifier_office) : null;
+                    if(count($verifier_office) > 1){
+                        $verifier_office_name = 'All Office';
+                    }
 
                     if ($data->noc_generated_by != null) {
                         $noc_generated_by = appointing_authorities::where('id', $data->noc_generated_by)->first();
@@ -582,6 +584,35 @@ class CandidateController extends Controller
                             $approved_by = null;
                             $approved_on = null;
                         }
+
+                        if ($approved_by != null) {
+                            $mapp_data = authority_office_dist_map::where('user_id', $approved_by)->get(['office_id', 'department_id', 'district_id']);
+    
+                            if (!$mapp_data->isEmpty()) {
+                                foreach ($mapp_data as $m) {
+                                    if (!is_null($m->office_id)) {
+                                        $office_name = OfficeFinAsssamModel::where('id', $m->office_id)->pluck('name')->first();
+                                        if ($office_name) {
+                                            $verifier_office[] = $office_name;
+                                        }
+                                    } elseif (is_null($m->office_id) && !is_null($m->district_id)) {
+                                        $officeIds = OfficesDistDeptModel::where('district_id', $m->district_id)->pluck('office_id')->toArray();
+                                        $office_names = OfficeFinAsssamModel::whereIn('id', $officeIds)->pluck('name')->toArray();
+                                        $verifier_office = array_merge($verifier_office, $office_names);
+                                    } elseif (is_null($m->office_id) && is_null($m->district_id) && !is_null($m->department_id)) {
+                                        $officeIds = OfficesDistDeptModel::where('depertment_id', $m->department_id)->pluck('office_id')->toArray();
+                                        $office_names = OfficeFinAsssamModel::whereIn('id', $officeIds)->pluck('name')->toArray();
+                                        $verifier_office = array_merge($verifier_office, $office_names);
+                                    }
+                                }
+                            }
+                        }
+                        $approver_office = array_unique($verifier_office);
+                        $approver_office_name = !empty($verifier_office) ? implode(', ', $verifier_office) : null;
+                        if(count($verifier_office) > 1){
+                            $approver_office_name = 'All Office';
+                        }
+
                     } else {
                         $approval_status = null;
                         $approver_department_name = null;
@@ -590,8 +621,7 @@ class CandidateController extends Controller
                         $approved_on = null;
                     }
                     $rej = DB::table('rejected_documents')->where('user_id', $data->id)->count();
-
-                    return view('verification.pages.profile_details')->with(['cond' => $conditional_data, 'rej' => $rej, 'approval_status' => $approval_status, 'docs2' => $docPaths2, 'approver_department_name' => $approver_department_name, 'approver_office_name' => $approver_office_name, 'sr_department_name' => $sr_department_name, 'sr_office_name' => $sr_office_name, 'noc_department_name' => $noc_department_name, 'noc_office_name' => $noc_office_name, 'department_name' => $department_name, 'office_name' => $office_name, 'approved_by' => $approved_by, 'approved_on' => $approved_on, 'second_recommended_on' => $second_Recommend_on, 'sr' => $sr, 'srr' => $srr,  'approver_remarks' => $approver_remarks, 'candidate' => $data, 'user_role' => $roleName, 'docs' => $docs, 'verified_by' => $verified_by, 'noc_generated_by' => $noc_generated_by]);
+                    return view('verification.pages.profile_details')->with(['verifier_office1' => $verifier_office_name, 'approver_officer1' => $approver_office_name,'cond' => $conditional_data, 'rej' => $rej, 'approval_status' => $approval_status, 'docs2' => $docPaths2, 'approver_department_name' => $approver_department_name, 'approver_office_name' => $approver_office_name, 'sr_department_name' => $sr_department_name, 'sr_office_name' => $sr_office_name, 'noc_department_name' => $noc_department_name, 'noc_office_name' => $noc_office_name, 'department_name' => $department_name, 'office_name' => $office_name, 'approved_by' => $approved_by, 'approved_on' => $approved_on, 'second_recommended_on' => $second_Recommend_on, 'sr' => $sr, 'srr' => $srr,  'approver_remarks' => $approver_remarks, 'candidate' => $data, 'user_role' => $roleName, 'docs' => $docs, 'verified_by' => $verified_by, 'noc_generated_by' => $noc_generated_by]);
                 }
             } else {
                 return redirect('/verifier/verifier-dashboard');
@@ -1301,11 +1331,13 @@ class CandidateController extends Controller
                         }
                     });
 
-                    $main_query->select('id', 'profile_verify_status');
+                    $main_query->select('id', 'profile_verify_status', 'phone');
+                    
                     if ($main_query->exists()) {
                         session()->flash('flash_message', 1);
                         session()->flash('message', 'Candidate verified');
                         $res_data['status'] = 200;
+                        $user_datas = $main_query->first();
                     } else {
                         $res_data['message'] = "Employee details not found !";
                     }
@@ -1348,7 +1380,11 @@ class CandidateController extends Controller
                         'noc_generate' => 1,
                         'comment' => $request->input('comment') != null ? $request->input('comment') : null,
                     ]);
+                    ReuseModule::approvedProfileByVerifier($user_datas->phone);
                 DB::commit();
+                // $user = UserCredentialsModel::where('id', $employee_id)->first();
+                
+                // ReuseModule::approvedProfileByVerifier($c2->phone);
                 $res_data['message'] = "Ok";
                 $res_data['status'] = 200;
             } catch (Exception $err) {
@@ -1364,7 +1400,7 @@ class CandidateController extends Controller
 
     public function fetch_candidates_approval(Request $request)
     {
-        dd('here');
+        // dd('here');
         // dd('hello');
         $user = Auth::guard('user_guard')->user();
         $roleName = '';

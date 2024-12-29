@@ -360,7 +360,7 @@
                                     class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('authority_dashboard.updated_texts.verifier')</label>
                                 <p class="font-semibold">{{ $verified_by != null ? $verified_by->name : 'N/A' }},
                                     {{ $verified_by != null ? $verified_by->designation : 'N/A' }},
-                                    N/A,
+                                    {{$verifier_office1 }},
                                     {{-- {{ $office_name != null ? (is_array($office_name) ? (', ', $office_name) : $office_name) : 'N/A' }},
                 --}}
                                     {{ $department_name != null ? $department_name : 'N/A' }}
@@ -384,7 +384,7 @@
                             @endif
 
                             @if ($candidate->noc_generate == 1)
-                                @if ($noc_generated_by != null)
+                                {{-- @if ($noc_generated_by != null)
                                     <div>
                                         <label
                                             class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('authority_dashboard.profile_details.appointing_authority')</label>
@@ -411,7 +411,7 @@
                                             </p>
                                         </div>
                                     @endif
-                                @endif
+                                @endif --}}
 
                                 @if ($approval_status == 1)
                                     @if ($approved_by != null)
@@ -420,8 +420,8 @@
                                                 class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('authority_dashboard.updated_texts.approved_by')</label>
                                             <p class="font-semibold">
                                                 {{ $approved_by->name != null ? $approved_by->name : 'N/A' }},
-                                                {{ $approved_by->designation != null ? $approved_by->designation : 'N/A' }}
-                                                {{ $approver_office_name != null ? $approver_office_name : 'N/A' }},
+                                                {{ $approved_by->designation != null ? $approved_by->designation : 'N/A' }},
+                                                {{ $approver_officer1 }},
                                                 {{ $approver_department_name != null ? $approver_department_name : 'N/A' }}
                                             </p>
                                         </div>
@@ -810,6 +810,7 @@
                             processData: false, // Prevent jQuery from automatically processing the FormData
                             contentType: false, // Prevent jQuery from setting the content type
                             success: function(response) {
+                                alert('here');
                                 var locale = window.App?.locale;
                                 Swal.fire('Rejected!',
                                     'The candidate has been rejected.', 'success');
@@ -1109,6 +1110,8 @@
                             processData: false,
                             success: function(response) {
                                 if (response.res_data.status == 200) {
+                                    // Swal.fire('Rejected!',
+                                    // 'The candidate has been rejected.', 'success');
                                     window.location.reload();
                                 } else {
                                     for (var i = 0; i < response.res_data.message
