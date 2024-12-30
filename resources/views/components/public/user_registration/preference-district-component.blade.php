@@ -21,7 +21,7 @@
                 <span
                     class="absolute -translate-y-1/2 font-black top-1/2 left-2.5 italic text-gray-500 -mt-2.5">{{ $preference_text[$i] }}</span>
                 <select name="preference_location[]" id="preference_district_{{ $i + 1 }}"
-                    class="registration-input preference_districts disabled:bg-gray-100 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 pl-12 w-full">
+                    class="registration-input clear-input-error preference_districts disabled:bg-gray-100 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 pl-12 w-full">
                     <option value=""
                         {{ isset($prefernce_distrcits[$i]->district_id) ? (in_array($employment_data->district_id, $viewData['districts']->pluck('id')->toArray()) ? 'selected' : '') : 'selected' }}
                         disabled>

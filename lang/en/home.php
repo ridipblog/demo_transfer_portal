@@ -9,11 +9,11 @@ return [
         'faq' => 'FAQ',
     ],
     'steps' => [
-        1 => 'Account creation.',
-        2 => 'Profile verification.',
-        3 => 'Recommendation by the competent authority.',
-        4 => 'Approval for transfer.',
-        5 => 'Transfer order generation.',
+        1 => 'Account Creation & Filling of Application.',
+        2 => 'Application Verification.',
+        3 => 'Request for Joint Mutual Transfer  .',
+        4 => 'Approval by HoD.',
+        5 => 'Transfer Order.',
     ],
     'cards' => [
         'login' => [

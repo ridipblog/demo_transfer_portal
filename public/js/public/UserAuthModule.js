@@ -4,7 +4,7 @@ import ReuseModule from "../reuse_modules/ReuseModule.js";
 const reuse_module = new ReuseModule();
 class UserAuthModule extends RequestModule {
     constructor() {
-        console.log("User auth module");
+
         super();
     }
     // -------------- user registration ----------------
@@ -14,7 +14,7 @@ class UserAuthModule extends RequestModule {
         form_data.append('preview', preview);
 
         this.formPostReponse = async (response) => {
-            console.log(response.res_data);
+
             if (response.res_data.status == 200) {
                 if (preview == "preview") {
                     this.previewRegData();
@@ -43,7 +43,6 @@ class UserAuthModule extends RequestModule {
         reuse_module.processingStatus('.registration-OTP-btn');
         var form_data = new FormData($(form)[0]);
         this.formPostReponse = async (response) => {
-            console.log(response)
             if (response.res_data.status == 200) {
                 Swal.fire({
                     'title': 'Registration Successful!',
@@ -74,7 +73,7 @@ class UserAuthModule extends RequestModule {
                 var locale = window.App?.locale;
                 var origin = window.location.origin
                 window.location.href = `/${locale}/employees/dashboard`;
-                console.log(response.res_data.message);
+
 
             } else if (response.res_data.status == 400) {
                 reuse_module.showErrorMessage('.user-login-input', '.user-login-error', response.res_data.message, 'back_end');
@@ -100,7 +99,7 @@ class UserAuthModule extends RequestModule {
         }
         // $('.user-login-error').html('')
         this.formPostReponse = async (response) => {
-            console.log(response)
+
             if (response.res_data.status == 200) {
                 if (api_type == "request_otp") {
                     var locale = window.App?.locale;
@@ -171,7 +170,7 @@ class UserAuthModule extends RequestModule {
         var form_data = new FormData($(form)[0]);
         $('.verification-login-error').html('')
         this.formPostReponse = async (response) => {
-            console.log(response)
+
             // alert('ee')
             if (response.res_data.status == 200) {
                 if (response.res_data.first_login == 1) {
@@ -186,13 +185,13 @@ class UserAuthModule extends RequestModule {
                                 var locale = window.App?.locale;
                                 // window.location.href = `/${locale}/verifier/verifier-dashboard`;
                                 window.location.href = `/${locale}/department/department-dashboard`;
-                        } else {                    
-                                var locale = window.App?.locale;                       
+                        } else {
+                                var locale = window.App?.locale;
                                 window.location.href = `/${locale}/verifier/verifier-dashboard`;
-                      
+
                         }
                     }
-                
+
                 } else {
                     var locale = window.App?.locale;
                     window.location.href = `/${locale}/verification-otp`;
