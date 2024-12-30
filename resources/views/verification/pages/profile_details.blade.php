@@ -96,6 +96,12 @@
                             <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('user.form.basic_info.pan')</label>
                             <p class="font-semibold">{{ $candidate->persional_details->pan_number ?? 'N/A' }}</p>
                         </div>
+                        <div>
+                            <label
+                                class="block mb-1 text-xs md:text-sm font-semibold reqd text-gray-400">@lang('user.form.basic_info.h_d')</label>
+                            <p class="font-semibold truncate">{{ $candidate->persional_details->districts->name ?? 'N/A' }}
+                            </p>
+                        </div>
                     </div>
                     <div class="grid lg:grid-cols-3 gap-4 border border-sky-500 rounded-3xl border-b-4 border-r-4 p-6">
                         <div class="lg:col-span-3">
@@ -111,9 +117,11 @@
                         </div>
 
                         <div class="">
-                            <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">DDO Code</label>
-                            <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">DDO Code</label>
-                            <p class="font-semibold">{{ $candidate->employment_details->ddo_code ?? 'N/A' }}</p>
+                            <label
+                                class="block mb-1 text-xs md:text-sm font-semibold reqd text-gray-400">@lang('user.form.emp_info.direc_cp')</label>
+                            <p class="font-semibold truncate w-full whitespace-normal">
+                                {{ isset($candidate->employment_details->directorate_id) ? ($candidate->employment_details->directorate_id === 0 ? 'Not Applicable' : $candidate->employment_details->directorate->name ?? 'N/A') : 'Not Assign' }}
+                            </p>
                         </div>
 
                         <div class="col-span-2">
@@ -130,6 +138,13 @@
                             </label>
                             <p class="font-semibold">
                                 {{ \Carbon\Carbon::parse($candidate->employment_details->first_date_of_joining)->format('d-m-Y') ?? 'N/A' }}
+                            </p>
+                        </div>
+                        <div>
+                            <label
+                                class="block mb-1 text-xs md:text-sm font-semibold reqd text-gray-400">@lang('user.form.emp_info.time_of_service')</label>
+                            <p class="font-semibold truncate">
+                                {{ $candidate->employment_details->time_of_service ?? 'N/A' }}
                             </p>
                         </div>
                         <div>
