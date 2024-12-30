@@ -13,26 +13,38 @@ $(document).on('change', '.up_input', function (event) {
 
     if (up_prev_name) {
         let extension = up_prev_name.name.split('.').pop().toLowerCase();
-        const reader = new FileReader();
+        // const reader = new FileReader();
 
-        reader.onload = function (e) {
-            if (extension === "pdf") {
-                up_prev.closest('.up_doc_con').find('.set-document').attr('href', e.target.result);
-                up_prev.closest('.up_doc_con').find('.pdf-icon').removeClass('hidden');
-                up_prev.closest('.up_doc_con').find('.set-image').addClass('hidden');
-            } else {
-                up_prev.closest('.up_doc_con').find('.set-image').attr('src', e.target.result);
-                up_prev.closest('.up_doc_con').find('.pdf-icon').addClass('hidden');
-                up_prev.closest('.up_doc_con').find('.set-image').removeClass('hidden');
-            }
-        };
+        // reader.onload = function (e) {
+        //     if (extension === "pdf") {
+        //         up_prev.closest('.up_doc_con').find('.set-document').attr('href', e.target.result);
+        //         up_prev.closest('.up_doc_con').find('.pdf-icon').removeClass('hidden');
+        //         up_prev.closest('.up_doc_con').find('.set-image').addClass('hidden');
+        //     } else {
+        //         up_prev.closest('.up_doc_con').find('.set-image').attr('src', e.target.result);
+        //         up_prev.closest('.up_doc_con').find('.pdf-icon').addClass('hidden');
+        //         up_prev.closest('.up_doc_con').find('.set-image').removeClass('hidden');
+        //     }
+        // };
 
         if (extension === "pdf") {
-            reader.readAsDataURL(up_prev_name); // For PDF Preview
+            const fileURL = URL.createObjectURL(up_prev_name);
+            up_prev.closest('.up_doc_con').find('.set-document').attr('href', fileURL);
+            up_prev.closest('.up_doc_con').find('.pdf-icon').removeClass('hidden');
+            up_prev.closest('.up_doc_con').find('.set-image').addClass('hidden');
+            // reader.readAsDataURL(up_prev_name); // For PDF Preview
         } else if (['jpg', 'jpeg', 'png'].includes(extension)) {
-            reader.readAsDataURL(up_prev_name); // For Image Preview
+            const fileURL = URL.createObjectURL(up_prev_name);
+            // reader.readAsDataURL(up_prev_name); // For Image Preview
+            up_prev.closest('.up_doc_con').find('.set-image').attr('src', fileURL);
+            up_prev.closest('.up_doc_con').find('.pdf-icon').addClass('hidden');
+            up_prev.closest('.up_doc_con').find('.set-image').removeClass('hidden');
         } else {
-            alert('Invalid file format. Only PDF, JPG, JPEG, and PNG are supported.');
+            Swal.fire(
+                'info',
+                'Invalid file format. Only PDF, JPG, JPEG, and PNG are supported.',
+                'info'
+            );
             up_prev.val(''); // Clear invalid file
         }
 

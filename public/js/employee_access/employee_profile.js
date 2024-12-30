@@ -15,6 +15,12 @@ $(document).ready(function () {
         console.log($('#select_depert').val())
         reuse_module.getOfficePostNames('#select_depert', true,true)
     });
+    // --------- clear input error ---------------
+    $(document).on('input','.clear-input-error',function(){
+        let index=$('.clear-input-error').index(this);
+        console.log(index)
+        $('.registration-error').eq(index).html('');
+    });
     // ---------- fetch ofices by depertment , district and direcorate ----------
     $(document).on('change','#select_direct',async function(){
         await reuse_module.getOfficePostNames('#select_direct',true,true);
