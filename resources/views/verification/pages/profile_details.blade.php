@@ -96,6 +96,11 @@
                             <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('user.form.basic_info.pan')</label>
                             <p class="font-semibold">{{ $candidate->persional_details->pan_number ?? 'N/A' }}</p>
                         </div>
+                        <div>
+                            <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('user.form.basic_info.h_d')</label>
+                            <p class="font-semibold truncate">{{ $candidate->persional_details->districts->name ?? 'N/A' }}
+                            </p>
+                        </div>
                     </div>
                     <div class="grid lg:grid-cols-3 gap-4 border border-sky-500 rounded-3xl border-b-4 border-r-4 p-6">
                         <div class="lg:col-span-3">
@@ -109,13 +114,13 @@
                             <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('user.form.emp_info.dept_cp')</label>
                             <p class="font-semibold">{{ $candidate->employment_details->departments->name ?? 'N/A' }}</p>
                         </div>
-                        <!-- <div class="">
 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">DDO Code</label>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">DDO Code</label>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <p class="font-semibold">{{ $candidate->employment_details->ddo_code ?? 'N/A' }}</p>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </div> -->
+                        <div class="">
+                            <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('user.form.emp_info.direc_cp')</label>
+                            <p class="font-semibold truncate w-full whitespace-normal">
+                                {{ isset($candidate->employment_details->directorate_id) ? ($candidate->employment_details->directorate_id === 0 ? 'Not Applicable' : $candidate->employment_details->directorate->name ?? 'N/A') : 'Not Assign' }}
+                            </p>
+                        </div>
 
                         <div class="col-span-2">
                             <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('user.form.emp_info.office_cp')</label>
@@ -131,6 +136,12 @@
                             </label>
                             <p class="font-semibold">
                                 {{ \Carbon\Carbon::parse($candidate->employment_details->first_date_of_joining)->format('d-m-Y') ?? 'N/A' }}
+                            </p>
+                        </div>
+                        <div>
+                            <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('user.form.emp_info.time_of_service')</label>
+                            <p class="font-semibold truncate">
+                                {{ $candidate->employment_details->time_of_service ?? 'N/A' }}
                             </p>
                         </div>
                         <div>
@@ -181,7 +192,7 @@
 
 
                         <div class="">
-                            <label class="block mb-1 text-xs md:text-sm font-semibold reqd text-gray-400">How many
+                            <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">How many
                                 times have you
                                 availed mutual transfer ?</label>
 
@@ -194,8 +205,6 @@
 
                     {{-- ///////////////////// --}}
                     <div class="border border-sky-500 rounded-3xl border-b-4 border-r-4 p-6">
-
-
                         <div class="grid lg:grid-cols-3 gap-4 remarks-doc-div">
                             <div class="lg:col-span-3">
                                 <p class="text-lg font-bold text-sky-700">@lang('user.form.docs.heading')</p>
@@ -277,23 +286,46 @@
                                             @endphp
                                             <div class="text-white text-center p-2 text-xs">
                                                 {{ Str::upper(str_replace('_', ' ', __("user.form.docs.$document->document_type"))) }}
-            </div>
-            <div class="h-44 p-2 pt-0">
-                <img src="{{ Storage::url($document->documet_location ?? 'N/A') }}"
-                    alt="Document {{ $document->document_type }}" class="w-full h-full object-contain object-center">
-            </div>
-        </div>
-        @endif
-        @php
-        $key++;
-        @endphp
-        @endforeach
-        @endforeach
-    </div>
-    @endif --}}
+                                            </div>
+                                            <div class="h-44 p-2 pt-0">
+                                                <img src="{{ Storage::url($document->documet_location ?? 'N/A') }}"
+                                                    alt="Document {{ $document->document_type }}"
+                                                    class="w-full h-full object-contain object-center">
+                                            </div>
+                                        </div>
+                                    @endif
+                                    @php
+                                        $key++;
+                                    @endphp
+                                @endforeach
+                            @endforeach
+                        </div>
+                    @endif --}}
+
 
 
                     {{-- Additional documents and comments --}}
+                    @if ($user_role == 'Appointing Authority' || 'Verifier' || 'Appointing User')
+                        @if (count($docs) != 0 || $candidate->comment != null)
+                            <div
+                                class="grid lg:grid-cols-3 gap-4 border border-sky-500 rounded-3xl border-b-4 border-r-4 p-6">
+                                <div class="lg:col-span-3">
+                                    <p class="text-lg font-bold text-sky-700">@lang('authority_dashboard.profile_details.verifier_documents')</p>
+                                </div>
+                                @foreach ($docs as $d)
+                                    <a href="{{ asset('storage/' . $d->document_location) }}" target="_blank"
+                                        class="border rounded-xl bg-neutral-600">
+                                        <div class="text-white text-center p-2">{{ $d->remarks }}</div>
+                                    </a>
+                                @endforeach
+                                <div class="lg:col-span-3 flex flex-col">
+                                    @if ($candidate->comment != null)
+                                        <p class="font-semibold mt-auto"> {{ $candidate->comment }}</p>
+                                    @endif
+                                </div>
+                            </div>
+                        @endif
+                    @endif
 
 
 
@@ -319,20 +351,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="lg:col-span-3">
-                                    <div class="grid grid-cols-4 gap-2">
-                                        @if ($user_role == 'Appointing Authority' || 'Verifier' || 'Appointing User')
-                                            @if (count($docs) != 0 || $candidate->comment != null)
-                                                @foreach ($docs as $d)
-                                                    <a href="{{ asset('storage/' . $d->document_location) }}"
-                                                        target="_blank" class="border block rounded-xl bg-neutral-600">
-                                                        <div class="text-white text-center p-2">{{ $d->remarks }}</div>
-                                                    </a>
-                                                @endforeach
-                                            @endif
-                                        @endif
-                                    </div>
-                                </div>
+
                                 <div id="comment-container" class="lg:col-span-3">
                                     <textarea name="comment" id="comment"
                                         class="w-full rounded-md border-gray-300 shadow-sm focus:border-sky-500 focus:ring focus:ring-sky-300 focus:ring-opacity-50"
@@ -760,8 +779,55 @@
 
             $('#reject_noc_btn').on('click', function(e) {
                 e.preventDefault();
+
                 let form = $('#form_doc_append')[0];
+
+                // Check if all dynamically added file inputs have corresponding textareas filled
+                let isValid = true;
+
+                // Loop through each dynamically added div with class 'sub-form-div'
+                $('.sub-form-div').each(function() {
+                    let fileInput = $(this).find('input[type="file"]');
+                    let textarea = $(this).find('textarea');
+
+                    // Check if file is selected and textarea is filled
+                    if (fileInput.val() === '' || textarea.val().trim() === '') {
+                        isValid = false;
+
+                        // Highlight the missing field(s)
+                        if (fileInput.val() === '') {
+                            fileInput.addClass('border-red-500');
+                        } else {
+                            fileInput.removeClass('border-red-500');
+                        }
+
+                        if (textarea.val().trim() === '') {
+                            textarea.addClass('border-red-500');
+                        } else {
+                            textarea.removeClass('border-red-500');
+                        }
+                    } else {
+                        // Remove error highlights if valid
+                        fileInput.removeClass('border-red-500');
+                        textarea.removeClass('border-red-500');
+                    }
+                });
+
+                if (!isValid) {
+                    alert(
+                        'Please ensure that all additional documents have their corresponding fields completed.'
+                    );
+                    return;
+                }
+
+                // If all inputs are valid, proceed with form submission
                 let formData = new FormData(form);
+
+
+
+
+                // let form = $('#form_doc_append')[0];
+                // let formData = new FormData(form);
                 formData.append('candidate_id', $(this).val());
                 formData.append('comment', $('#comment').val());
 
@@ -787,7 +853,7 @@
                 formData.append('allRemarks', JSON.stringify(allRemarks));
                 formData.append('reject_message', reject_msg);
 
-
+                // console.log(formData);
                 // alert('ee')
                 Swal.fire({
                     title: 'Are you sure?',
@@ -799,7 +865,7 @@
                     confirmButtonText: 'Yes, Reject',
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        // Send the FormData using AJAX
+
                         $.ajax({
                             url: $('#reject_new').attr('action'),
                             type: 'POST',
@@ -807,21 +873,21 @@
                             headers: {
                                 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
                             },
-                            processData: false, // Prevent jQuery from automatically processing the FormData
-                            contentType: false, // Prevent jQuery from setting the content type
+                            processData: false,
+                            contentType: false,
                             success: function(response) {
-                                alert('here');
+
                                 var locale = window.App?.locale;
                                 Swal.fire('Rejected!',
                                     'The candidate has been rejected.', 'success');
-                                // window.history.back();
+
                                 window.location.href =
                                     `/en/verifier/verifier-dashboard`;
                             },
                             error: function(response) {
                                 Swal.fire('Error!',
                                     'An error occurred while rejecting.', 'error');
-                                // Optionally, handle error response
+
                             },
                         });
                     }

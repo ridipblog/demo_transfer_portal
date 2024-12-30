@@ -32,7 +32,7 @@
                 <div class="tabItems " id="pending">
                     <div class="gap-24">
                         <!-- <div class="flex-shrink-0">
-                                                                                                                                                                                                                                                                                        <img src="../../assets/img/profile.jpg" alt="" class="h-32 w-32 rounded-full object-cover object-center">                                                                                                                                                           </div> -->
+                                                                                                                                                                                                                                                                                                                                                    <img src="../../assets/img/profile.jpg" alt="" class="h-32 w-32 rounded-full object-cover object-center">                                                                                                                                                           </div> -->
                         <div class="grid gap-6">
                             <div
                                 class="grid lg:grid-cols-3 gap-4 border border-sky-500 rounded-3xl border-b-4 border-r-4 p-6">
@@ -94,6 +94,13 @@
                                         class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('user.form.basic_info.pan')</label>
                                     <p class="font-semibold">{{ $candidate1->persional_details->pan_number ?? 'N/A' }}</p>
                                 </div>
+                                <div>
+                                    <label
+                                        class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('user.form.basic_info.h_d')</label>
+                                    <p class="font-semibold truncate">
+                                        {{ $candidate1->persional_details->districts->name ?? 'N/A' }}
+                                    </p>
+                                </div>
                             </div>
                             <div
                                 class="grid lg:grid-cols-3 gap-4 border border-sky-500 rounded-3xl border-b-4 border-r-4 p-6">
@@ -112,10 +119,17 @@
                                     <p class="font-semibold">
                                         {{ $candidate1->employment_details->departments->name ?? 'N/A' }}</p>
                                 </div>
+                                <div class="">
+                                    <label
+                                        class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('user.form.emp_info.direc_cp')</label>
+                                    <p class="font-semibold truncate w-full whitespace-normal">
+                                        {{ isset($candidate1->employment_details->directorate_id) ? ($candidate1->employment_details->directorate_id === 0 ? 'Not Applicable' : $candidate1->employment_details->directorate->name ?? 'N/A') : 'Not Assign' }}
+                                    </p>
+                                </div>
                                 <!-- <div class="">
-                                                                                                                                                                                                                                                                                                <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">DDO Code</label>
-                                                                                                                                                                                                                                                                                                <p class="font-semibold">{{ $candidate1->employment_details->ddo_code ?? 'N/A' }}</p>
-                                                                                                                                                                                                                                                                                            </div> -->
+                                                                                                                                                                                                                                                                                                                                                            <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">DDO Code</label>
+                                                                                                                                                                                                                                                                                                                                                            <p class="font-semibold">{{ $candidate1->employment_details->ddo_code ?? 'N/A' }}</p>
+                                                                                                                                                                                                                                                                                                                                                        </div> -->
                                 <div class="col-span-2">
                                     <label
                                         class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('user.form.emp_info.office_cp')</label>
@@ -133,6 +147,13 @@
                                     </label>
                                     <p class="font-semibold">
                                         {{ \Carbon\Carbon::parse($candidate1->employment_details->first_date_of_joining)->format('d-m-Y') ?? 'N/A' }}
+                                    </p>
+                                </div>
+                                <div>
+                                    <label
+                                        class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('user.form.emp_info.time_of_service')</label>
+                                    <p class="font-semibold truncate">
+                                        {{ $candidate1->employment_details->time_of_service ?? 'N/A' }}
                                     </p>
                                 </div>
                                 <div>
@@ -256,8 +277,9 @@
                                         times have you
                                         availed mutual transfer ?</label>
 
-                                    {{-- <p class="font-semibold truncate">
-                                        {{ $candidate1->additional_info->times_mutual_transfer ?? 'N/A' }}</p> --}}
+                                    <p class="font-semibold truncate">
+                                        {{ $candidate1->additional_info->times_mutual_transfer ?? 'N/A' }}
+                                    </p>
                                 </div>
                                 {{-- <div class=""></div>
             <div class="flex flex-col items-center justify-center table_nfDiv">
@@ -355,9 +377,9 @@
                                         <p class="text-lg font-bold text-sky-700">@lang('authority_dashboard.profile_details.vnr')</p>
                                     </div>
                                     <!--<div>
-                                                                                                                                                                                                                                                                                                                                                                                                                        <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">Verified Status</label>
-                                                                                                                                                                                                                                                                                                                                                                                                                        <p class="font-semibold">Yes</p>
-                                                                                                                                                                                                                                                                                                                                                                                                                    </div> -->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">Verified Status</label>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <p class="font-semibold">Yes</p>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </div> -->
                                     <div>
                                         <label
                                             class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('authority_dashboard.updated_texts.verifier')</label>
@@ -381,9 +403,9 @@
                                         </p>
                                     </div>
                                     <!-- <div>
-                                                                                                                                                                                                                                                                                                                                                                                                                        <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">Appointing Authority</label>
-                                                                                                                                                                                                                                                                                                                                                                                                                        <p class="font-semibold">{{ $candidate2->noc_generate == 1 ? 'Yes' : 'No' }}</p>
-                                                                                                                                                                                                                                                                                                                                                                                                                    </div> -->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">Appointing Authority</label>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <p class="font-semibold">{{ $candidate2->noc_generate == 1 ? 'Yes' : 'No' }}</p>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </div> -->
                                     {{-- <div>
                                         <label
                                             class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('authority_dashboard.profile_details.appointing_authority')</label>
@@ -503,6 +525,13 @@
                                         class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('user.form.basic_info.pan')</label>
                                     <p class="font-semibold">{{ $candidate2->persional_details->pan_number ?? 'N/A' }}</p>
                                 </div>
+                                <div>
+                                    <label
+                                        class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('user.form.basic_info.h_d')</label>
+                                    <p class="font-semibold truncate">
+                                        {{ $candidate2->persional_details->districts->name ?? 'N/A' }}
+                                    </p>
+                                </div>
                             </div>
                             <div
                                 class="grid lg:grid-cols-3 gap-4 border border-sky-500 rounded-3xl border-b-4 border-r-4 p-6">
@@ -521,10 +550,17 @@
                                     <p class="font-semibold">
                                         {{ $candidate2->employment_details->departments->name ?? 'N/A' }}</p>
                                 </div>
+                                <div class="">
+                                    <label
+                                        class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('user.form.emp_info.direc_cp')</label>
+                                    <p class="font-semibold truncate w-full whitespace-normal">
+                                        {{ isset($candidate2->employment_details->directorate_id) ? ($candidate2->employment_details->directorate_id === 0 ? 'Not Applicable' : $candidate2->employment_details->directorate->name ?? 'N/A') : 'Not Assign' }}
+                                    </p>
+                                </div>
                                 <!-- <div class="">
-                                                                                                                                                                                                                                                                                                        <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">DDO Code</label>
-                                                                                                                                                                                                                                                                                                        <p class="font-semibold">{{ $candidate2->employment_details->ddo_code ?? 'N/A' }}</p>
-                                                                                                                                                                                                                                                                                                    </div> -->
+                                                                                                                                                                                                                                                                                                                                                                    <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">DDO Code</label>
+                                                                                                                                                                                                                                                                                                                                                                    <p class="font-semibold">{{ $candidate2->employment_details->ddo_code ?? 'N/A' }}</p>
+                                                                                                                                                                                                                                                                                                                                                                </div> -->
                                 <div class="col-span-2">
                                     <label
                                         class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('user.form.emp_info.office_cp')</label>
@@ -542,6 +578,13 @@
                                         class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('user.form.emp_info.doj_fj')</label>
                                     <p class="font-semibold">
                                         {{ \Carbon\Carbon::parse($candidate2->employment_details->first_date_of_joining)->format('d-m-Y') ?? 'N/A' }}
+                                    </p>
+                                </div>
+                                <div>
+                                    <label
+                                        class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('user.form.emp_info.time_of_service')</label>
+                                    <p class="font-semibold truncate">
+                                        {{ $candidate2->employment_details->time_of_service ?? 'N/A' }}
                                     </p>
                                 </div>
                                 <div>
@@ -633,32 +676,7 @@
                                 <div class="sm:col-span-2 md:col-span-3">
                                     <p class="text-lg font-bold text-sky-700">@lang('user.form.addl_info.heading')</p>
                                 </div>
-                                {{-- <div>
-        <label class="block mb-1 text-xs md:text-sm font-semibold reqd text-gray-400">@lang('user.form.addl_info.ccp')</label>
-        <p class="font-semibold truncate">{{ strtoupper($viewData->additional_info->criminal_case ?? 'N/A') }}
-        </p>
-    </div>
-    <div class="">
-        <label class="block mb-1 text-xs md:text-sm font-semibold reqd text-gray-400">@lang('user.form.addl_info.dpp')</label>
-        <p class="font-semibold truncate">
-            {{ strtoupper($viewData->additional_info->departmental_proceedings ?? 'N/A') }}</p>
-    </div>
-    <div class="">
-        <label class="block mb-1 text-xs md:text-sm font-semibold reqd text-gray-400">@lang('user.form.addl_info.mtb')</label>
-        <p class="font-semibold truncate">
-            {{ strtoupper($viewData->additional_info->mutual_transfer ?? 'N/A') }}</p>
-    </div>
-    <div class="">
-        <label class="block mb-1 text-xs md:text-sm font-semibold reqd text-gray-400">@lang('user.form.addl_info.no_mt')</label>
-        <p class="font-semibold truncate">
-            {{ $viewData->additional_info->mutual_transfer == 'yes' ? $viewData->additional_info->no_mutual_transfer ?? 'N/A' : 'N/A' }}
-        </p>
-    </div>
-    <div class="">
-        <label class="block mb-1 text-xs md:text-sm font-semibold reqd text-gray-400">@lang('user.form.addl_info.govt_due')</label>
-        <p class="font-semibold truncate">
-            {{ strtoupper($viewData->additional_info->pending_govt_dues ?? 'N/A') }}</p>
-    </div> --}}
+
 
                                 <div class="">
                                     <label class="block mb-1 text-xs md:text-sm font-semibold reqd text-gray-400">How many
@@ -666,13 +684,10 @@
                                         availed mutual transfer ?</label>
 
                                     <p class="font-semibold truncate">
-                                        {{ $candidate2->additional_info->times_mutual_transfer ?? 'N/A' }}</p>
+                                        {{ $candidate2->additional_info->times_mutual_transfer ?? 'N/A' }}
+                                    </p>
                                 </div>
-                                {{-- <div class=""></div>
-    <div class="flex flex-col items-center justify-center table_nfDiv">
-        <img src="/images/nfd.png" alt="" class="w-36 object-center mb-2">
-        <p class="text-gray-500 font-bold text-lg text-center">No Tranfser History Found!</p>
-    </div> --}}
+
                             </div>
 
                             {{-- ///////////////////// --}}
@@ -749,9 +764,9 @@
                                         <p class="text-lg font-bold text-sky-700">@lang('authority_dashboard.profile_details.vnr')</p>
                                     </div>
                                     <!--<div>
-                                                                                                                                                                                                                                                                                                                                                                                                                        <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">Verified Status</label>
-                                                                                                                                                                                                                                                                                                                                                                                                                        <p class="font-semibold">Yes</p>
-                                                                                                                                                                                                                                                                                                                                                                                                                    </div> -->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">Verified Status</label>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <p class="font-semibold">Yes</p>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </div> -->
                                     <div>
                                         <label
                                             class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('authority_dashboard.updated_texts.verifier')</label>
@@ -775,9 +790,9 @@
                                         </p>
                                     </div>
                                     <!-- <div>
-                                                                                                                                                                                                                                                                                                                                                                                                                        <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">Appointing Authority</label>
-                                                                                                                                                                                                                                                                                                                                                                                                                        <p class="font-semibold">{{ $candidate2->noc_generate == 1 ? 'Yes' : 'No' }}</p>
-                                                                                                                                                                                                                                                                                                                                                                                                                  </div> -->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">Appointing Authority</label>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <p class="font-semibold">{{ $candidate2->noc_generate == 1 ? 'Yes' : 'No' }}</p>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                              </div> -->
                                     {{-- <div>
                                         <label
                                             class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('authority_dashboard.profile_details.appointing_authority')</label>
