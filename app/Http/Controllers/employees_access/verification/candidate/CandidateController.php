@@ -982,6 +982,7 @@ class CandidateController extends Controller
         $verifier = appointing_authorities::where('id', Auth::guard('user_guard')->user()->user_id)->first();
         $roles = authority_office_dist_map::where('user_id', $verifier->id)->pluck('role_id')->toArray();
         $dept_ids = authority_office_dist_map::where('user_id', $verifier->id)->pluck('department_id')->toArray();
+        $dir = authority_office_dist_map::where('user_id', $verifier->id)->where('role_id', 2)->pluck('directorate_id')->first();
         if (in_array(5, $roles) && $type != 5) {
             $authority_maps = authority_office_dist_map::where('user_id', $verifier->id)
                 ->where(function ($query) use ($type) {
@@ -1031,6 +1032,12 @@ class CandidateController extends Controller
                         // $query->where('depertment_id', $verifier->department);
                         $query->whereIn('depertment_id',  $dept_ids);
                     });
+                    
+                    if ($dir !== null) {
+                        $main_query->whereHas('employment_details', function ($query) use ($dir) {
+                            $query->where('directorate_id', $dir);
+                        });
+                    }
                 // if ($check != null && $check == 1) {
                 //     $main_query->join('rejected_documents as rd', 'user_credentials.id', '=', 'rd.user_id');
                 // } else {
@@ -1120,6 +1127,11 @@ class CandidateController extends Controller
                 // } else {
                 //     // 
                 // }
+                if ($dir !== null) {
+                    $main_query->whereHas('employment_details', function ($query) use ($dir) {
+                        $query->where('directorate_id', $dir);
+                    });
+                }
                 if ($check != null && $check == 1) {
                     $main_query->whereExists(function ($query) {
                         $query->select(DB::raw(1))
@@ -1182,6 +1194,11 @@ class CandidateController extends Controller
                             ->whereRaw('rejected_documents.user_id = user_credentials.id');
                     });
                 }
+                if ($dir !== null) {
+                    $main_query->whereHas('employment_details', function ($query) use ($dir) {
+                        $query->where('directorate_id', $dir);
+                    });
+                }
                 if ($authority_maps->isNotEmpty()) {
                     $main_query->whereHas('employment_details', function ($query) use ($authority_maps) {
                         $query->where(function ($subQuery) use ($authority_maps) {
@@ -1228,6 +1245,11 @@ class CandidateController extends Controller
                 // } else {
                 //     // 
                 // }
+                if ($dir !== null) {
+                    $main_query->whereHas('employment_details', function ($query) use ($dir) {
+                        $query->where('directorate_id', $dir);
+                    });
+                }
                 if ($check != null && $check == 1) {
                     $main_query->whereExists(function ($query) {
                         $query->select(DB::raw(1))

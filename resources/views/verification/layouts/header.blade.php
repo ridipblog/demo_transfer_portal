@@ -162,6 +162,7 @@
                                         @endif
                                     @endforeach --}}
                                     @foreach (Session::get('all_roles') as $roles)
+                                    
                                         @php
                                             $role_name = $roles->display_name;
                                             if ($roles->id == 7) {

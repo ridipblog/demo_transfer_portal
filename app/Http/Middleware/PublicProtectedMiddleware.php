@@ -18,6 +18,7 @@ class PublicProtectedMiddleware
      */
     public function handle(Request $request, Closure $next, $protect_type = null): Response
     {
+        // dd('here');
         // Auth::guard('user_guard')->logout();
         try {
             $auth_validate_module = new AuthValidateModule();
@@ -30,6 +31,7 @@ class PublicProtectedMiddleware
                 return response()->json(['status' => 301, 'message' => "You are already logged in !"]);
             }
         } else {
+            // dd($check_auth->check_logged_in);
             if ($check_auth->check_logged_in) {
                 $logged_user = Auth::guard('user_guard')->user();
                 // dd($logged_user->role_id);
@@ -42,6 +44,7 @@ class PublicProtectedMiddleware
                     '7' => app()->getLocale() . '/department/department-dashboard',
                     '1' => '/admin/admin-dashboard'
                 ];
+
                 // dd($redirect_links[$logged_user->role_id]);
                 return redirect($redirect_links[$logged_user->role_id]);
             }

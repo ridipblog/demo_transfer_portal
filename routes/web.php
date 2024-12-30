@@ -73,7 +73,9 @@ Route::group(['prefix' => '{lang?}', 'middleware' => 'setlocale', 'where' => ['l
     });
 
     Route::group(['prefix' => 'department', 'middleware' => ['user_protect:roles,view,Approver']], function () {
+        
         Route::get('/department-dashboard', [VerificationController::class, 'department_index'])->name('verification.department.index');
+        
         Route::get('/approval-all-requests', [VerificationController::class, 'department_all_request'])->name('verification.department.all_request');
         Route::get('/approval-profile/{id}', [CandidateController::class, 'department_candidate_profile'])->name('verification.department.candidate_profile');
     });

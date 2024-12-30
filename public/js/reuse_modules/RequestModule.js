@@ -5,7 +5,7 @@ class RequestModule {
     // ---------------- request form using post method --------------
     formPost = async (form_data, api_route, is_html = false) => {
         var self = this;
-        console.log(api_route);
+
         await $.ajax({
             type: "post",
             url: api_route,
@@ -35,7 +35,7 @@ class RequestModule {
             data: form_data,
             dataType: is_html ? "html" : "json",
             success: function (response) {
-               
+
                 self.formPostReponse(response);
             }, error: function (data) {
                 // console.log(data);

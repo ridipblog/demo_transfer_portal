@@ -173,6 +173,7 @@ class VerificationController extends Controller
 
     public function department_index()
     {
+        // dd('ere');
         if (Auth::guard('user_guard')->check() && Auth::guard('user_guard')->user()->role_id == 2) {
             $verifier = appointing_authorities::where('id', Auth::guard('user_guard')->user()->user_id)->first();
             $uu = appointing_authorities::leftJoin('deptartments', 'appointing_authorities.department', '=', 'deptartments.id')
@@ -575,7 +576,10 @@ class VerificationController extends Controller
                 $switch_condition2 = 0;
                 if (array_diff([7], $role_ids) === [] && count($role_ids) > 1) {
                     $switch_condition = 1;
-                } else {
+                }elseif(array_diff([2, 6], $role_ids) === [] && count($role_ids) > 1){
+                    $switch_condition = 1;
+                }
+                 else {
                     $switch_condition = 0;
                 }
                 if (array_diff([5, 6], $role_ids) === []) {
@@ -614,6 +618,7 @@ class VerificationController extends Controller
                 $employees = [];
                 $dept_count = 0;
                 $authority_maps = authority_office_dist_map::where('user_id', $verifier->id)->get();
+                $dir = authority_office_dist_map::where('user_id', $verifier->id)->where('role_id', 2)->pluck('directorate_id')->first();
                 $dept_ids = authority_office_dist_map::where('user_id', $verifier->id)->pluck('department_id')->toArray();
                 if (in_array('Approver', $role_names_arr)) {
                     $authority_maps2 = authority_office_dist_map::where('user_id', $verifier->id)->where('role_id', 2)->get();
@@ -643,7 +648,9 @@ class VerificationController extends Controller
                         'deptartments.name as department_name',
                         'post_names.name as designation_name'
                     );
-
+                    if ($dir != null) {
+                        $usersQuery->where('employment_details.directorate_id', $dir);
+                    }
                 $categorizedResults = [];
                 foreach ($authority_maps as $map) {
                     // if (is_null($map->office_id) && is_null($map->district_id)) {
@@ -1021,26 +1028,28 @@ class VerificationController extends Controller
             // if ($id != 2 && $id != 7) {
             //     return redirect()->back();
             // }
-
+            
             try {
                 $role_id = Crypt::decryptString($role_id);
+                // dd($role_id);
                 $user_id = AllLoginModel::where('user_id', Auth::guard('user_guard')->user()->user_id)->where('role_id', $role_id)->where('user_type', '=', 2)->value('id');
                 if ($user_id) {
-
+                    // dd($user_id);
                     Auth::guard('user_guard')->logout();
                     Auth::guard('user_guard')->loginUsingId($user_id);
                     $user = Auth::guard('user_guard')->user();
+                    // dd($user);
                     $roleName = '';
                     if ($user) {
                         $roleName = $user->roles->role;
                     }
-
+                    // dd($roleName);
                     if ($roleName == 'Approver') {
-                        return redirect()->route('verifier.dashboard', ['lang' => app()->getLocale()]);
+                        return redirect()->route('verification.department.index', ['lang' => app()->getLocale()]);
                     } elseif ($roleName == 'Verifier' || $roleName == 'Appointing Authority' || $roleName == 'Appointing User') {
                         return redirect()->route('verifier.dashboard', ['lang' => app()->getLocale()]);
                     } elseif ($roleName == 'Department Hod') {
-
+                        // dd('here');
                         return redirect()->route('verification.department.index', ['lang' => app()->getLocale()]);
                     }
                 } else {
@@ -1549,6 +1558,15 @@ class VerificationController extends Controller
                     //     $department_dash = 1;
                     // }
                     // /////////////////////////////////////////////////////////////////////////////////
+                    if (in_array(2, $roles) && in_array(6, $roles)) {
+                        $attemp_data = [
+                            "phone" => $request->phone_or_email,
+                            'password' => $request->password,
+                            'user_type' => 2,
+                            'role_id' => 6
+                        ];
+                    }
+                    
                     if (in_array(5, $roles) && in_array(6, $roles)) {
                         $attemp_data = [
                             "phone" => $request->phone_or_email,
