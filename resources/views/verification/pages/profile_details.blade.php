@@ -530,10 +530,14 @@
                                 <div class="flex flex-col gap-3">
                                     <input type="hidden" id="verify_comment" name="comment" value="">
                                     <div class="flex items-center gap-2">
-                                        <input type="checkbox" name="verification[]" value="general"
-                                            class="border border-gray-300 text-sky-600 text-sm rounded-md focus:ring-sky-600 focus:border-sky-600 block p-1.5 mt-0.5"
-                                            required>
-                                        <p class="text-xs text-gray-900">@lang('authority_dashboard.profile_details.vrmsg')</p>
+                                        @if (count($conditions) != 0)
+                                            @foreach ($conditions as $cc)
+                                                <input type="checkbox" name="verification[]" value="general"
+                                                    class="border border-gray-300 text-sky-600 text-sm rounded-md focus:ring-sky-600 focus:border-sky-600 block p-1.5 mt-0.5"
+                                                    required>
+                                                <p class="text-xs text-gray-900">{{ $cc->conditions }}</p>
+                                            @endforeach
+                                        @endif
                                     </div>
                                     @if (count($cond) != 0)
                                         @foreach ($cond as $c)
