@@ -617,7 +617,7 @@ class VerificationController extends Controller
                 $employees = [];
                 $dept_count = 0;
                 $authority_maps = authority_office_dist_map::where('user_id', $verifier->id)->get();
-                $dir = authority_office_dist_map::where('user_id', $verifier->id)->where('role_id', 2)->pluck('directorate_id')->first();
+                $dir = authority_office_dist_map::where('user_id', $verifier->id)->where('role_id', 6)->pluck('directorate_id')->first();
                 $dept_ids = authority_office_dist_map::where('user_id', $verifier->id)->pluck('department_id')->toArray();
                 if (in_array('Approver', $role_names_arr)) {
                     $authority_maps2 = authority_office_dist_map::where('user_id', $verifier->id)->where('role_id', 2)->get();
@@ -647,9 +647,10 @@ class VerificationController extends Controller
                         'deptartments.name as department_name',
                         'post_names.name as designation_name'
                     );
-                if ($dir != null && $dir != 0) {
-                    $usersQuery->where('employment_details.directorate_id', $dir);
-                }
+                // if ($dir != null && $dir != 0) {
+                //     $usersQuery->where('employment_details.directorate_id', $dir);
+                // }
+                $usersQuery->where('employment_details.directorate_id', $dir);
                 $categorizedResults = [];
                 foreach ($authority_maps as $map) {
                     // if (is_null($map->office_id) && is_null($map->district_id)) {

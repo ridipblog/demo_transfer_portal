@@ -981,7 +981,7 @@ class CandidateController extends Controller
         $verifier = appointing_authorities::where('id', Auth::guard('user_guard')->user()->user_id)->first();
         $roles = authority_office_dist_map::where('user_id', $verifier->id)->pluck('role_id')->toArray();
         $dept_ids = authority_office_dist_map::where('user_id', $verifier->id)->pluck('department_id')->toArray();
-        $dir = authority_office_dist_map::where('user_id', $verifier->id)->where('role_id', 2)->pluck('directorate_id')->first();
+        $dir = authority_office_dist_map::where('user_id', $verifier->id)->where('role_id', 6)->pluck('directorate_id')->first();
         if (in_array(5, $roles) && $type != 5) {
             $authority_maps = authority_office_dist_map::where('user_id', $verifier->id)
                 ->where(function ($query) use ($type) {
