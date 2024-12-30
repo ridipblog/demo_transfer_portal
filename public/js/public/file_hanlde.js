@@ -9,47 +9,40 @@ $(document).on('click', '.up_doc_rmv_btn', function () {
 
 $(document).on('change', '.up_input', function (event) {
     var up_prev = $(this);
+    let index = $('.up_input').index(this);
     var up_prev_name = $(this)[0].files[0];
-
     if (up_prev_name) {
-        let extension = up_prev_name.name.split('.').pop().toLowerCase();
-        // const reader = new FileReader();
+        let fileSize = up_prev_name.size / 1024 / 1024
+        if (fileSize < 2) {
+            let extension = up_prev_name.name.split('.').pop().toLowerCase();
+            if (['jpg', 'jpeg', 'png', 'pdf'].includes(extension)) {
+                const fileURL = URL.createObjectURL(up_prev_name);
+                if (extension === "pdf") {
+                    up_prev.closest('.up_doc_con').find('.set-document').attr('href', fileURL);
+                    up_prev.closest('.up_doc_con').find('.pdf-icon').removeClass('hidden');
+                    up_prev.closest('.up_doc_con').find('.set-image').addClass('hidden');
+                } else {
+                    up_prev.closest('.up_doc_con').find('.set-image').attr('src', fileURL);
+                    up_prev.closest('.up_doc_con').find('.pdf-icon').addClass('hidden');
+                    up_prev.closest('.up_doc_con').find('.set-image').removeClass('hidden');
+                }
+                up_prev.closest('.up_doc_con').find('.up_doc_prev_con').removeClass('hidden');
+                $('.file-error').eq(index).html('');
+            } else {
+                $('.file-error').eq(index).html('Invalid file format. Only PDF, JPG, JPEG, and PNG are supported.');
 
-        // reader.onload = function (e) {
-        //     if (extension === "pdf") {
-        //         up_prev.closest('.up_doc_con').find('.set-document').attr('href', e.target.result);
-        //         up_prev.closest('.up_doc_con').find('.pdf-icon').removeClass('hidden');
-        //         up_prev.closest('.up_doc_con').find('.set-image').addClass('hidden');
-        //     } else {
-        //         up_prev.closest('.up_doc_con').find('.set-image').attr('src', e.target.result);
-        //         up_prev.closest('.up_doc_con').find('.pdf-icon').addClass('hidden');
-        //         up_prev.closest('.up_doc_con').find('.set-image').removeClass('hidden');
-        //     }
-        // };
+                up_prev.val('');
+            }
 
-        if (extension === "pdf") {
-            const fileURL = URL.createObjectURL(up_prev_name);
-            up_prev.closest('.up_doc_con').find('.set-document').attr('href', fileURL);
-            up_prev.closest('.up_doc_con').find('.pdf-icon').removeClass('hidden');
-            up_prev.closest('.up_doc_con').find('.set-image').addClass('hidden');
-            // reader.readAsDataURL(up_prev_name); // For PDF Preview
-        } else if (['jpg', 'jpeg', 'png'].includes(extension)) {
-            const fileURL = URL.createObjectURL(up_prev_name);
-            // reader.readAsDataURL(up_prev_name); // For Image Preview
-            up_prev.closest('.up_doc_con').find('.set-image').attr('src', fileURL);
-            up_prev.closest('.up_doc_con').find('.pdf-icon').addClass('hidden');
-            up_prev.closest('.up_doc_con').find('.set-image').removeClass('hidden');
         } else {
-            Swal.fire(
-                'info',
-                'Invalid file format. Only PDF, JPG, JPEG, and PNG are supported.',
-                'info'
-            );
-            up_prev.val(''); // Clear invalid file
+            up_prev.val('');
+            up_prev.closest('.up_doc_con').find('.set-document').attr('href', '');
+            up_prev.closest('.up_doc_con').find('.set-image').attr('src', '');
+            up_prev.closest('.up_doc_con').find('.up_doc_prev_con').addClass('hidden');
+            $('.file-error').eq(index).html('File size is only 2 mb.');
         }
-
-        up_prev.closest('.up_doc_con').find('.up_doc_prev_con').removeClass('hidden');
     } else {
+        up_prev.closest('.up_doc_con').find('.set-document').attr('href', '');
         up_prev.closest('.up_doc_con').find('.set-image').attr('src', '');
         up_prev.closest('.up_doc_con').find('.up_doc_prev_con').addClass('hidden');
     }

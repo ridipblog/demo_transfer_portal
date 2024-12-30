@@ -56,22 +56,19 @@ class ReuseModule extends RequestModule {
             let file = $(this)[0].files[0];
             if (file) {
                 let extension = file.name.split('.').pop().toLowerCase();
-
-                let render = new FileReader();
-                render.onload = function (e) {
                     if(extension=="pdf"){
-                        $('.selected-document-pdf').eq(index).attr('href',e.target.result);
+                        const fileURL = URL.createObjectURL(file);
+                        $('.selected-document-pdf').eq(index).attr('href',fileURL);
                         $('.contain-document-image').eq(index).addClass('hidden');
                         $('.contain-document-pdf').eq(index).removeClass('hidden');
                     }else{
-                        $('.selected-document-img').eq(index).attr('src',e.target.result);
+                        const fileURL = URL.createObjectURL(file);
+                        $('.selected-document-img').eq(index).attr('src',fileURL);
                         $('.contain-document-pdf').eq(index).addClass('hidden');
                         $('.contain-document-image').eq(index).removeClass('hidden');
                     }
                     // $('.preview_registration_document').eq(index).attr('src', e.target.result);
                     $('.review-document-image-div').eq(index).show();
-                }
-                render.readAsDataURL(file);
             }
         });
     }

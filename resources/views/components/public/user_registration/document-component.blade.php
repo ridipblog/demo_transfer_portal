@@ -58,7 +58,7 @@
                 <button type="button" class="absolute top-1.5 right-1.5 text-red-600 text-[.6rem] rounded-md block px-2 py-1 up_doc_rmv_btn">Remove</button>
                     <i class="bi bi-filetype-pdf text-5xl"></i>
             </a> --}}
-            <p class="registration-error"></p>
+            <p class="registration-error file-error"></p>
         </div>
     @endforeach
 
