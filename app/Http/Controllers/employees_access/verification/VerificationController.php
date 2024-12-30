@@ -647,9 +647,10 @@ class VerificationController extends Controller
                         'deptartments.name as department_name',
                         'post_names.name as designation_name'
                     );
-                if ($dir != null && $dir != 0) {
-                    $usersQuery->where('employment_details.directorate_id', $dir);
-                }
+                // if ($dir != null && $dir != 0) {
+                //     $usersQuery->where('employment_details.directorate_id', $dir);
+                // }
+                $usersQuery->where('employment_details.directorate_id', $dir);
                 $categorizedResults = [];
                 foreach ($authority_maps as $map) {
                     // if (is_null($map->office_id) && is_null($map->district_id)) {
