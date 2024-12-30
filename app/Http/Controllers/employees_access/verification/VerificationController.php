@@ -576,10 +576,9 @@ class VerificationController extends Controller
                 $switch_condition2 = 0;
                 if (array_diff([7], $role_ids) === [] && count($role_ids) > 1) {
                     $switch_condition = 1;
-                }elseif(array_diff([2, 6], $role_ids) === [] && count($role_ids) > 1){
+                } elseif (array_diff([2, 6], $role_ids) === [] && count($role_ids) > 1) {
                     $switch_condition = 1;
-                }
-                 else {
+                } else {
                     $switch_condition = 0;
                 }
                 if (array_diff([5, 6], $role_ids) === []) {
@@ -648,9 +647,9 @@ class VerificationController extends Controller
                         'deptartments.name as department_name',
                         'post_names.name as designation_name'
                     );
-                    if ($dir != null) {
-                        $usersQuery->where('employment_details.directorate_id', $dir);
-                    }
+                if ($dir != null && $dir != 0) {
+                    $usersQuery->where('employment_details.directorate_id', $dir);
+                }
                 $categorizedResults = [];
                 foreach ($authority_maps as $map) {
                     // if (is_null($map->office_id) && is_null($map->district_id)) {
@@ -1028,7 +1027,7 @@ class VerificationController extends Controller
             // if ($id != 2 && $id != 7) {
             //     return redirect()->back();
             // }
-            
+
             try {
                 $role_id = Crypt::decryptString($role_id);
                 // dd($role_id);
@@ -1566,7 +1565,7 @@ class VerificationController extends Controller
                             'role_id' => 6
                         ];
                     }
-                    
+
                     if (in_array(5, $roles) && in_array(6, $roles)) {
                         $attemp_data = [
                             "phone" => $request->phone_or_email,

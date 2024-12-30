@@ -499,7 +499,7 @@ class CandidateController extends Controller
                     }
                     $verifier_office = array_unique($verifier_office);
                     $verifier_office_name = !empty($verifier_office) ? implode(', ', $verifier_office) : null;
-                    if(count($verifier_office) > 1){
+                    if (count($verifier_office) > 1) {
                         $verifier_office_name = 'All Office';
                     }
 
@@ -587,7 +587,7 @@ class CandidateController extends Controller
 
                         if ($approved_by != null) {
                             $mapp_data = authority_office_dist_map::where('user_id', $approved_by)->get(['office_id', 'department_id', 'district_id']);
-    
+
                             if (!$mapp_data->isEmpty()) {
                                 foreach ($mapp_data as $m) {
                                     if (!is_null($m->office_id)) {
@@ -609,10 +609,9 @@ class CandidateController extends Controller
                         }
                         $approver_office = array_unique($verifier_office);
                         $approver_office_name = !empty($verifier_office) ? implode(', ', $verifier_office) : null;
-                        if(count($verifier_office) > 1){
+                        if (count($verifier_office) > 1) {
                             $approver_office_name = 'All Office';
                         }
-
                     } else {
                         $approval_status = null;
                         $approver_department_name = null;
@@ -621,7 +620,7 @@ class CandidateController extends Controller
                         $approved_on = null;
                     }
                     $rej = DB::table('rejected_documents')->where('user_id', $data->id)->count();
-                    return view('verification.pages.profile_details')->with(['verifier_office1' => $verifier_office_name, 'approver_officer1' => $approver_office_name,'cond' => $conditional_data, 'rej' => $rej, 'approval_status' => $approval_status, 'docs2' => $docPaths2, 'approver_department_name' => $approver_department_name, 'approver_office_name' => $approver_office_name, 'sr_department_name' => $sr_department_name, 'sr_office_name' => $sr_office_name, 'noc_department_name' => $noc_department_name, 'noc_office_name' => $noc_office_name, 'department_name' => $department_name, 'office_name' => $office_name, 'approved_by' => $approved_by, 'approved_on' => $approved_on, 'second_recommended_on' => $second_Recommend_on, 'sr' => $sr, 'srr' => $srr,  'approver_remarks' => $approver_remarks, 'candidate' => $data, 'user_role' => $roleName, 'docs' => $docs, 'verified_by' => $verified_by, 'noc_generated_by' => $noc_generated_by]);
+                    return view('verification.pages.profile_details')->with(['verifier_office1' => $verifier_office_name, 'approver_officer1' => $approver_office_name, 'cond' => $conditional_data, 'rej' => $rej, 'approval_status' => $approval_status, 'docs2' => $docPaths2, 'approver_department_name' => $approver_department_name, 'approver_office_name' => $approver_office_name, 'sr_department_name' => $sr_department_name, 'sr_office_name' => $sr_office_name, 'noc_department_name' => $noc_department_name, 'noc_office_name' => $noc_office_name, 'department_name' => $department_name, 'office_name' => $office_name, 'approved_by' => $approved_by, 'approved_on' => $approved_on, 'second_recommended_on' => $second_Recommend_on, 'sr' => $sr, 'srr' => $srr,  'approver_remarks' => $approver_remarks, 'candidate' => $data, 'user_role' => $roleName, 'docs' => $docs, 'verified_by' => $verified_by, 'noc_generated_by' => $noc_generated_by]);
                 }
             } else {
                 return redirect('/verifier/verifier-dashboard');
@@ -1032,12 +1031,12 @@ class CandidateController extends Controller
                         // $query->where('depertment_id', $verifier->department);
                         $query->whereIn('depertment_id',  $dept_ids);
                     });
-                    
-                    if ($dir !== null) {
-                        $main_query->whereHas('employment_details', function ($query) use ($dir) {
-                            $query->where('directorate_id', $dir);
-                        });
-                    }
+
+                if ($dir !== null && $dir != 0) {
+                    $main_query->whereHas('employment_details', function ($query) use ($dir) {
+                        $query->where('directorate_id', $dir);
+                    });
+                }
                 // if ($check != null && $check == 1) {
                 //     $main_query->join('rejected_documents as rd', 'user_credentials.id', '=', 'rd.user_id');
                 // } else {
@@ -1127,7 +1126,7 @@ class CandidateController extends Controller
                 // } else {
                 //     // 
                 // }
-                if ($dir !== null) {
+                if ($dir !== null && $dir != 0) {
                     $main_query->whereHas('employment_details', function ($query) use ($dir) {
                         $query->where('directorate_id', $dir);
                     });
@@ -1194,7 +1193,7 @@ class CandidateController extends Controller
                             ->whereRaw('rejected_documents.user_id = user_credentials.id');
                     });
                 }
-                if ($dir !== null) {
+                if ($dir !== null && $dir != 0) {
                     $main_query->whereHas('employment_details', function ($query) use ($dir) {
                         $query->where('directorate_id', $dir);
                     });
@@ -1245,7 +1244,7 @@ class CandidateController extends Controller
                 // } else {
                 //     // 
                 // }
-                if ($dir !== null) {
+                if ($dir !== null && $dir != 0) {
                     $main_query->whereHas('employment_details', function ($query) use ($dir) {
                         $query->where('directorate_id', $dir);
                     });
@@ -1354,7 +1353,7 @@ class CandidateController extends Controller
                     });
 
                     $main_query->select('id', 'profile_verify_status', 'phone');
-                    
+
                     if ($main_query->exists()) {
                         session()->flash('flash_message', 1);
                         session()->flash('message', 'Candidate verified');
@@ -1402,10 +1401,10 @@ class CandidateController extends Controller
                         'noc_generate' => 1,
                         'comment' => $request->input('comment') != null ? $request->input('comment') : null,
                     ]);
-                    ReuseModule::approvedProfileByVerifier($user_datas->phone);
+                ReuseModule::approvedProfileByVerifier($user_datas->phone);
                 DB::commit();
                 // $user = UserCredentialsModel::where('id', $employee_id)->first();
-                
+
                 // ReuseModule::approvedProfileByVerifier($c2->phone);
                 $res_data['message'] = "Ok";
                 $res_data['status'] = 200;
