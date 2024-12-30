@@ -43,6 +43,10 @@ Route::post('previous-user-fetch', [UserRegistrationController::class, 'fetch_pr
 Route::post('fetch-directorates', [UserRegistrationController::class, 'fetch_directorates'])->name('fetch-directorates');
 Route::post('re-assign-user', [UserRegistrationController::class, 're_assign']);
 
+Route::get('re-assign-authority', [UserRegistrationController::class, 're_assign_authority_index']);
+Route::post('fetch_off_dist',[UserRegistrationController::class, 'fetch_off_dist']);
+
+Route::post('fetch_off_dist_assign',[UserRegistrationController::class, 'fetch_off_dist_assign']);
 
 Route::get('correct-names', [UserRegistrationController::class, 'correct_office_name']);
 
@@ -61,7 +65,7 @@ Route::group(['prefix' => '{lang?}', 'middleware' => 'setlocale', 'where' => ['l
 
     Route::group(['prefix' => 'verifier', 'middleware' => ['user_protect:roles,view,Verifier,Appointing Authority,Appointing User,Approver,Department Hod']], function () {
         Route::get('/verifier-dashboard', [VerificationController::class, 'verifier_index'])->name('verifier.dashboard');
-        Route::get('/candidate-verify/{type}', [VerificationController::class, 'candidate_verify_index'])->name('verifier.candidate_verify');
+        Route::get('/candidate-verify/{type}/{re_submit?}', [VerificationController::class, 'candidate_verify_index'])->name('verifier.candidate_verify');
         Route::get('/approval-all-requests', [VerificationController::class, 'approval_all'])->name('verification.approval-all');
         Route::get('/candidate-profile/{id?}/{type}/{tab_recommend?}', [CandidateController::class, 'candidate_profile_index'])->name('candidate.profile');
         Route::get('/approval-profile/{id}', [VerificationController::class, 'approver_profile_details'])->name('verification.approver.profile');
@@ -69,7 +73,9 @@ Route::group(['prefix' => '{lang?}', 'middleware' => 'setlocale', 'where' => ['l
     });
 
     Route::group(['prefix' => 'department', 'middleware' => ['user_protect:roles,view,Approver']], function () {
+        
         Route::get('/department-dashboard', [VerificationController::class, 'department_index'])->name('verification.department.index');
+        
         Route::get('/approval-all-requests', [VerificationController::class, 'department_all_request'])->name('verification.department.all_request');
         Route::get('/approval-profile/{id}', [CandidateController::class, 'department_candidate_profile'])->name('verification.department.candidate_profile');
     });

@@ -92,7 +92,7 @@
 
                             // Add default option
                             directorateSelect.append(
-                                '<option value="">Choose Directorate...</option>');
+                                '<option value="">Not Applicable</option>');
 
                             // Loop through the directorates and add them as options
                             $.each(response.res_data.related_directorate, function(id,

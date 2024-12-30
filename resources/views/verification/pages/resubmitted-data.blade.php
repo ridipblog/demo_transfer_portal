@@ -83,7 +83,7 @@
                                 @endforeach --}}
                                 <div class="grid grid-cols-2 gap-2">
                                     @foreach ($data2 as $info)
-                                        @if ($info['rejection_id'] == $base_data->id)
+                                        @if ($info['rejection_id'] != $base_data->id)
                                             @continue;
                                         @endif
                                         <div class="h-full flex items-top justify- border border-2 rounded-xl px-2 py-3">

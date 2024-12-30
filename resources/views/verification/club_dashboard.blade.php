@@ -52,13 +52,13 @@
                                 </div>
                             </div>
                         </a>
-                        <a href="{{ route('verifier.candidate_verify', ['lang' => $locale, 'type' => Crypt::encryptString('Verifier')]) }}"
+                        <a href="{{ route('verifier.candidate_verify', ['lang' => $locale, 'type' => Crypt::encryptString('Verifier'), 're_submit' => 1]) }}"
                             class="bg-sky-500 border-sky-500 text-white rounded-2xl p-6">
                             <div class="flex gap-6">
                                 <div class="h-10 w-10 bg-gray-50 flex items-center justify-center rounded-full"><i
                                         class="text-lg bi bi-arrow-clockwise text-black"></i></div>
                                 <div class="">
-                                    <p class="text-3xl font-bold">{{ count($pending_users) }}</p>
+                                    <p class="text-3xl font-bold">{{ $resubmit }}</p>
                                     <p class="">@lang('authority_dashboard.nav.resubmitted')</p>
                                 </div>
                             </div>

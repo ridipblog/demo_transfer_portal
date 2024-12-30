@@ -21,6 +21,7 @@ class UserProtectMiddleware
         try {
             $auth_validate_module = new AuthValidateModule();
             $check_auth = $auth_validate_module->checkLoggedIn()->checkActiveUser()->checkAuthorization($assign_type, $assign_name);
+            // dd(Auth::guard('user_guard')->user());
         } catch (Exception $err) {
             return response()->json(['status' => 301, 'message' => "Server error please try later !"]);
         }
@@ -29,10 +30,12 @@ class UserProtectMiddleware
                 return response()->json(['status' => 301, 'message' => $check_auth->auth_message]);
             }
         } else {
+            // dd($request);
             if (!$check_auth->check_logged_in) {
                 return redirect(app()->getLocale() . '/user-login');
             }
         }
+        // dd($request);
         return $next($request);
     }
 }

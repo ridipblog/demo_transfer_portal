@@ -173,6 +173,7 @@ class VerificationController extends Controller
 
     public function department_index()
     {
+        // dd('ere');
         if (Auth::guard('user_guard')->check() && Auth::guard('user_guard')->user()->role_id == 2) {
             $verifier = appointing_authorities::where('id', Auth::guard('user_guard')->user()->user_id)->first();
             $uu = appointing_authorities::leftJoin('deptartments', 'appointing_authorities.department', '=', 'deptartments.id')
@@ -575,6 +576,8 @@ class VerificationController extends Controller
                 $switch_condition2 = 0;
                 if (array_diff([7], $role_ids) === [] && count($role_ids) > 1) {
                     $switch_condition = 1;
+                } elseif (array_diff([2, 6], $role_ids) === [] && count($role_ids) > 1) {
+                    $switch_condition = 1;
                 } else {
                     $switch_condition = 0;
                 }
@@ -614,6 +617,7 @@ class VerificationController extends Controller
                 $employees = [];
                 $dept_count = 0;
                 $authority_maps = authority_office_dist_map::where('user_id', $verifier->id)->get();
+                $dir = authority_office_dist_map::where('user_id', $verifier->id)->where('role_id', 2)->pluck('directorate_id')->first();
                 $dept_ids = authority_office_dist_map::where('user_id', $verifier->id)->pluck('department_id')->toArray();
                 if (in_array('Approver', $role_names_arr)) {
                     $authority_maps2 = authority_office_dist_map::where('user_id', $verifier->id)->where('role_id', 2)->get();
@@ -643,6 +647,9 @@ class VerificationController extends Controller
                         'deptartments.name as department_name',
                         'post_names.name as designation_name'
                     );
+                if ($dir != null && $dir != 0) {
+                    $usersQuery->where('employment_details.directorate_id', $dir);
+                }
                 $categorizedResults = [];
                 foreach ($authority_maps as $map) {
                     // if (is_null($map->office_id) && is_null($map->district_id)) {
@@ -755,7 +762,8 @@ class VerificationController extends Controller
                     $noc_completed = $all_noc->where('noc_generate', 1)->where('profile_verify_status', 1);
                 }
 
-                return view('verification.club_dashboard')->with(['verify_pending_recommend_club' => $verify_recommend_pending_recommend, 'verify_completed_club' => $verify_recommend_completed, 'verify_pending_club' => $verify_pending_verify, 'verify_recommend' => $verify_recommend, 'dept_count' => $dept_count, 'employees' => $employees, 'allTransfers' => $allTransfers, 'approvedTransfers' => $approvedTransfers, 'rejectedTransfers' => $rejectedTransfers, 'pendingTransfers' => $pendingTransfers, 'user_roles_arr' => $role_names_arr, 'all_users' => $all_users, 'pending_users' => $pending_users, 'noc_pending' => $noc_pending, 'verified_profiles' => $verified_users, 'profile_pics' => $docs_path, 'noc_completed' => $noc_completed, 'all_noc' => $all_noc]);
+                $resubmited_count =  count($usersQuery->join('rejected_documents as rd', 'user_credentials.id', '=', 'rd.user_id')->distinct('rd.user_id')->get());
+                return view('verification.club_dashboard')->with(['resubmit' => $resubmited_count, 'verify_pending_recommend_club' => $verify_recommend_pending_recommend, 'verify_completed_club' => $verify_recommend_completed, 'verify_pending_club' => $verify_pending_verify, 'verify_recommend' => $verify_recommend, 'dept_count' => $dept_count, 'employees' => $employees, 'allTransfers' => $allTransfers, 'approvedTransfers' => $approvedTransfers, 'rejectedTransfers' => $rejectedTransfers, 'pendingTransfers' => $pendingTransfers, 'user_roles_arr' => $role_names_arr, 'all_users' => $all_users, 'pending_users' => $pending_users, 'noc_pending' => $noc_pending, 'verified_profiles' => $verified_users, 'profile_pics' => $docs_path, 'noc_completed' => $noc_completed, 'all_noc' => $all_noc]);
             }
         } else {
             Log::error('Verification login: User_type: ' . $user . ', not suitable for login. user_id: ' . Auth::guard('user_guard')->user()->user_id);
@@ -778,7 +786,7 @@ class VerificationController extends Controller
             $d = AllLoginModel::where('user_id', $uu->id)->leftJoin('roles', 'all_login.role_id', '=', 'roles.id')->select('roles.role', 'roles.display_name as display_name')->first();
             $dir = authority_office_dist_map::where('user_id', $user->id)->where('role_id', 2)->pluck('directorate_id')->first();
 
-            $pendingTransfers = TransfersModel::where('request_status', 0)->where('final_approval', '!=', 2)->where('2nd_recommend', '!=', 2)->where('request_status', '!=', 0)->where('request_status', '!=', 2)
+            $pendingTransfers = TransfersModel::whereIn('request_status', [0, 1])->where('final_approval', 0)
                 ->leftJoin('user_credentials as employee', 'transafers.employee_id', '=', 'employee.id')
                 ->leftJoin('user_credentials as target_employee', 'transafers.target_employee_id', '=', 'target_employee.id')
                 ->leftJoin('employment_details as employee_employment', 'transafers.employee_id', '=', 'employee_employment.user_id')
@@ -832,7 +840,6 @@ class VerificationController extends Controller
 
             $allTransfers = TransfersModel::whereIn('request_status', [0, 1])
                 ->where('final_approval', '!=', 2)
-                ->where('2nd_recommend', '!=', 2)->where('request_status', '!=', 0)->where('request_status', '!=', 2)
                 ->leftJoin('user_credentials as employee', 'transafers.employee_id', '=', 'employee.id')
                 ->leftJoin('user_credentials as target_employee', 'transafers.target_employee_id', '=', 'target_employee.id')
                 ->leftJoin('employment_details as employee_employment', 'transafers.employee_id', '=', 'employee_employment.user_id')
@@ -1023,23 +1030,25 @@ class VerificationController extends Controller
 
             try {
                 $role_id = Crypt::decryptString($role_id);
+                // dd($role_id);
                 $user_id = AllLoginModel::where('user_id', Auth::guard('user_guard')->user()->user_id)->where('role_id', $role_id)->where('user_type', '=', 2)->value('id');
                 if ($user_id) {
-
+                    // dd($user_id);
                     Auth::guard('user_guard')->logout();
                     Auth::guard('user_guard')->loginUsingId($user_id);
                     $user = Auth::guard('user_guard')->user();
+                    // dd($user);
                     $roleName = '';
                     if ($user) {
                         $roleName = $user->roles->role;
                     }
-
+                    // dd($roleName);
                     if ($roleName == 'Approver') {
-                        return redirect()->route('verifier.dashboard', ['lang' => app()->getLocale()]);
+                        return redirect()->route('verification.department.index', ['lang' => app()->getLocale()]);
                     } elseif ($roleName == 'Verifier' || $roleName == 'Appointing Authority' || $roleName == 'Appointing User') {
                         return redirect()->route('verifier.dashboard', ['lang' => app()->getLocale()]);
                     } elseif ($roleName == 'Department Hod') {
-
+                        // dd('here');
                         return redirect()->route('verification.department.index', ['lang' => app()->getLocale()]);
                     }
                 } else {
@@ -1149,7 +1158,7 @@ class VerificationController extends Controller
                         if ($verified_by->office != null && ($data2[0]->employment_details->office_id == $verified_by->office)) {
                             $office_name = OfficeFinAsssamModel::where('id', $verified_by->office)->pluck('name')->first();
                         } else {
-                            $office_name = null;
+                            $office_name = 'All Office';
                         }
                     } else {
                         $verified_by = [];
@@ -1229,7 +1238,7 @@ class VerificationController extends Controller
                         if ($appr_by->office != null && ($data2[0]->employment_details->office_id == $appr_by->office)) {
                             $approver_office_name = OfficeFinAsssamModel::where('id', $appr_by->office)->pluck('name')->first();
                         } else {
-                            $approver_office_name = null;
+                            $approver_office_name = 'All Office';
                         }
                     } else {
                         $appr_by = null;
@@ -1548,6 +1557,15 @@ class VerificationController extends Controller
                     //     $department_dash = 1;
                     // }
                     // /////////////////////////////////////////////////////////////////////////////////
+                    if (in_array(2, $roles) && in_array(6, $roles)) {
+                        $attemp_data = [
+                            "phone" => $request->phone_or_email,
+                            'password' => $request->password,
+                            'user_type' => 2,
+                            'role_id' => 6
+                        ];
+                    }
+
                     if (in_array(5, $roles) && in_array(6, $roles)) {
                         $attemp_data = [
                             "phone" => $request->phone_or_email,
@@ -1708,8 +1726,12 @@ class VerificationController extends Controller
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public function candidate_verify_index(Request $request, $lang = null, $type = null)
+    public function candidate_verify_index(Request $request, $lang = null, $type = null, $re_submit = null)
     {
+        Session::forget('re_submit');
+        if ($re_submit != null) {
+            Session::put('re_submit', 1);
+        }
         $switch_user_id = Auth::guard('user_guard')->user()->id;
         if ($type == null) {
             return redirect()->back();

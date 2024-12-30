@@ -312,4 +312,55 @@ class UserRegistrationController extends Controller
 
         return 1;
     }
+
+    public function fetch_off_dist(Request $request){
+        $id = (int)$request->input('id');
+        $ap = appointing_authorities::where('id', $id)->first();
+        if($ap != null){
+            // authority_office_dist_map::where('user_id', $ap->id)->get();
+            $main_query = appointing_authorities::query();
+                $main_query->where('id', $ap->id);
+                $depertment_id = $main_query->first()->department ?? null;
+                $assign_data = null;
+                try{
+                    if ($depertment_id) {
+                        $assign_data = $main_query
+                            ->with([
+                                'authority_office_dist_map' => function ($query) use ($depertment_id) {
+                                    $query->with(['office_fin_assam' => function ($office_query) use ($depertment_id) {
+                                        $office_query->with(['office_dist_dept_map' => function ($office_dis_dep_map_query) use ($depertment_id) {
+                                            $office_dis_dep_map_query->where('depertment_id', $depertment_id);
+                                            $office_dis_dep_map_query->with(['districts']);
+    
+                                            // $office_dis_dep_map_query->whereColumn('department', 'authority_office_dist_map.department_id');
+                                        }]);
+                                    }]);
+                                },
+                                'authority_office_dist_map.districts',
+                                'authority_office_dist_map.roles'
+                            ])
+                            ->first();
+                    }
+                    // dd($assign_data);
+                    $view_data['assign_data'] = $assign_data;
+                    $view_data['status'] = 200;
+                    return response()->json([
+                        'status' => 200,
+                        'data' => $view_data
+                    ]);
+                }catch(Exception $err){
+                    dd($err->getMessage());
+                }
+               
+
+        }else{
+            return response()->json([
+                'status' => 500,
+            ]);
+        }
+    }
+
+    public function re_assign_authority_index(){
+        return view ('verification.form.re_assign_authority');
+    }
 }

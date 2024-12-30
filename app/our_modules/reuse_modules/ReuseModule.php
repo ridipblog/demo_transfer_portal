@@ -172,7 +172,7 @@ class ReuseModule
     // ---------- when verifier approved profile -------------
     public static function approvedProfileByVerifier($phone)
     {
-        return Http::get('https://sms.amtronindia.in/form_/send_api_master_get.php?agency=COGNITECH&password=$wag@11024&district=ALL&app_id=MutualTransfer&sender_id=SWGSRT&unicode=false&to=' . $phone . '&te_id=1107172769000994363&msg=Dear%20applicant%2C%20your%20profile%20has%20been%20approved.%20Please%20visit%20swagatasatirtha.assam.gov.in%20for%20futher%20details.%20%0A%0ARegards%2C%0AGAD%2C%20Assam');
+        return Http::get('https://sms.amtronindia.in/form_/send_api_master_get.php?agency=COGNITECH&password=$wag@11024&district=ALL&app_id=MutualTransfer&sender_id=SWGSRT&unicode=false&to=' . $phone . '&te_id=1107172769000994363&msg=Dear%20applicant%2C%20your%20profile%20has%20been%20verified.%20Please%20visit%20swagatasatirtha.assam.gov.in%20for%20futher%20details.%20%0A%0ARegards%2C%0AGAD%2C%20Assam');
     }
     // ---------------------- return with query ------------------
     public static function returnQuery($model, $conditions = null, $related_model = []) {}
