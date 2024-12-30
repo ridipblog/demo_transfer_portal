@@ -24,7 +24,7 @@
             @endphp
             <label class="block mb-1 text-xs md:text-sm font-semibold reqd text-gray-800">@lang('user.form.emp_info.dist_cp')</label>
             <select name="district" id="select_district"
-                class="registration-input disabled:bg-gray-100 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full">
+                class="clear-input-error registration-input disabled:bg-gray-100 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full">
                 <option value="" selected disabled>—
                     Select —</option>
                 @foreach ($viewData['districts'] as $district)
@@ -43,7 +43,7 @@
                 @lang('user.form.emp_info.dept_cp')
             </label>
             <select name="depertment" id="select_depert"
-                class="registration-input disabled:bg-gray-100 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full select2"
+                class="clear-input-error registration-input disabled:bg-gray-100 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full select2"
                 style="width: 100% !important;">
                 <option value="" selected disabled>— Select —</option>
                 @foreach ($viewData['depertments'] as $depertment)
@@ -61,7 +61,7 @@
                 @lang('user.form.emp_info.direc_cp')
             </label>
             <select name="directorate" id="select_direct"
-                class="registration-input disabled:bg-gray-100 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full select2"
+                class="clear-input-error registration-input disabled:bg-gray-100 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full select2"
                 style="width: 100% !important;">
                 <option value="" selected disabled>— Select —</option>
                 @if ($employment_data->depertment_id)
@@ -79,7 +79,7 @@
         <div class="lg:col-span-2 overflow-hidden relative">
             <label class="block mb-1 text-xs md:text-sm font-semibold reqd text-gray-800">@lang('user.form.emp_info.office_cp')</label>
             <select name="office" id="select_office"
-                class="registration-input disabled:bg-gray-100 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full select2"
+                class="clear-input-error registration-input disabled:bg-gray-100 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full select2"
                 style="width: 100% !important;">
                 <option value="" selected disabled>— Select —</option>
                 @foreach ($offices as $office)
@@ -93,7 +93,7 @@
         <div>
             <label class="block mb-1 text-xs md:text-sm font-semibold reqd text-gray-800">@lang('user.form.emp_info.desg_cp')</label>
             <select name="designation" id="select_degis"
-                class="registration-input disabled:bg-gray-100 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full">
+                class="clear-input-error registration-input disabled:bg-gray-100 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full">
                 <option value="" selected disabled>— Select —
                 </option>
                 @foreach ($posts as $post)
@@ -110,10 +110,10 @@
 
             {{-- {{$viewData['pan_request_data']['profile']['date_of_joining']}} --}}
             <label class="block mb-1 text-xs md:text-sm font-semibold reqd text-gray-800">@lang('user.form.emp_info.doj_fj')</label>
-            {{-- <input type="date" name="date_of_joining" id="date_of_join_id" value="{{ $is_pan_found ? $viewData['pan_request_data']['profile']['date_of_joining'] ?? '' : $employment_data->first_date_of_joining ?? '' }}" class="registration-input disabled:bg-gray-100 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full"> --}}
+            {{-- <input type="date" name="date_of_joining" id="date_of_join_id" value="{{ $is_pan_found ? $viewData['pan_request_data']['profile']['date_of_joining'] ?? '' : $employment_data->first_date_of_joining ?? '' }}" class="clear-input-error registration-input disabled:bg-gray-100 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full"> --}}
             <input type="date" name="date_of_joining" id="date_of_join_id"
                 value="{{ $employment_data->first_date_of_joining ?? '' }}"
-                class="registration-input disabled:bg-gray-100 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full">
+                class="clear-input-error registration-input disabled:bg-gray-100 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full">
             <p class="registration-error"></p>
         </div>
         <div>
@@ -127,27 +127,27 @@
             <label class="block mb-1 text-xs md:text-sm font-semibold reqd text-gray-800">@lang('user.form.emp_info.doj_cp')</label>
             <input type="date" name="current_posting_date" id="date_of_join_current_id"
                 value="{{ $employment_data->current_date_of_joining ?? '' }}"
-                class="registration-input disabled:bg-gray-100 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full">
+                class="clear-input-error registration-input disabled:bg-gray-100 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full">
             <p class="registration-error"></p>
         </div>
         <div>
             <label class="block mb-1 text-xs md:text-sm font-semibold reqd text-gray-800">@lang('user.form.emp_info.g_pay')</label>
-            {{-- <input type="text" value="{{ $is_pan_found ? $viewData['pan_request_data']['profile']['grade_pay'] ?? '' : $employment_data->pay_grade ?? '' }}" id="review_pay_grade" name="pay_grade" class="registration-input disabled:bg-gray-100 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full read-only:pointer-events-none" readonly> --}}
+            {{-- <input type="text" value="{{ $is_pan_found ? $viewData['pan_request_data']['profile']['grade_pay'] ?? '' : $employment_data->pay_grade ?? '' }}" id="review_pay_grade" name="pay_grade" class="clear-input-error registration-input disabled:bg-gray-100 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full read-only:pointer-events-none" readonly> --}}
             <input type="text" value="{{ $employment_data->pay_grade ?? '' }}" id="review_pay_grade"
                 name="pay_grade"
-                class="registration-input disabled:bg-gray-100 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full read-only:pointer-events-none"
+                class="clear-input-error registration-input disabled:bg-gray-100 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full read-only:pointer-events-none"
                 readonly>
             <p class="registration-error"></p>
         </div>
         <div>
             <label class="block mb-1 text-xs md:text-sm font-semibold reqd text-gray-800">@lang('user.form.emp_info.p_bank')</label>
-            {{-- <input type="text" name="pay_band" value="{{ $is_pan_found ? $viewData['pan_request_data']['profile']['pay_band'] ?? '' : $employment_data->pay_band ?? '' }}" class="registration-input disabled:bg-gray-100 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full read-only:pointer-events-none" id="review_pay_band"> --}}
+            {{-- <input type="text" name="pay_band" value="{{ $is_pan_found ? $viewData['pan_request_data']['profile']['pay_band'] ?? '' : $employment_data->pay_band ?? '' }}" class="clear-input-error registration-input disabled:bg-gray-100 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full read-only:pointer-events-none" id="review_pay_band"> --}}
             {{-- <input type="text" name="pay_band" value="{{ $employment_data->pay_band ?? '' }}"
-                class="registration-input disabled:bg-gray-100 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full read-only:pointer-events-none"
+                class="clear-input-error registration-input disabled:bg-gray-100 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full read-only:pointer-events-none"
                 id="review_pay_band"> --}}
 
             <select name="pay_band" id="review_pay_band"
-                class="registration-input disabled:bg-gray-100 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full">
+                class="clear-input-error registration-input disabled:bg-gray-100 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full">
                 <option value="" selected disabled>— Select —
                 </option>
                 @foreach (config('globalVariables.pay_band_list') ?? [] as $key => $value)

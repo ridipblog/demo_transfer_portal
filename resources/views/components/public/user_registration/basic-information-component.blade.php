@@ -13,7 +13,7 @@
             <label class="block mb-1 text-xs md:text-sm font-semibold reqd text-gray-800">@lang('user.form.basic_info.name')</label>
             <input type="text" name="full_name"
                 value="{{ $viewData['save_data']->full_name ?? 'N/A' }}"
-                class="registration-input preview-input disabled:bg-gray-100 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full">
+                class="clear-input-error registration-input preview-input disabled:bg-gray-100 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full">
             <p class="registration-error capitalize pt-1" style="color:red"></p>
         </div>
         <div>
@@ -21,14 +21,14 @@
             <label class="block mb-1 text-xs md:text-sm font-semibold reqd text-gray-800">@lang('user.form.basic_info.dob')</label>
             <input type="date" name="date_of_birth"
                 value="{{ $persioanl_data->date_of_birth ?? '' }}"
-                class="registration-input preview-input  border border-gray-300 text-gray-900 text-xs md:text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full"
+                class="clear-input-error registration-input preview-input  border border-gray-300 text-gray-900 text-xs md:text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full"
                 >
             <p class="registration-error capitalize pt-1" style="color:red"></p>
         </div>
         <div>
             <label class="block mb-1 text-xs md:text-sm font-semibold reqd text-gray-800">@lang('user.form.basic_info.gender')</label>
             <select name="gender"
-                class="registration-input preview-input disabled:bg-gray-100 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full">
+                class="clear-input-error registration-input preview-input disabled:bg-gray-100 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full">
                 <option value="" {{ $persioanl_data->gender ?? 'selected' }} disabled>— Select —</option>
                 <option value="male" {{ $persioanl_data->gender == 'male' ? 'selected' : '' }}>Male
                 </option>
@@ -41,19 +41,19 @@
         <div>
             <label class="block mb-1 text-xs md:text-sm font-semibold reqd text-gray-800">@lang('user.form.basic_info.f_name')</label>
             <input type="text" name="father_name" value="{{ $persioanl_data->father_name ?? '' }}"
-                class="registration-input preview-input disabled:bg-gray-100 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full">
+                class="clear-input-error registration-input preview-input disabled:bg-gray-100 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full">
             <p class="registration-error capitalize pt-1" style="color:red"></p>
         </div>
         <div>
             <label class="block mb-1 text-xs md:text-sm font-semibold reqd text-gray-800">@lang('user.form.basic_info.m_name')</label>
             <input type="text" name="mother_name" value="{{ $persioanl_data->mother_name ?? '' }}"
-                class="registration-input preview-input disabled:bg-gray-100 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full">
+                class="clear-input-error registration-input preview-input disabled:bg-gray-100 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full">
             <p class="registration-error capitalize pt-1" style="color:red"></p>
         </div>
         <div>
             <label class="block mb-1 text-xs md:text-sm font-semibold reqd text-gray-800">@lang('user.form.basic_info.caste')</label>
             <select id="caste_type" name="category"
-                class="registration-input preview-input disabled:bg-gray-100 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full">
+                class="clear-input-error registration-input preview-input disabled:bg-gray-100 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full">
                 <option value="" {{ $persioanl_data->category_id ?? 'selected' }} disabled>— Select —</option>
                 @foreach ($viewData['caste'] as $caste)
                     <option value="{{ $caste->id }}"
@@ -66,38 +66,38 @@
         <div>
             <label class="block mb-1 text-xs md:text-sm font-semibold reqd text-gray-800">@lang('user.form.basic_info.pno')</label>
             <input type="tel" name="phone" value="{{ $viewData['save_data']->phone ?? '' }}"
-                class="registration-input preview-input disabled:bg-gray-100 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full"
+                class="clear-input-error registration-input preview-input disabled:bg-gray-100 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full"
                 disabled>
             <p class="registration-error capitalize pt-1" style="color:red"></p>
         </div>
         <div>
             <label class="block mb-1 text-xs md:text-sm font-semibold text-gray-800">@lang('user.form.basic_info.apno')</label>
             <input type="tel" name="alternative_number" value="{{ $persioanl_data->alt_phone_number ?? '' }}"
-                class="registration-input preview-input disabled:bg-gray-100 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full">
+                class="clear-input-error registration-input preview-input disabled:bg-gray-100 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full">
             <p class="registration-error capitalize pt-1" style="color:red"></p>
         </div>
         <div>
             <label class="block mb-1 text-xs md:text-sm font-semibold reqd text-gray-800">@lang('user.form.basic_info.email')</label>
             <input type="email" name="email" value="{{ $viewData['save_data']->email ?? '' }}"
-                class="registration-input preview-input disabled:bg-gray-100 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full">
+                class="clear-input-error registration-input preview-input disabled:bg-gray-100 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full">
             <p class="registration-error capitalize pt-1" style="color:red"></p>
         </div>
         <div>
             <label class="block mb-1 text-xs md:text-sm font-semibold reqd text-gray-800">@lang('user.form.basic_info.pan')</label>
             <input type="text" name="pan_number" readonly
                 value="{{ $is_pan_found ?( $viewData['search_pan_number'] ?? '') : ($persioanl_data->pan_number ?? '')}}"
-                class="registration-input preview-input border border-gray-300 text-gray-900 text-xs md:text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full uppercase"
+                class="clear-input-error registration-input preview-input border border-gray-300 text-gray-900 text-xs md:text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full uppercase"
                 id="idNum">
             {{-- <input type="text" name="pan_number"
                 value="{{ $viewData['pan_request_data']['profile']['pan'] ?? ($persioanl_data->pan_number ?? '')}}"
-                class="registration-input preview-input border border-gray-300 text-gray-900 text-xs md:text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full"
+                class="clear-input-error registration-input preview-input border border-gray-300 text-gray-900 text-xs md:text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full"
                 id="idNum" readonly> --}}
             <p class="registration-error capitalize pt-1" style="color:red"></p>
         </div>
         <div>
             <label class="block mb-1 text-xs md:text-sm font-semibold reqd text-gray-800">@lang('user.form.basic_info.h_d')</label>
             <select id="home_district" name="home_district"
-                class="registration-input preview-input disabled:bg-gray-100 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full">
+                class="clear-input-error registration-input preview-input disabled:bg-gray-100 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full">
                 <option value="" {{ $persioanl_data->home_district_id ?? 'selected' }} disabled>— Select —</option>
                 @foreach ($viewData['districts'] as $district)
                     <option value="{{ $district->id ?? '' }}"
