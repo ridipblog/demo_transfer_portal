@@ -170,6 +170,7 @@ class AuthoritiesController extends Controller
             }
             if ($res_data['status'] == 200) {
                 try {
+                    // dd($request->directorate);
                     DB::beginTransaction();
                     $assign_forms = [];
                     $save_user = appointing_authorities::create([
@@ -204,6 +205,7 @@ class AuthoritiesController extends Controller
 
                     if (count($request->role ?? []) != 0) {
                         foreach ($request->role as $key => $role) {
+
                             $new_form = [];
                             if (isset($request->office[$key])) {
                                 foreach ($request->office[$key] as $office_id) {
