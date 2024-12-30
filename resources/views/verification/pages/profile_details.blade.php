@@ -111,11 +111,11 @@
                         </div>
                         <!-- <div class="">
 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">DDO Code</label>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">DDO Code</label>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <p class="font-semibold">{{ $candidate->employment_details->ddo_code ?? 'N/A' }}</p>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </div> -->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">DDO Code</label>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">DDO Code</label>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <p class="font-semibold">{{ $candidate->employment_details->ddo_code ?? 'N/A' }}</p>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </div> -->
 
                         <div class="col-span-2">
                             <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('user.form.emp_info.office_cp')</label>
@@ -194,8 +194,6 @@
 
                     {{-- ///////////////////// --}}
                     <div class="border border-sky-500 rounded-3xl border-b-4 border-r-4 p-6">
-
-
                         <div class="grid lg:grid-cols-3 gap-4 remarks-doc-div">
                             <div class="lg:col-span-3">
                                 <p class="text-lg font-bold text-sky-700">@lang('user.form.docs.heading')</p>
@@ -277,23 +275,46 @@
                                             @endphp
                                             <div class="text-white text-center p-2 text-xs">
                                                 {{ Str::upper(str_replace('_', ' ', __("user.form.docs.$document->document_type"))) }}
-            </div>
-            <div class="h-44 p-2 pt-0">
-                <img src="{{ Storage::url($document->documet_location ?? 'N/A') }}"
-                    alt="Document {{ $document->document_type }}" class="w-full h-full object-contain object-center">
-            </div>
-        </div>
-        @endif
-        @php
-        $key++;
-        @endphp
-        @endforeach
-        @endforeach
-    </div>
-    @endif --}}
+                                            </div>
+                                            <div class="h-44 p-2 pt-0">
+                                                <img src="{{ Storage::url($document->documet_location ?? 'N/A') }}"
+                                                    alt="Document {{ $document->document_type }}"
+                                                    class="w-full h-full object-contain object-center">
+                                            </div>
+                                        </div>
+                                    @endif
+                                    @php
+                                        $key++;
+                                    @endphp
+                                @endforeach
+                            @endforeach
+                        </div>
+                    @endif --}}
+
 
 
                     {{-- Additional documents and comments --}}
+                    @if ($user_role == 'Appointing Authority' || 'Verifier' || 'Appointing User')
+                        @if (count($docs) != 0 || $candidate->comment != null)
+                            <div
+                                class="grid lg:grid-cols-3 gap-4 border border-sky-500 rounded-3xl border-b-4 border-r-4 p-6">
+                                <div class="lg:col-span-3">
+                                    <p class="text-lg font-bold text-sky-700">@lang('authority_dashboard.profile_details.verifier_documents')</p>
+                                </div>
+                                @foreach ($docs as $d)
+                                    <a href="{{ asset('storage/' . $d->document_location) }}" target="_blank"
+                                        class="border rounded-xl bg-neutral-600">
+                                        <div class="text-white text-center p-2">{{ $d->remarks }}</div>
+                                    </a>
+                                @endforeach
+                                <div class="lg:col-span-3 flex flex-col">
+                                    @if ($candidate->comment != null)
+                                        <p class="font-semibold mt-auto"> {{ $candidate->comment }}</p>
+                                    @endif
+                                </div>
+                            </div>
+                        @endif
+                    @endif
 
 
 
@@ -319,7 +340,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="lg:col-span-3">
+                                {{-- <div class="lg:col-span-3">
                                     <div class="grid grid-cols-4 gap-2">
                                         @if ($user_role == 'Appointing Authority' || 'Verifier' || 'Appointing User')
                                             @if (count($docs) != 0 || $candidate->comment != null)
@@ -332,7 +353,7 @@
                                             @endif
                                         @endif
                                     </div>
-                                </div>
+                                </div> --}}
                                 <div id="comment-container" class="lg:col-span-3">
                                     <textarea name="comment" id="comment"
                                         class="w-full rounded-md border-gray-300 shadow-sm focus:border-sky-500 focus:ring focus:ring-sky-300 focus:ring-opacity-50"
