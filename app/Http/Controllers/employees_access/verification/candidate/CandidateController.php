@@ -1344,20 +1344,53 @@ class CandidateController extends Controller
                     'png',
                     'pdf'
                 ];
+                // for ($i = 0; $i < $request->forms_number; $i++) {
+                //     $temp_error = [
+                //         'document' => null,
+                //         'text' => null
+                //     ];
+                //     $check_document = false;
+                //     $check_text = false;
+                //     $temp_error['document'] = isset($request->file('remarks_documents')[$i]) ? (in_array($request->file('remarks_documents')[$i]->getClientOriginalExtension(), $file_extensions) ? $check_document = true : 'document extention type invalid !') : 'document is required';
+
+                //     $temp_error['text'] = isset($request->remarks_text[$i]) ? $check_text = true : 'remarks is required';
+                //     if (!$check_document || !$check_text) {
+                //         $error_indexs[] = $temp_error;
+                //     }
+                // }
+
+                // $file = $request->file('remarks_documents')[$i];
+                //     $size = $file->getSize();
+
+
                 for ($i = 0; $i < $request->forms_number; $i++) {
-                    // ------------ all field are require if form append --------------------
                     $temp_error = [
                         'document' => null,
                         'text' => null
                     ];
                     $check_document = false;
                     $check_text = false;
-                    $temp_error['document'] = isset($request->file('remarks_documents')[$i]) ? (in_array($request->file('remarks_documents')[$i]->getClientOriginalExtension(), $file_extensions) ? $check_document = true : 'document extention type invalid !') : 'document is required';
-                    $temp_error['text'] = isset($request->remarks_text[$i]) ? $check_text = true : 'remarks is required';
+                    if (isset($request->file('remarks_documents')[$i])) {
+                        $file = $request->file('remarks_documents')[$i];
+                        $fileSize = $file->getSize();
+                        if (!in_array($file->getClientOriginalExtension(), $file_extensions)) {
+                            $temp_error['document'] = 'Document extension type invalid!';
+                        } elseif ($fileSize > (2 * 1024 * 1024)) {
+                            $temp_error['document'] = 'Document size exceeds 2MB!';
+                        } else {
+                            $check_document = true;
+                        }
+                    } else {
+                        $temp_error['document'] = 'Document is required';
+                    }
+
+                    $temp_error['text'] = isset($request->remarks_text[$i]) ? $check_text = true : 'Remarks is required';
                     if (!$check_document || !$check_text) {
                         $error_indexs[] = $temp_error;
                     }
                 }
+
+
 
                 if (count($error_indexs) == 0) {
                     $conditions = [
@@ -1730,13 +1763,17 @@ class CandidateController extends Controller
                         }
                         try {
                             if ($request->hasFile('remarks_documents')) {
-
                                 $remarksDocuments = $request->file('remarks_documents');
-
                                 if (count($remarksDocuments) > 0) {
                                     foreach ($remarksDocuments as $index => $file) {
                                         if ($file->isValid()) {
-
+                                            $fileSize = $file->getSize();
+                                            if ($fileSize > (1024)) {
+                                                dd('here');
+                                                session()->flash('verified_count', 2);
+                                                session()->flash('message', 'File size should not exceed 2MB');
+                                                return redirect()->back();
+                                            }
                                             $photo_path = 'uploads/verification_remarks/' . $user->user_id . '/' . $request->input('candidate_reject_id') . '/';
                                             $file_location = ReuseModule::uploadPhoto(
                                                 $file,
@@ -1757,7 +1794,7 @@ class CandidateController extends Controller
                                 }
                             }
                         } catch (Exception $err) {
-                            // dd($err->getMessage());
+                            // 
                         }
 
 
