@@ -103,13 +103,20 @@
                             <p class="font-semibold truncate">{{ $candidate->persional_details->districts->name ?? 'N/A' }}
                             </p>
                         </div>
-                        <div class="lg:col-span-3 flex gap-2 justify-end">
-                            <input id="certifyCheckbox1" type="checkbox"
-                                class="w-5 h-5 border border-sky-500 rounded-md focus:ring focus:ring-sky-500 focus:ring-offset-2 cursor-pointer">
-                            <div class="text-right">
-                                <p class="text-xs text-gray-900">The furnished details of the employee is correct</p>
+                        @if ($candidate->profile_verify_status == 0)
+                            <div class="lg:col-span-3 flex gap-2 justify-end">
+                                <input id="certifyCheckbox1" type="checkbox"
+                                    class="w-5 h-5 border border-sky-500 rounded-md focus:ring focus:ring-sky-500 focus:ring-offset-2 cursor-pointer"
+                                    checked>
+                                {{-- <input id="certifyCheckbox1" type="checkbox"
+                                    class="w-5 h-5 border border-sky-500 rounded-md focus:ring focus:ring-sky-500 focus:ring-offset-2 cursor-pointer"
+                                    checked> --}}
+
+                                <div class="text-right">
+                                    <p class="text-xs text-gray-900">The furnished details of the employee is correct</p>
+                                </div>
                             </div>
-                        </div>
+                        @endif
                     </div>
                     <div
                         class="grid lg:grid-cols-3 gap-4 border border-sky-500 rounded-3xl border-b-4 border-r-4 p-6 relative">
@@ -170,13 +177,16 @@
                             <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('user.form.emp_info.p_bank')</label>
                             <p class="font-semibold">{{ $candidate->employment_details->pay_band ?? 'N/A' }}</p>
                         </div>
-                        <div class="lg:col-span-3 flex gap-2 justify-end">
-                            <input id="certifyCheckbox2" type="checkbox"
-                                class="w-5 h-5 border border-sky-500 rounded-md focus:ring focus:ring-sky-500 focus:ring-offset-2 cursor-pointer">
-                            <div class="text-right">
-                                <p class="text-xs text-gray-900">The furnished details of the employee is correct</p>
+                        @if ($candidate->profile_verify_status == 0)
+                            <div class="lg:col-span-3 flex gap-2 justify-end">
+                                <input id="certifyCheckbox2" type="checkbox"
+                                    class="w-5 h-5 border border-sky-500 rounded-md focus:ring focus:ring-sky-500 focus:ring-offset-2 cursor-pointer"
+                                    checked>
+                                <div class="text-right">
+                                    <p class="text-xs text-gray-900">The furnished details of the employee is correct</p>
+                                </div>
                             </div>
-                        </div>
+                        @endif
                     </div>
                     <div class="grid grid-cols-3 gap-4 border border-sky-500 rounded-3xl border-b-4 border-r-4 p-6">
                         <div class="col-span-3">
@@ -276,14 +286,17 @@
                             <div class="mt-6 lg:col-span-3 doc-remarks-label hidden">
                                 <p class="text-xs font-bold text-sky-700">Invalid document remarks</p>
                             </div>
-
-                            <div class="lg:col-span-3 flex gap-2 justify-end">
-                                <input id="certifyCheckbox3" type="checkbox"
-                                    class="w-5 h-5 border border-sky-500 rounded-md focus:ring focus:ring-sky-500 focus:ring-offset-2 cursor-pointer">
-                                <div class="text-right">
-                                    <p class="text-xs text-gray-900">The furnished details of the employee is correct</p>
+                            @if ($candidate->profile_verify_status == 0)
+                                <div class="lg:col-span-3 flex gap-2 justify-end">
+                                    <input id="certifyCheckbox3" type="checkbox"
+                                        class="w-5 h-5 border border-sky-500 rounded-md focus:ring focus:ring-sky-500 focus:ring-offset-2 cursor-pointer"
+                                        checked>
+                                    <div class="text-right">
+                                        <p class="text-xs text-gray-900">The furnished details of the employee is correct
+                                        </p>
+                                    </div>
                                 </div>
-                            </div>
+                            @endif
                         </div>
                         <form class="remarks-document-div w-full" id="reject-on-verify" action="/ridip" method="post">
 
@@ -485,8 +498,7 @@
                             <button type="button"
                                 class="bg-red-500 hover:bg-red-600 border border-transparent text-white text-sm rounded-md block px-4 py-1.5 disabled:opacity-80 disabled:bg-sky-300 rejectRequestBtn">@lang('authority_dashboard.profile_details.reject')</button>
                             <button type="button" id="certifyButton"
-                                class="bg-sky-500 hover:bg-sky-600 border border-transparent text-white text-sm rounded-md block px-4 py-1.5 disabled:opacity-80 disabled:bg-sky-300 directRequest"
-                                disabled>@lang('authority_dashboard.profile_details.certify')</button>
+                                class="bg-sky-500 hover:bg-sky-600 border border-transparent text-white text-sm rounded-md block px-4 py-1.5 disabled:opacity-80 disabled:bg-sky-300 directRequest">@lang('authority_dashboard.profile_details.certify')</button>
                         @else
                             @if ($user_role == 'Appointing Authority' || $user_role == 'Appointing User')
                                 @if ($candidate->noc_generate != 1 && $candidate->profile_verify_status == 1)
@@ -529,14 +541,18 @@
                                 <div class="flex flex-col gap-3">
                                     <input type="hidden" id="verify_comment" name="comment" value="">
                                     <div class="flex items-center gap-2">
-                                        @if (count($conditions) != 0)
+                                        {{-- @if (count($conditions) != 0)
                                             @foreach ($conditions as $cc)
                                                 <input type="checkbox" name="verification[]" value="general"
                                                     class="border border-gray-300 text-sky-600 text-sm rounded-md focus:ring-sky-600 focus:border-sky-600 block p-1.5 mt-0.5"
                                                     required>
                                                 <p class="text-xs text-gray-900">{{ $cc->conditions }}</p>
                                             @endforeach
-                                        @endif
+                                        @endif --}}
+                                        <input type="checkbox" name="verification[]" value="general"
+                                            class="border border-gray-300 text-sky-600 text-sm rounded-md focus:ring-sky-600 focus:border-sky-600 block p-1.5 mt-0.5"
+                                            required>
+                                        <p class="text-xs text-gray-900">@lang('authority_dashboard.profile_details.vrmsg')</p>
                                     </div>
                                     @if (count($cond) != 0)
                                         @foreach ($cond as $c)

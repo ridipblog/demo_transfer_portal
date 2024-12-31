@@ -25,6 +25,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 use Exception;
+use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
@@ -214,7 +215,7 @@ class CandidateController extends Controller
             if (count($data) == 0 || count($data2) == 0) {
                 dd("No Data found ");
             }
-
+            // dd($data2[0]);
             if ($data[0]->verified_by != null) {
                 $verified_by = appointing_authorities::where('id', $data[0]->verified_by)->first();
                 $verified_on = $data2[0]->verified_on;
@@ -237,6 +238,31 @@ class CandidateController extends Controller
                 $office_name = null;
                 $department_name = null;
             }
+
+
+            if ($data2[0]->verified_by != null) {
+                $verified_by2 = appointing_authorities::where('id', $data2[0]->verified_by)->first();
+                $verified_on2 = $data2[0]->verified_on;
+                if ($verified_by2 != null) {
+                    $department_name2 = departments::where('id', $verified_by2->department)->pluck('name')->first();
+                    if ($verified_by2->office != null && ($data2[0]->employment_details->office_id == $verified_by2->office)) {
+                        $office_name2 = OfficeFinAsssamModel::where('id', $verified_by2->office)->pluck('name')->first();
+                    } else {
+                        $office_name2 = 'All Office';
+                    }
+                } else {
+                    $verified_by2 = [];
+                    $verified_on2 = [];
+                    $office_name2 = null;
+                    $department_name2 = null;
+                }
+            } else {
+                $verified_by2 = [];
+                $verified_on2 = [];
+                $office_name2 = null;
+                $department_name2 = null;
+            }
+            // dd($verified_by2);
 
             if ($data[0]->noc_generated_by != null) {
                 $noc_generated_by = appointing_authorities::where('id', $data[0]->noc_generated_by)->first();
@@ -316,7 +342,7 @@ class CandidateController extends Controller
                 $approver_office_name = null;
             }
 
-            return view('verification.department.profile-details')->with(['approver_department_name' => $approver_department_name, 'approver_office_name' => $approver_office_name, 'sr_office_name' => $sr_office_name, 'sr_department_name' => $sr_department_name, 'noc_department_name' => $noc_department_name, 'noc_office_name' => $noc_office_name, 'department_name' => $department_name, 'office_name' => $office_name, 'approved_by' => $appr_by, 'approved_on' => $approved_on, 'second_recommended_on' => $pendingTransfers->{'2nd_recommended_on'}, 'ar' => $ar, 'srr' => $second_recommend_remark,  'second_recommend_status' => $second_recommend_status, 'second_recommend_status' => $pendingTransfers->{'2nd_recommend'}, 'approver_remarks' => $approver_remarks, 'noc_generated_by' => $noc_generated_by, 'verified_by' => $verified_by, 'noc_generated_on' => $noc_generated_on, 'verified_on' => $verified_on, 'approval_status' => $pendingTransfers->final_approval, 'id' => $id, 'request_date' => \Carbon\Carbon::parse($pendingTransfers->updated_at)->format('d-m-Y'), 'request_number' => $pendingTransfers->transfer_ref_code, 'candidate1' => $data[0], 'candidate2' => $data2[0], 'id' => $id, 'candidate_1_doc' => $docPaths, 'candidate_2_doc' => $docPaths2, 'jto_status' => $jto_status]);
+            return view('verification.department.profile-details')->with(['verified_by2' => $verified_by2, 'verified_on2' => $verified_on2, 'office_name2' => $office_name2, 'department_name2' => $department_name2, 'approver_department_name' => $approver_department_name, 'approver_office_name' => $approver_office_name, 'sr_office_name' => $sr_office_name, 'sr_department_name' => $sr_department_name, 'noc_department_name' => $noc_department_name, 'noc_office_name' => $noc_office_name, 'department_name' => $department_name, 'office_name' => $office_name, 'approved_by' => $appr_by, 'approved_on' => $approved_on, 'second_recommended_on' => $pendingTransfers->{'2nd_recommended_on'}, 'ar' => $ar, 'srr' => $second_recommend_remark,  'second_recommend_status' => $second_recommend_status, 'second_recommend_status' => $pendingTransfers->{'2nd_recommend'}, 'approver_remarks' => $approver_remarks, 'noc_generated_by' => $noc_generated_by, 'verified_by' => $verified_by, 'noc_generated_on' => $noc_generated_on, 'verified_on' => $verified_on, 'approval_status' => $pendingTransfers->final_approval, 'id' => $id, 'request_date' => \Carbon\Carbon::parse($pendingTransfers->updated_at)->format('d-m-Y'), 'request_number' => $pendingTransfers->transfer_ref_code, 'candidate1' => $data[0], 'candidate2' => $data2[0], 'id' => $id, 'candidate_1_doc' => $docPaths, 'candidate_2_doc' => $docPaths2, 'jto_status' => $jto_status]);
         } catch (Exception $err) {
             Log::error('error fetching profile. [Approval] : ' . $err->getMessage());
             return redirect()->back();
@@ -1884,5 +1910,81 @@ class CandidateController extends Controller
             Log::error('verification profile: ' . $err->getMessage());
             return redirect('/verifier/approval-dashboard');
         }
+    }
+
+    public function block_candidate(Request $request)
+    {
+        if (Auth::guard('user_guard')->check()) {
+            try {
+                $request->validate([
+                    'blocked_candidate' => 'required|array',
+                    'blocked_candidate.*' => 'string',
+                    'reject_message' => 'required|string',
+                    'transfer_id' => 'required|string',
+                ]);
+                DB::beginTransaction();
+                $input_data = $request->input('blocked_candidate');
+                $message = $request->input('reject_message');
+                $transfer_id = Crypt::decryptString($request->input('transfer_id'));
+
+                $blockedUsers = [];
+                $rejectionsData = [];
+
+                foreach ($input_data as $employee) {
+                    $id = Crypt::decryptString($employee);
+                    $user = UserCredentialsModel::findOrFail($id);
+                    $office = EmploymentDetailsModel::where('user_id', $id)->first();
+                    $blockedUsers[] = [
+                        'id' => $id,
+                        'profile_verify_status' => 4,
+                    ];
+
+
+                    rejections::create([
+                        'user_id' => $id,
+                        'date' => Carbon::now()->toDateString(),
+                        'message' => $message,
+                        'office_id' => $office->office_id,
+                        'created_by' => Auth::guard('user_guard')->user()->user_id,
+                        'role' => Auth::guard('user_guard')->user()->role_id,
+                    ]);
+                }
+                // dd($rejectionsData);
+                foreach ($blockedUsers as $userData) {
+                    UserCredentialsModel::where('id', $userData['id'])->update([
+                        'profile_verify_status' => $userData['profile_verify_status'],
+                    ]);
+                }
+                // rejections::insert($rejectionsData);
+                TransfersModel::where('id', $transfer_id)->update([
+                    'final_approval' => 2,
+                    'approver_remarks' => $message,
+                    'approved_by' => Auth::guard('user_guard')->user()->user_id,
+                    'approved_on' => Carbon::now(),
+                ]);
+                DB::commit();
+                session()->flash('flash_message', 1);
+                session()->flash('message', 'Applicants blocked successfully.');
+                return redirect()->route('verification.department.all_request', ['lang' => app()->getLocale()]);
+            } catch (\Illuminate\Validation\ValidationException $e) {
+                $validationErrors = implode(' ', $e->validator->errors()->all());
+                session()->flash('flash_message', 2);
+                session()->flash('message', $validationErrors);
+                return redirect()->back()->withErrors($e->validator)->withInput();
+            } catch (DecryptException $e) {
+                session()->flash('flash_message', 2);
+                session()->flash('message', 'Invalid encrypted data provided.');
+                return redirect()->back();
+            } catch (Exception $err) {
+                Log::error('Error blocking candidates: ' . $err->getMessage());
+                session()->flash('flash_message', 2);
+                session()->flash('message', 'An unexpected error occurred.');
+                return redirect()->back();
+            }
+        }
+
+        session()->flash('verified_count', 2);
+        session()->flash('message', 'Unauthorized access.');
+        return redirect()->route('verification.department.index', ['lang' => app()->getLocale()]);
     }
 }
