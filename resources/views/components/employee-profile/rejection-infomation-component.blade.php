@@ -11,7 +11,9 @@
     </div> --}}
 
     <div class="sm:col-span-2 md:col-span-3 space-y-3">
-        <p class="text-sm font-semibold text-red-500">DOCUMENT REJECTED!</p>
+        @if (count($rejectedData->authority_rejections ?? []) != 0)
+            <p class="text-sm font-semibold text-red-500">DOCUMENT REJECTED!</p>
+        @endif
         <div class="grid grid-cols-2 gap-2">
             @foreach ($rejectedData->authority_rejections ?? [] as $info)
                 <div class="h-full flex items-top justify- border border-2 rounded-xl px-2 py-3">
@@ -77,14 +79,16 @@
                 </div>
             </div> --}}
         </div>
-        <p class="text-sm font-semibold text-red-500">ADDITIONAL REMARKS</p>
-        <div class="grid grid-cols-2 gap-2">
-            <div class="col-span-2 h-full">
-                <p class="text-sm">
-                    {{ $rejectedData->commnents ?? null }}
-                </p>
+        @if ($rejectedData->commnents)
+            <p class="text-sm font-semibold text-red-500">ADDITIONAL REMARKS</p>
+            <div class="grid grid-cols-2 gap-2">
+                <div class="col-span-2 h-full">
+                    <p class="text-sm">
+                        {{ $rejectedData->commnents ?? null }}
+                    </p>
+                </div>
             </div>
-        </div>
+        @endif
 
         {{-- <div class="grid grid-cols-2 gap-2">
             <div class="col-span-2 h-full">

@@ -1,7 +1,7 @@
 <!-- Until verification pending -->
 <div class="mb-6 lg:1mb-12">
     <div class="grid gap-6">
-        <div class="flex justify-between gap-12">
+        <div class="flex @if ($viewData->profile_verify_status == 2) justify-center @else justify-between @endif gap-12">
             @if ($viewData->profile_verify_status !== 2)
                 <p class="font-bold text-xl">@lang('user.dashboard.pen_ver')</p>
             @endif
@@ -276,12 +276,13 @@
             </div> --}}
             </div>
         @endif
-
         {{-- ------------ if rejection push by authority ---------------- --}}
         @if ($viewData->profile_verify_status == 2 ? (isset($rejectedData) ? true : false) : false)
-            <x-employee-profile.rejection-infomation-component :rejectedData=$rejectedData>
+            @if ($rejectedData->commnents ? true : (count($rejectedData->authority_rejections ?? []) == 0 ? false : true))
+                <x-employee-profile.rejection-infomation-component :rejectedData=$rejectedData>
 
-            </x-employee-profile.rejection-infomation-component>
+                </x-employee-profile.rejection-infomation-component>
+            @endif
         @endif
 
 
