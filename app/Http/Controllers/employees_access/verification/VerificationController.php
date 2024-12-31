@@ -25,6 +25,8 @@ use App\our_modules\reuse_modules\ReuseModule;
 use Carbon\Carbon;
 use DateTime;
 use Exception;
+use Illuminate\Support\Facades\App;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
@@ -2125,5 +2127,49 @@ class VerificationController extends Controller
                 'message' => $err->getMessage()
             ]);
         }
+    }
+
+    public function download_joint_transfer($transfer_id = null)
+    {
+        $trasnfer_employee_details = null;
+        $view_data = [
+            'is_error' => false,
+            'message' => null,
+            'trasnfer_employee_details' => null
+        ];
+        $conditions = [
+            ['request_status', 1]
+        ];
+        try {
+            App::setLocale(session::get('locale'));
+            $logged_user = Auth::guard('user_guard')->user();
+            $main_query = EmployeeModule::transferEmployeesDetails($conditions);
+            // --------------- new code --------------
+            $main_query->where('id', Crypt::decryptString($transfer_id));
+            // ------------------ new code ------------------
+            // $main_query->where(function ($query) use ($logged_user) {
+            //     $query->where('target_employee_id', $logged_user->user_credentials->id)
+            //         ->orWhere('employee_id', $logged_user->user_credentials->id);
+            // });
+            $main_query->orderby('id', 'desc');
+            // dd($main_query->first());
+            if ($main_query->exists()) {
+                $view_data['trasnfer_employee_details'] = $main_query->first();
+            } else {
+                $view_data['message'] = __('transfer_messages.transfer_message.no_record');
+                $view_data['is_error'] = true;
+            }
+
+            // dd($view_data);
+        } catch (Exception $err) {
+            // dd($err->getMessage());
+            $view_data['message'] = __('validation_message.server_message.server_error');
+            $view_data['is_error'] = true;
+        }
+        $pdf = Pdf::loadView('pdfs.jts_format', [
+            'view_data' => $view_data
+        ]);
+        $pdf->setPaper('A4', 'portrait');
+        return $pdf->stream('JTS.pdf', ['view_data' => $view_data]);
     }
 }

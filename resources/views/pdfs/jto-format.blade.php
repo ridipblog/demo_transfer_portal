@@ -114,7 +114,10 @@
     <table>
         <tr>
             <td colspan="2">
-                <h1 style="text-align: center;margin-bottom: 50px">Joint Transfer Order for Mutual Transfer</h1>
+                <h3 style="text-align: center;">GOVERNMENT OF ASSAM</h3>
+                <h3 style="text-align: center;">OFFICE OF THE Director of {{ $candidate2->department_name }}</h3>
+                <h3 style="text-align: center;">GUWAHATI</h3>
+                <hr style="margin-bottom: 50px">
             </td>
         </tr>
         <tr>
@@ -124,11 +127,10 @@
         <tr>
             {{-- either grade/3 or grade/4 by post --}}
             <td colspan="2"><br>
-                <p class="cert-body">In pursuance of the approval and recommendation of State Level Competent Authority
-                    of
-                    the Department, the following {{ $candidate1->grade_type == 3 ? 'Grade III' : 'Grade IV' }} employees
-                    are hereby transferred as per
-                    mutual request in their own grade and Scale of Pay with effect from the date of joining as per
+                <p class="cert-body">In pursuance the of the approval No……………and as per provision of the officer
+                    memorandum No.GAD/386878/ dated 31/12/2024 , the following
+                    {{ $candidate1->grade_type == 3 ? 'Grade III' : 'Grade IV' }} employees are hereby transferred as
+                    per mutual request in their own grade and Scale of Pay with effect from the date of joining as per
                     place of posting mentioned below.</p> <br>
             </td>
         </tr>
@@ -181,16 +183,17 @@
                 <br><br> --}}
                 <p>TERMS & CONDITIONS</p>
                 <ol class="nor-body">
-                    <li>The incumbent will be released within 7 days from the issue of this order. The joining time will
-                        be applicable as per Standard Operating Procedure(SOP)</li>
-                    <li>On the basis of this orders of the concerned District Level Appointing Authorities will issue
-                        posting orders.</li>
-                    <li>During the process of mutual transfer if any of the applicant dies or resigns the mutual
-                        application at the portal shall be closed. The other applicant will be eligible to apply fresh.
+                    <li>Both the employees shall be released within 7 days from the issuance of this order.</li>
+                    <li>In case an applicant pairing in mutual transfer is not in the office anymore due to resignation,
+                        retirement or demise etc. this mutual transfer order will be treated as cancelled.</li>
+                    <li>In case of detection of any kind of discrepancies at any stage either in the documents or
+                        information submitted by the applicant/ applicants, the entire process will be cancelled without
+                        assigning any reasons threof or the candidates will be reverted to their original place of
+                        posting.
                     </li>
                     <li>In case of detection of any discrepancies either in the documentation or information
                         submitted by the applicant / applicants the entire process will be cancelled.</li>
-                    <li>No transfer TA & DA shall be admissible for the purpose of this mutual transfer.</li>
+                    <li>No TA & DA shall be admissible for the purpose.</li>
                 </ol>
             </td>
         </tr>
@@ -199,23 +202,46 @@
     <table style="margin-top: 60px;">
         <tr>
             <td></td>
-            <td width="200px" style="text-align:center;margin-top: 100px;">
+            <td width="200px" style="text-align:center;margin-top: 50px;">
                 {{-- <p>State Level Competent Authority</p>
-                <p>Assam Secretariat, Dispur</p>
+                <p>Assam Secretariat, Dispur</p> --}}
 
-                <p>Guwahati-6</p> --}}
+                <p>Sd/-</p>
                 <p>{{ $designation }}</p>
                 <p>{{ $candidate2->department_name }}</p>
-                {{-- <p>Guwahati-6</p> --}}
+                <p>Date: {{ \Carbon\Carbon::parse($date)->format('d-m-Y') }}</p>
 
             </td>
         </tr>
     </table>
-    <table style="margin-top: 15px;width: 100%;">
+    <table>
         <tr>
-            <td><small>www.swagatasatirtha.assam.gov.in</small></td>
-            <td style="text-align: center;"><small>+91 882 676 2317</small></td>
-            <td style="text-align: right;"><small>helpdesk.swagatasatirtha@gmail.com</small></td>
+            <td colspan="">
+                {{-- <p class="nor-body"><span class="inline-txt">{{ $candidate1->full_name }}</span> will join in the
+                    office of <span class="inline-txt">{{ $candidate2->office_name }}</span> and <span
+                        class="inline-txt">{{ $candidate2->full_name }}</span> will join in the Office of <span
+                        class="inline-txt">{{ $candidate1->office_name }}</span>.</p>
+                <br><br> --}}
+                <p>Copy for information & necessary action to:-</p>
+                <ol class="nor-body">
+                    <li>The</li>
+                    <li>The</li>
+                    <li>The</li>
+                    <li>The</li>
+                    <li>The</li>
+                </ol>
+            </td>
+        </tr>
+    </table>
+
+    <table style="margin-top: 60px;">
+        <tr>
+            <td></td>
+            <td width="200px" style="text-align:center;margin-top: 50px;">
+                <p>{{ $designation }}</p>
+                <p>{{ $candidate2->department_name }}</p>
+
+            </td>
         </tr>
     </table>
     <table class="t-100 bor-0-0 fs-12" style="margin-top: 50px!important; text-align:center;">

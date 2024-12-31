@@ -199,7 +199,7 @@
                         $image_url = in_array($key, $document_arr)
                             ? Storage::url($viewData['save_data']->documents[$image_count]->documet_location ?? null)
                             : null;
-                            $doc_extension=$image_url ? strtolower(pathinfo($image_url, PATHINFO_EXTENSION)) : null;
+                        $doc_extension = $image_url ? strtolower(pathinfo($image_url, PATHINFO_EXTENSION)) : null;
                     @endphp
                     <div class="border rounded-xl bg-neutral- review-document-image-div {{ $image_url ?: 'hidden' }} ">
 
@@ -209,14 +209,16 @@
                             @endphp
                             {{ Str::upper(str_replace('_', ' ', __("user.form.docs.$docKey"))) }}
                         </div>
-                        <div class="h-44 p-2 contain-document-image {{$doc_extension ? ($doc_extension!="pdf" ?:'hidden'):'hidden'}}">
+                        <div
+                            class="h-44 p-2 contain-document-image {{ $doc_extension ? ($doc_extension != 'pdf' ?: 'hidden') : 'hidden' }}">
                             <img src="{{ $image_url }}" alt="NO image"
                                 class="w-full h-full object-contain object-center preview_registration_document selected-document-img   ">
                         </div>
-                        <div class="h-44 p-2 flex items-center justify-center contain-document-pdf {{$doc_extension ? ($doc_extension=="pdf" ?:'hidden'):'hidden'}}">
-                                <a href="{{$image_url}}" class="selected-document-pdf  " target="_blank" >
-                                    <i class="bi bi-filetype-pdf text-5xl"></i>
-                                </a>
+                        <div
+                            class="h-44 p-2 flex items-center justify-center contain-document-pdf {{ $doc_extension ? ($doc_extension == 'pdf' ?: 'hidden') : 'hidden' }}">
+                            <a href="{{ $image_url }}" class="selected-document-pdf  " target="_blank">
+                                <i class="bi bi-filetype-pdf text-5xl"></i>
+                            </a>
                         </div>
                     </div>
                 @endforeach

@@ -240,35 +240,48 @@
                                 $key = 1;
                             @endphp
                             @foreach ($candidate->documents as $document)
-                                @if (
-                                    $document['document_type'] != 5 ||
-                                        ($document['document_type'] == 5 && $candidate->additional_info->pending_govt_dues == 'no'))
-                                    <div class="border rounded-xl bg-neutral-60">
-                                        @php
-                                            $name = config(
-                                                'globalVariables.registration_documtns.' . $document['document_type'],
-                                            );
-                                        @endphp
-                                        <div class="flex items-center justify-between px-2">
-                                            <p class="m-0 p-2 px-8"></p>
-                                            <p class="m-0 p-2 text-xs">
-                                                {{ Str::upper(str_replace('_', ' ', __("user.form.docs.$key"))) }}
-                                            </p>
-                                            <div class="">
-                                                <input type="hidden" class="get-key">
-                                                <button type="button" value="{{ $document['document_type'] }}"
-                                                    class="border border-red-600 hover:bg-red-600 text-red-600 hover:text-white rounded p-0.5 text-xs px-2 btn-remarks-doc">
-                                                    {{-- <i class="bi bi-x-lg"></i> --}}
-                                                    Remarks
-                                                </button>
-                                            </div>
-                                        </div>
-                                        <div class="h-44 p-2 pt-0">
-                                            <img src="{{ Storage::url($document['documet_location'] ?? 'N/A') }}"
-                                                alt="" class="w-full h-full object-contain object-center">
+                                <div class="border rounded-xl bg-neutral-60">
+                                    @php
+                                        $name = config(
+                                            'globalVariables.registration_documtns.' . $document['document_type'],
+                                        );
+                                        $docKey = $document['document_type'] ?? null; // Assuming $key is zero-based, add 1 to match the doc number.
+                                        $name = $docKey ? __("user.form.docs.$docKey") : 'No Document Name';
+                                        $image_url = isset($document['documet_location'])
+                                            ? Storage::url($document['documet_location'] ?? 'N/A')
+                                            : null;
+                                        $doc_extension = $image_url
+                                            ? strtolower(pathinfo($image_url, PATHINFO_EXTENSION))
+                                            : null;
+                                    @endphp
+                                    <div class="flex items-center justify-between px-2">
+                                        <p class="m-0 p-2 px-8"></p>
+                                        <p class="m-0 p-2 text-xs text-center">
+                                            {{ $key }}
+                                            {{ Str::upper(str_replace('_', ' ', __("user.form.docs.$key"))) }}
+                                        </p>
+                                        <div class="">
+                                            <input type="hidden" class="get-key">
+                                            <button type="button" value="{{ $document['document_type'] }}"
+                                                class="border border-red-600 hover:bg-red-600 text-red-600 hover:text-white rounded p-0.5 text-[.65rem] px-2 btn-remarks-doc">
+                                                {{-- <i class="bi bi-x-lg"></i> --}}
+                                                Remarks
+                                            </button>
                                         </div>
                                     </div>
-                                @endif
+                                    <div
+                                        class="h-44 p-2 pt-0 {{ $doc_extension ? ($doc_extension != 'pdf' ?: 'hidden') : 'hidden' }}">
+                                        <img src="{{ $image_url }}"
+                                            class="w-full h-full object-contain object-center">
+                                    </div>
+                                    <a href="{{ $image_url }}" target="__blank"
+                                        class="h-44 p-2 pt-0 flex flex-col justify-end {{ $doc_extension ? ($doc_extension == 'pdf' ?: 'hidden') : 'hidden' }}">
+                                        <span class="block mb-auto text-xs text-sky-500">View
+                                            File
+                                        </span>
+                                        <i class="bi bi-file-pdf mx-auto mb-12 text-4xl"></i>
+                                    </a>
+                                </div>
                                 @php
                                     $key++;
                                 @endphp
