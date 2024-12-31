@@ -49,8 +49,10 @@
             </div>
 
             <div class="gap-24">
-                <div class="grid gap-6">
-                    <div class="grid lg:grid-cols-3 gap-4 border border-sky-500 rounded-3xl border-b-4 border-r-4 p-6">
+                <div class="grid gap-6 ">
+
+                    <div
+                        class="grid lg:grid-cols-3 gap-4 border border-sky-500 rounded-3xl border-b-4 border-r-4 p-6 relative">
                         <div class="lg:col-span-3">
                             <p class="text-lg font-bold text-sky-700">@lang('user.form.basic_info.heading')</p>
                         </div>
@@ -101,11 +103,20 @@
                             <p class="font-semibold truncate">{{ $candidate->persional_details->districts->name ?? 'N/A' }}
                             </p>
                         </div>
+                        <div class="lg:col-span-3 flex gap-2 justify-end">
+                            <input id="certifyCheckbox1" type="checkbox"
+                                class="w-5 h-5 border border-sky-500 rounded-md focus:ring focus:ring-sky-500 focus:ring-offset-2 cursor-pointer">
+                            <div class="text-right">
+                                <p class="text-xs text-gray-900">The furnished details of the employee is correct</p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="grid lg:grid-cols-3 gap-4 border border-sky-500 rounded-3xl border-b-4 border-r-4 p-6">
+                    <div
+                        class="grid lg:grid-cols-3 gap-4 border border-sky-500 rounded-3xl border-b-4 border-r-4 p-6 relative">
                         <div class="lg:col-span-3">
                             <p class="text-lg font-bold text-sky-700">@lang('user.form.emp_info.heading')</p>
                         </div>
+
                         <div>
                             <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('user.form.emp_info.dist_cp')</label>
                             <p class="font-semibold">{{ $candidate->employment_details->districts->name ?? 'N/A' }}</p>
@@ -159,6 +170,13 @@
                             <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('user.form.emp_info.p_bank')</label>
                             <p class="font-semibold">{{ $candidate->employment_details->pay_band ?? 'N/A' }}</p>
                         </div>
+                        <div class="lg:col-span-3 flex gap-2 justify-end">
+                            <input id="certifyCheckbox2" type="checkbox"
+                                class="w-5 h-5 border border-sky-500 rounded-md focus:ring focus:ring-sky-500 focus:ring-offset-2 cursor-pointer">
+                            <div class="text-right">
+                                <p class="text-xs text-gray-900">The furnished details of the employee is correct</p>
+                            </div>
+                        </div>
                     </div>
                     <div class="grid grid-cols-3 gap-4 border border-sky-500 rounded-3xl border-b-4 border-r-4 p-6">
                         <div class="col-span-3">
@@ -205,7 +223,7 @@
 
                     {{-- ///////////////////// --}}
                     <div class="border border-sky-500 rounded-3xl border-b-4 border-r-4 p-6">
-                        <div class="grid lg:grid-cols-3 gap-4 remarks-doc-div">
+                        <div class="grid lg:grid-cols-3 gap-4 remarks-doc-div relative">
                             <div class="lg:col-span-3">
                                 <p class="text-lg font-bold text-sky-700">@lang('user.form.docs.heading')</p>
                                 <p class="text-xs font-bold text-sky-700">If any document is found to be invalid, verifying
@@ -213,7 +231,11 @@
                                         class="text-red-600">Remarks</span>"
                                     option on document.</p>
                             </div>
-
+                            {{-- <input id="certifyCheckbox3" type="checkbox"
+                                class="absolute top-2 right-2 w-5 h-5 bg-sky-200 border-2 border-sky-500 rounded-full focus:ring focus:ring-sky-500 focus:ring-offset-2 cursor-pointer">
+                            <div class="absolute top-8 right-2 text-right">
+                                <p class="text-xs text-gray-900">The furnished documents of the employee is correct</p>
+                            </div> --}}
                             @php
                                 $key = 1;
                             @endphp
@@ -251,12 +273,17 @@
                                     $key++;
                                 @endphp
                             @endforeach
-
                             <div class="mt-6 lg:col-span-3 doc-remarks-label hidden">
                                 <p class="text-xs font-bold text-sky-700">Invalid document remarks</p>
                             </div>
 
-
+                            <div class="lg:col-span-3 flex gap-2 justify-end">
+                                <input id="certifyCheckbox3" type="checkbox"
+                                    class="w-5 h-5 border border-sky-500 rounded-md focus:ring focus:ring-sky-500 focus:ring-offset-2 cursor-pointer">
+                                <div class="text-right">
+                                    <p class="text-xs text-gray-900">The furnished details of the employee is correct</p>
+                                </div>
+                            </div>
                         </div>
                         <form class="remarks-document-div w-full" id="reject-on-verify" action="/ridip" method="post">
 
@@ -380,8 +407,6 @@
                                 <p class="font-semibold">{{ $verified_by != null ? $verified_by->name : 'N/A' }},
                                     {{ $verified_by != null ? $verified_by->designation : 'N/A' }},
                                     {{ $verifier_office1 }},
-                                    {{-- {{ $office_name != null ? (is_array($office_name) ? (', ', $office_name) : $office_name) : 'N/A' }},
-                --}}
                                     {{ $department_name != null ? $department_name : 'N/A' }}
                                 </p>
                             </div>
@@ -403,34 +428,7 @@
                             @endif
 
                             @if ($candidate->noc_generate == 1)
-                                {{-- @if ($noc_generated_by != null)
-                                    <div>
-                                        <label
-                                            class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('authority_dashboard.profile_details.appointing_authority')</label>
-                                        <p class="font-semibold">
-                                            {{ $noc_generated_by != null ? $noc_generated_by->name : 'N/A' }},
-                                            {{ $noc_generated_by != null ? $noc_generated_by->designation : 'N/A' }}
-                                            {{ $noc_office_name != null ? $noc_office_name : 'N/A' }},
-                                            {{ $noc_department_name != null ? $noc_department_name : 'N/A' }}
-                                        </p>
-                                    </div>
-                                    <div>
-                                        <label
-                                            class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('authority_dashboard.updated_texts.appointing_authority_remarks')</label>
-                                        <p class="font-semibold">
-                                            {{ $candidate->noc_remarks != null ? $candidate->noc_remarks : 'N/A' }}
-                                        </p>
-                                    </div>
-                                    @if ($candidate->noc_generated_on != null)
-                                        <div>
-                                            <label
-                                                class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('authority_dashboard.profile_details.recommended_on')</label>
-                                            <p class="font-semibold">
-                                                {{ $candidate->noc_generated_on != null ? \Carbon\Carbon::parse($candidate->noc_generated_on)->format('d-m-Y') : 'N/A' }}
-                                            </p>
-                                        </div>
-                                    @endif
-                                @endif --}}
+
 
                                 @if ($approval_status == 1)
                                     @if ($approved_by != null)
@@ -486,8 +484,9 @@
                             {{-- @if ($candidate->profile_verify_status != 1) --}}
                             <button type="button"
                                 class="bg-red-500 hover:bg-red-600 border border-transparent text-white text-sm rounded-md block px-4 py-1.5 disabled:opacity-80 disabled:bg-sky-300 rejectRequestBtn">@lang('authority_dashboard.profile_details.reject')</button>
-                            <button type="button"
-                                class="bg-sky-500 hover:bg-sky-600 border border-transparent text-white text-sm rounded-md block px-4 py-1.5 disabled:opacity-80 disabled:bg-sky-300 directRequest">@lang('authority_dashboard.profile_details.certify')</button>
+                            <button type="button" id="certifyButton"
+                                class="bg-sky-500 hover:bg-sky-600 border border-transparent text-white text-sm rounded-md block px-4 py-1.5 disabled:opacity-80 disabled:bg-sky-300 directRequest"
+                                disabled>@lang('authority_dashboard.profile_details.certify')</button>
                         @else
                             @if ($user_role == 'Appointing Authority' || $user_role == 'Appointing User')
                                 @if ($candidate->noc_generate != 1 && $candidate->profile_verify_status == 1)
@@ -530,10 +529,14 @@
                                 <div class="flex flex-col gap-3">
                                     <input type="hidden" id="verify_comment" name="comment" value="">
                                     <div class="flex items-center gap-2">
-                                        <input type="checkbox" name="verification[]" value="general"
-                                            class="border border-gray-300 text-sky-600 text-sm rounded-md focus:ring-sky-600 focus:border-sky-600 block p-1.5 mt-0.5"
-                                            required>
-                                        <p class="text-xs text-gray-900">@lang('authority_dashboard.profile_details.vrmsg')</p>
+                                        @if (count($conditions) != 0)
+                                            @foreach ($conditions as $cc)
+                                                <input type="checkbox" name="verification[]" value="general"
+                                                    class="border border-gray-300 text-sky-600 text-sm rounded-md focus:ring-sky-600 focus:border-sky-600 block p-1.5 mt-0.5"
+                                                    required>
+                                                <p class="text-xs text-gray-900">{{ $cc->conditions }}</p>
+                                            @endforeach
+                                        @endif
                                     </div>
                                     @if (count($cond) != 0)
                                         @foreach ($cond as $c)
@@ -705,6 +708,21 @@
 
     <script>
         $(document).ready(function(argument) {
+
+            function checkAllCheckboxes() {
+                const checkbox1 = document.getElementById('certifyCheckbox1');
+                const checkbox2 = document.getElementById('certifyCheckbox2');
+                const checkbox3 = document.getElementById('certifyCheckbox3');
+                const button = document.getElementById('certifyButton');
+                button.disabled = !(checkbox1.checked && checkbox2.checked && checkbox3.checked);
+            }
+
+            document.getElementById('certifyCheckbox1').addEventListener('change', checkAllCheckboxes);
+            document.getElementById('certifyCheckbox2').addEventListener('change', checkAllCheckboxes);
+            document.getElementById('certifyCheckbox3').addEventListener('change', checkAllCheckboxes);
+
+
+
             $('.btn-remarks-doc').on('click', function() {
                 // Show the remarks label
                 const myGlobalVariable = @json(config('globalVariables.registration_documtns'));
