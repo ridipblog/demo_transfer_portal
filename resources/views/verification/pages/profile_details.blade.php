@@ -50,10 +50,11 @@
 
             <div class="gap-24">
                 <div class="grid gap-6">
-                    <div class="grid lg:grid-cols-3 gap-4 border border-sky-500 rounded-3xl border-b-4 border-r-4 p-6">
+                    <div class="grid lg:grid-cols-3 gap-4 border border-sky-500 rounded-3xl border-b-4 border-r-4 p-6 relative">
                         <div class="lg:col-span-3">
                             <p class="text-lg font-bold text-sky-700">@lang('user.form.basic_info.heading')</p>
                         </div>
+                        <input id="certifyCheckbox1" type="checkbox" class="absolute top-2 right-2 w-5 h-5 bg-sky-200 border-2 border-sky-500 rounded-full focus:ring focus:ring-sky-500 focus:ring-offset-2 cursor-pointer">
                         <div>
                             <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('user.form.basic_info.name')</label>
                             <p class="font-semibold">{{ $candidate->full_name ?? 'N/A' }}</p>
@@ -102,10 +103,11 @@
                             </p>
                         </div>
                     </div>
-                    <div class="grid lg:grid-cols-3 gap-4 border border-sky-500 rounded-3xl border-b-4 border-r-4 p-6">
+                    <div class="grid lg:grid-cols-3 gap-4 border border-sky-500 rounded-3xl border-b-4 border-r-4 p-6 relative">
                         <div class="lg:col-span-3">
                             <p class="text-lg font-bold text-sky-700">@lang('user.form.emp_info.heading')</p>
                         </div>
+                        <input id="certifyCheckbox2" type="checkbox" class="absolute top-2 right-2 w-5 h-5 bg-sky-200 border-2 border-sky-500 rounded-full focus:ring focus:ring-sky-500 focus:ring-offset-2 cursor-pointer">
                         <div>
                             <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('user.form.emp_info.dist_cp')</label>
                             <p class="font-semibold">{{ $candidate->employment_details->districts->name ?? 'N/A' }}</p>
@@ -205,7 +207,7 @@
 
                     {{-- ///////////////////// --}}
                     <div class="border border-sky-500 rounded-3xl border-b-4 border-r-4 p-6">
-                        <div class="grid lg:grid-cols-3 gap-4 remarks-doc-div">
+                        <div class="grid lg:grid-cols-3 gap-4 remarks-doc-div relative">
                             <div class="lg:col-span-3">
                                 <p class="text-lg font-bold text-sky-700">@lang('user.form.docs.heading')</p>
                                 <p class="text-xs font-bold text-sky-700">If any document is found to be invalid, verifying
@@ -213,7 +215,7 @@
                                         class="text-red-600">Remarks</span>"
                                     option on document.</p>
                             </div>
-
+                            <input id="certifyCheckbox3" type="checkbox" class="absolute top-2 right-2 w-5 h-5 bg-sky-200 border-2 border-sky-500 rounded-full focus:ring focus:ring-sky-500 focus:ring-offset-2 cursor-pointer">
                             @php
                                 $key = 1;
                             @endphp
@@ -486,8 +488,8 @@
                             {{-- @if ($candidate->profile_verify_status != 1) --}}
                             <button type="button"
                                 class="bg-red-500 hover:bg-red-600 border border-transparent text-white text-sm rounded-md block px-4 py-1.5 disabled:opacity-80 disabled:bg-sky-300 rejectRequestBtn">@lang('authority_dashboard.profile_details.reject')</button>
-                            <button type="button"
-                                class="bg-sky-500 hover:bg-sky-600 border border-transparent text-white text-sm rounded-md block px-4 py-1.5 disabled:opacity-80 disabled:bg-sky-300 directRequest">@lang('authority_dashboard.profile_details.certify')</button>
+                            <button type="button" id="certifyButton"
+                                class="bg-sky-500 hover:bg-sky-600 border border-transparent text-white text-sm rounded-md block px-4 py-1.5 disabled:opacity-80 disabled:bg-sky-300 directRequest" disabled>@lang('authority_dashboard.profile_details.certify')</button>
                         @else
                             @if ($user_role == 'Appointing Authority' || $user_role == 'Appointing User')
                                 @if ($candidate->noc_generate != 1 && $candidate->profile_verify_status == 1)
@@ -709,6 +711,21 @@
 
     <script>
         $(document).ready(function(argument) {
+
+            function checkAllCheckboxes() {
+        const checkbox1 = document.getElementById('certifyCheckbox1');
+        const checkbox2 = document.getElementById('certifyCheckbox2');
+        const checkbox3 = document.getElementById('certifyCheckbox3');
+        const button = document.getElementById('certifyButton');
+        button.disabled = !(checkbox1.checked && checkbox2.checked && checkbox3.checked);
+    }
+
+    document.getElementById('certifyCheckbox1').addEventListener('change', checkAllCheckboxes);
+    document.getElementById('certifyCheckbox2').addEventListener('change', checkAllCheckboxes);
+    document.getElementById('certifyCheckbox3').addEventListener('change', checkAllCheckboxes);
+
+
+
             $('.btn-remarks-doc').on('click', function() {
                 // Show the remarks label
                 const myGlobalVariable = @json(config('globalVariables.registration_documtns'));
