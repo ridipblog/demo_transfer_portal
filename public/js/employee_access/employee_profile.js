@@ -9,21 +9,77 @@ $(document).ready(function () {
     $(document).on('change', '#select_depert', async function () {
         $('#review_pay_grade').val('');
         await reuse_module.getOfficePostNames($(this))
-        await reuse_module.fetchDirectDept($('#select_depert').val(),'#select_direct');
+        await reuse_module.fetchDirectDept($('#select_depert').val(), '#select_direct');
     })
     $(document).on('change', '#select_district', function () {
         console.log($('#select_depert').val())
-        reuse_module.getOfficePostNames('#select_depert', true,true)
+        reuse_module.getOfficePostNames('#select_depert', true, true)
     });
     // --------- clear input error ---------------
-    $(document).on('input','.clear-input-error',function(){
-        let index=$('.clear-input-error').index(this);
+    $(document).on('input', '.clear-input-error', function () {
+        let index = $('.clear-input-error').index(this);
         console.log(index)
         $('.registration-error').eq(index).html('');
     });
+    // ----------- add supporting documents -------------
+    // $(document).on('click', '#add-support-doc', function () {
+    //     employee_profile_module.addSupportDocs();
+    // });
+    // ----------- select support docs ----------
+    // $(document).on('click', '.select-suport-doc', function (e) {
+    //     let index = $('.select-suport-doc').index(this);
+    //     console.log(index);
+    //     $('.file-support-docs').eq(index).click();
+    // });
+    // $(document).on('change', '.file-support-docs', function () {
+    //     var up_prev = $(this);
+    //     let index = $('.file-support-docs').index(this);
+    //     var up_prev_name = $(this)[0].files[0];
+    //     if (up_prev_name) {
+    //         let fileSize = up_prev_name.size / 1024 / 1024
+    //         if (fileSize < 2) {
+    //             let extension = up_prev_name.name.split('.').pop().toLowerCase();
+    //             if (['jpg', 'jpeg', 'png', 'pdf'].includes(extension)) {
+    //                 const fileURL = URL.createObjectURL(up_prev_name);
+    //                 if (extension === "pdf") {
+    //                     $('.suport-doc-pdf').eq(index).attr('href', fileURL);
+    //                     $('.suport-doc-pdf-icon').eq(index).removeClass('hidden');
+    //                     $('.suport-doc-image').eq(index).addClass('hidden');
+    //                 } else {
+    //                     $('.suport-doc-image').eq(index).attr('src', fileURL);
+    //                     $('.suport-doc-pdf-icon').eq(index).addClass('hidden');
+    //                     $('.suport-doc-image').eq(index).removeClass('hidden');
+    //                 }
+    //                 $('.suport-doc-clone').eq(index).removeClass('hidden');
+    //                 $('.suport-doc-error').eq(index).html('');
+    //             } else {
+    //                 $('.suport-doc-error').eq(index).html('Invalid file format. Only PDF, JPG, JPEG, and PNG are supported.');
+
+    //                 up_prev.val('');
+    //             }
+
+    //         } else {
+    //             up_prev.val('');
+    //             $('.suport-doc-pdf').eq(index).attr('href', '');
+    //             $('.suport-doc-image').eq(index).attr('src', '');
+    //             $('.suport-doc-clone').eq(index).addClass('hidden');
+    //             $('.suport-doc-error').eq(index).html('File size is only 2 mb.');
+    //         }
+    //     } else {
+    //         $('.suport-doc-pdf').eq(index).attr('href', '');
+    //         $('.suport-doc-image').eq(index).attr('src', '');
+    //         $('.suport-doc-clone').eq(index).addClass('hidden');
+    //     }
+
+    //     // Update the file name
+    //     if (up_prev_name) {
+    //         var fileName = up_prev_name.name;
+    //         $('.up_doc_name').html(fileName);
+    //     }
+    // });
     // ---------- fetch ofices by depertment , district and direcorate ----------
-    $(document).on('change','#select_direct',async function(){
-        await reuse_module.getOfficePostNames('#select_direct',true,true);
+    $(document).on('change', '#select_direct', async function () {
+        await reuse_module.getOfficePostNames('#select_direct', true, true);
     });
     // ------------------ get relational data by depertment and posts -------------
     $(document).on('change', '#select_degis', function () {

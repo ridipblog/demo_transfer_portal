@@ -100,6 +100,10 @@
 
                                 </x-public.user_registration.document-component>
                                 {{-- -------------- end document information ----------------- --}}
+                                {{-- ------------ start supporting document section -------------- --}}
+                                {{-- <x-public.user_registration.support-document-component>
+                                </x-public.user_registration.support-document-component> --}}
+                                {{-- ------------ end supporting document section -------------- --}}
                                 {{-- -------------- declaration and SOP ----------------- --}}
 
                                 {{-- -------------- end declaration and SOP ----------------- --}}
