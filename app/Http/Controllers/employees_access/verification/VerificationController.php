@@ -305,7 +305,7 @@ class VerificationController extends Controller
 
     public function department_reject_approval(Request $request)
     {
-        if (Auth::guard('user_guard')->check() && Auth::guard('user_guard')->user()->role_id == 7) {
+        if (Auth::guard('user_guard')->check() && Auth::guard('user_guard')->user()->role_id == 2) {
             try {
                 $id = Crypt::decryptString($request->input('candidate_reject_id'));
                 $transfer = TransfersModel::findOrFail($id);
@@ -317,9 +317,10 @@ class VerificationController extends Controller
                     'approved_on' => Carbon::now()
                 ]);
                 session()->flash('flash_message', 1);
-                session()->flash('message', 'Candidate Rejected');
+                session()->flash('message', 'Transfer Rejected Successfully');
                 return redirect()->route('verification.department.all_request', ['lang' => app()->getLocale()]);
             } catch (Exception $err) {
+                dd($err->getMessage());
                 Log::error('error_approval: ' . $err->getMessage());
                 return redirect()->back();
             }

@@ -14,10 +14,13 @@ class rejections extends Model
         'user_id',
         'date',
         'message',
-        'office_id'
+        'office_id',
+        'role',
+        'created_by'
     ];
 
-    public function user_credentials(){
-        return $this->belongsTo(UserCredentialsModel::class,'user_id');
+    public function user_credentials()
+    {
+        return $this->belongsTo(UserCredentialsModel::class, 'user_id');
     }
 }
