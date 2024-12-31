@@ -7,7 +7,7 @@
     <div class="py-8">
         <div class="max-w-7xl mx-auto">
             <div class="mb-6 flex flex-col space-y-2">
-                <div>
+                <div class="flex items-center justify-between">
                     <p class="text-3xl font-semibold">@lang('authority_dashboard.profile_details_jts.heading') - {{ $request_number }}</p>
                     <div class="w-32">
                         <a href="/verifier/download-joint-transfer/{{ Crypt::encryptString($id) }}"
