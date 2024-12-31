@@ -111,50 +111,36 @@
             <tr>
                 <td colspan="2"><br>
                     <p>To,</p>
-                    <p>The State Level Competent Authority for Mutual Transfer, <br><span
+                    <p>The Director/ Commissioner,, <br><span
                             class="inline-txt">{{ $pdf_data->transfer_employee_user->employment_details->departments->name }}</span>
                         Department<br>Government of Assam</p><br>
                     <p>Subject: Joint Application for Mutual Transfer</p><br>
                     <p>Sir / Madam</p>
-                    <p class="cert-body">With reference to the above, we have the honour to inform you that, we <br>
-                        (A) Shri/Smti <span
-                            class="inline-txt">{{ $pdf_data->transfer_employee_user->full_name }}</span>,
-                        presently serving as <span
-                            class="inline-txt">{{ $pdf_data->transfer_employee_user->employment_details->post_names->name }}</span>
-                        in
+                    <p class="cert-body">
+                        With reference to the above, we have the honor to inform you that, we
+
+                        <br>
+                        (A) Shri/Smti {{ $pdf_data->transfer_employee_user->full_name ?? 'N/A' }}, presently serving as
+                        {{ $pdf_data->transfer_employee_user->employment_details->post_names->name ?? 'N/A' }} in
                         {{ $pdf_data->transfer_employee_user->employment_details->post_names->type == 3 ? 'Grade III' : 'Grade IV' }}
-                        in the office of <span
-                            class="inline-txt">{{ $pdf_data->transfer_employee_user->employment_details->offices_finassam->name }}</span>,
-                        <span
-                            class="inline-txt">{{ $pdf_data->transfer_employee_user->employment_details->districts->name }}</span>,
-                        and under <span
-                            class="inline-txt">{{ $pdf_data->transfer_employee_user->noc_generated_by_user->name ?? '' }},
-                            {{ $pdf_data->transfer_employee_user->noc_generated_by_user->designation ?? '' }},
-                            {{ $pdf_data->transfer_employee_user->noc_generated_by_user->departments->name ?? '' }},
-                            {{ $pdf_data->transfer_employee_user->noc_generated_by_user->districts->name ?? '' }}</span>
-                        as appointing authority
-                        and <br>
-                        (B) Shri / Smti <span
-                            class="inline-txt">{{ $pdf_data->transfer_employee_target_user->full_name }}</span>,
-                        presently
-                        serving as <span
-                            class="inline-txt">{{ $pdf_data->transfer_employee_target_user->employment_details->post_names->name }}</span>
-                        in
+                        in the
+                        {{ $pdf_data->transfer_employee_user->employment_details->offices_finassam->name ?? 'N/A' }} ,
+                        {{ $pdf_data->transfer_employee_user->employment_details->districts->name ?? 'N/A' }}, and
+                        <br>(B) Shri / Smti {{ $pdf_data->transfer_employee_target_user->full_name ?? 'N/A' }}, presently
+                        serving as
+                        {{ $pdf_data->transfer_employee_target_user->employment_details->post_names->name ?? 'N/A' }} in
                         {{ $pdf_data->transfer_employee_target_user->employment_details->post_names->type == 3 ? 'Grade III' : 'Grade IV' }}
-                        in the office of <span
-                            class="inline-txt">{{ $pdf_data->transfer_employee_target_user->employment_details->offices_finassam->name }}</span>,
-                        <span
-                            class="inline-txt">{{ $pdf_data->transfer_employee_target_user->employment_details->districts->name }}</span>
-                        and under <span
-                            class="inline-txt">{{ $pdf_data->transfer_employee_target_user->noc_generated_by_user->name ?? '' }},
-                            {{ $pdf_data->transfer_employee_target_user->noc_generated_by_user->designation ?? '' }},
-                            {{ $pdf_data->transfer_employee_target_user->noc_generated_by_user->departments->name ?? '' }},
-                            {{ $pdf_data->transfer_employee_target_user->noc_generated_by_user->districts->name ?? '' }}</span>
-                        as appointing authority,
-                        do hereby apply for mutual transfer as per terms & Conditions laid down in the SOP, <span
-                            class="inline-txt"></span>, dated <span class="inline-txt">XXX</span>.
-                        The mutual transfer which may kindly be considered and approved at the earliest convenience. The
-                        NOC from the respective Appointing Authorities are enclosed for ready reference.
+                        in the
+                        {{ $pdf_data->transfer_employee_target_user->employment_details->offices_finassam->name ?? 'N/A' }}
+                        , {{ $pdf_data->transfer_employee_target_user->employment_details->districts->name }} do hereby
+                        apply for mutual transfer as per terms & Conditions laid down in the Officer memorandum
+                        No.GAD/386878/ dated 31/12/2024.
+
+                        <br>&nbsp;&nbsp;We have read the SOP for mutual transfer policy issued vide No. GAD/386878 dated 31/12/2024 and
+                        hereby accept all the conditions mentioned in the SOP. The mutual transfer which may kindly be
+                        considered and approved at the earliest convenience.
+                        Yours faithfully
+
                     </p>
                 </td>
             </tr>
@@ -166,7 +152,8 @@
                 <td style="">
                     <p>Yours faithfully</p><br><br>
 
-                    <p>Name: <span class="inline-txt">{{ $pdf_data->transfer_employee_user->full_name ?? 'N/A' }}</span></p>
+                    <p>Name: <span
+                            class="inline-txt">{{ $pdf_data->transfer_employee_user->full_name ?? 'N/A' }}</span></p>
                     <p>Presently serving as: <span
                             class="inline-txt">{{ $pdf_data->transfer_employee_user->employment_details->post_names->name ?? 'N/A' }}</span>
                         in
@@ -177,14 +164,10 @@
                         District: <span
                             class="inline-txt">{{ $pdf_data->transfer_employee_user->employment_details->districts->name ?? 'N/A' }}</span>
                     </p>
-                    <p>
-                        Directorate : <span
-                            class="inline-txt">{{ isset($pdf_data->transfer_employee_user->employment_details->directorate_id) ? $pdf_data->transfer_employee_user->employment_details->directorate_id===0 ?'Not Applicable' : $pdf_data->transfer_employee_user->employment_details->directorate->name ?? 'N/A' : 'Not Assign' }}</span>
-                    </p>
                     <p>Pay Band: <span
                             class="inline-txt">{{ $pdf_data->transfer_employee_user->employment_details->pay_band ?? 'N/A' }}</span>
                         Grade Pay: <span
-                            class="inline-txt">{{ $pdf_data->transfer_employee_user->employment_details->pay_grade  ?? 'N/A'}}</span>
+                            class="inline-txt">{{ $pdf_data->transfer_employee_user->employment_details->pay_grade ?? 'N/A' }}</span>
                     </p>
                 </td>
             </tr>
@@ -192,7 +175,8 @@
                 {{-- <td width="50%"></td> --}}
                 <td style=""><br>
 
-                    <p>Name: <span class="inline-txt">{{ $pdf_data->transfer_employee_target_user->full_name ?? 'N/A' }}</span>
+                    <p>Name: <span
+                            class="inline-txt">{{ $pdf_data->transfer_employee_target_user->full_name ?? 'N/A' }}</span>
 
                     </p>
                     <p>Presently serving as: <span
@@ -204,10 +188,6 @@
                             class="inline-txt">{{ $pdf_data->transfer_employee_target_user->employment_details->offices_finassam->name ?? 'N/A' }}</span>,
                         District: <span
                             class="inline-txt">{{ $pdf_data->transfer_employee_target_user->employment_details->districts->name ?? 'N/A' }}</span>
-                    </p>
-                    <p>
-                        Directorate : <span
-                            class="inline-txt">{{ isset($pdf_data->transfer_employee_target_user->employment_details->directorate_id) ? $pdf_data->transfer_employee_user->employment_details->directorate_id===0 ?'Not Applicable' : $pdf_data->transfer_employee_user->employment_details->directorate->name ?? 'N/A' : 'Not Assign' }}</span>
                     </p>
                     <p>Pay Band: <span
                             class="inline-txt">{{ $pdf_data->transfer_employee_target_user->employment_details->pay_band ?? 'N/A' }}</span>

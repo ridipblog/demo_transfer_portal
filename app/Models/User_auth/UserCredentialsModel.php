@@ -74,6 +74,6 @@ class UserCredentialsModel extends  Model
     }
     public function noc_generated_by_user()
     {
-        return $this->belongsTo(appointing_authorities::class, 'noc_generated_by');
+        return $this->belongsTo(appointing_authorities::class, 'verified_by');
     }
 }

@@ -138,7 +138,7 @@
                                     <a href="{{asset('/docs/sop_new.pdf')}}" class="text-sky-600 font-semibold hover:underline">@lang('home.imp_links.sop') </a><br>@lang('home.imp_links.sop_txt')
                                 </li>
                                 <li class="py-2">
-                                    <a href="#" class="text-sky-600 font-semibold hover:underline">@lang('home.imp_links.user_manual')</a><br>@lang('home.imp_links.user_manual_txt')
+                                    <a href="{{asset('/docs/new_usermanual.pdf')}}" class="text-sky-600 font-semibold hover:underline">@lang('home.imp_links.user_manual')</a><br>@lang('home.imp_links.user_manual_txt')
                                 </li>
                             </ul>
                         </div>
