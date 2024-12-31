@@ -210,10 +210,10 @@ class EmployeeModule
         ];
         $with_conditions = [
             'transfer_employee_user' => function ($query) {
-                $query->select('id', 'full_name', 'noc_generated_by');
+                $query->select('id', 'full_name', 'verified_by');
             },
             'transfer_employee_target_user' => function ($query) {
-                $query->select('id', 'full_name', 'noc_generated_by');
+                $query->select('id', 'full_name', 'verified_by');
             },
             'transfer_employee_user.noc_generated_by_user' => function ($query) {},
             // 'transfer_employee_user.noc_generated_by_user.post_names' => function ($query) {},
@@ -225,7 +225,7 @@ class EmployeeModule
             'transfer_employee_target_user.noc_generated_by_user' => function ($query) {},
             // 'transfer_employee_target_user.noc_generated_by_user.post_names' => function ($query) {},
             'transfer_employee_target_user.noc_generated_by_user.departments' => function ($query) {},
-            'transfer_employee_target_user.noc_generated_by_user.districts' => function ($query) {},
+            'transfer_employee_target_user.noc_generated_by_user.authority_office_dist_map.districts' => function ($query) {},
             'transfer_employee_target_user.employment_details' => function ($query) {
                 $query->select('id', 'user_id', 'district_id', 'depertment_id', 'office_id', 'designation_id', 'pay_grade', 'pay_band','directorate_id');
             },

@@ -333,6 +333,7 @@ class TransferRequestController extends Controller
             $main_query->orderby('id', 'desc');
             // dd($main_query->first());
             if ($main_query->exists()) {
+
                 $view_data['trasnfer_employee_details'] = $main_query->first();
             } else {
                 $view_data['message'] = __('transfer_messages.transfer_message.no_record');
