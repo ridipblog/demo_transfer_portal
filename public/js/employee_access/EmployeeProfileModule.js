@@ -97,7 +97,7 @@ class EmployeeProfileModule extends RequestModule {
                     </div>
                     <i class="bi bi-cloud-upload text-2xl"></i>
                     <p class="text-center">Drop item here or <span class="hover:underline text-sky-600">Browse files</span></p>
-                    <p class="text-xs text-gray-500 text-center">Max size 5MB | .PDF,.JPG, .JPEG, .PNG</p>
+                    <p class="text-xs text-gray-500 text-center">Max size 2MB | .PDF,.JPG, .JPEG, .PNG</p>
 
                 </div>
                 <input type="file" name="support_docs[]" class="registration-input opacity-0 h-0 w-0 up_input registration_documents file-support-docs" accept=".pdf,.jpg,.jpeg,.png">

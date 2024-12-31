@@ -78,7 +78,7 @@ return [
         ],
         'second_transfer_verification' => [
             '1' => [
-                'color' => 'yellow',
+                'color' => 'green',
                 'header' => 'Transfer is approved by Department HOD ',
                 'body' => 'Transfer one step up, processs is still process ',
             ],
@@ -90,7 +90,7 @@ return [
         ],
         'final_approval' => [
             '1' => [
-                'color' => 'yellow',
+                'color' => 'green',
                 'header' => 'Transfer is approved by Department HOD ',
                 'body' => 'Transfer one step up, processs is still process ',
             ],

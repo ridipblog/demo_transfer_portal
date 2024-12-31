@@ -136,10 +136,9 @@
                         apply for mutual transfer as per terms & Conditions laid down in the Officer memorandum
                         No.GAD/386878/ dated 31/12/2024.
 
-                        <br>&nbsp;&nbsp;We have read the SOP for mutual transfer policy issued vide No. GAD/386878 dated 31/12/2024 and
+                        <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;We have read the SOP for mutual transfer policy issued vide No. GAD/386878 dated 31/12/2024 and
                         hereby accept all the conditions mentioned in the SOP. The mutual transfer which may kindly be
                         considered and approved at the earliest convenience.
-                        Yours faithfully
 
                     </p>
                 </td>

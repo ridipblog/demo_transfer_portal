@@ -5,7 +5,7 @@ return [
         'required' => 'This field is required.',
         'integer' => 'This field must be a numeric value.',
         'regex' => 'The phone number must be 10 digits.',
-        'max' => 'The maximum allowable size is 3 megabytes.',
+        'max' => 'The maximum allowable size is 2 megabytes.',
         'mimes' => 'The file type is not valid.',
         'email' => 'Please enter a valid email address.',
         'confirmed' => 'This field does not match the confirmation.',

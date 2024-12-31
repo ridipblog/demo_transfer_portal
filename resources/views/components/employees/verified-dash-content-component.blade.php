@@ -150,7 +150,7 @@
                     <p class="text-gray-600">@lang('user.dashboard.my_request.no_req_act')
                         @if ($is_noc_generated)
                             <a href="{{ route('search.profile', ['lang' => app()->getLocale()]) }}"
-                                class="underline text-sky-600"> @lang('user.dashboard.my_request.req_now')</a>
+                                class="underline text-sky-600">@lang('user.dashboard.my_request.req_now')</a>
                         @else
                             @lang('user.profile_alter_text.noc_status.0.body')
                     </p>

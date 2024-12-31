@@ -13,8 +13,8 @@ return [
     ],
     'faq_3' => 'How do I find a potential mutual transfer partner?',
     'faq_3_txt' => [
-        'step_1' => 'Once your profile is ready, it’ll need to be verified and recommended by your authorities.',
-        'step_2' => 'The portal will then recommend potential partners based on department, preferences, post, and grade pay.',
+        'step_1' => 'Once your profile is ready, it’ll need to be verified by your authorities.',
+        'step_2' => 'The portal will then recommend potential partners based on department, directorate, preferences, post, and grade pay.',
         'step_3' => 'You can review these suggested partners and, if someone looks like a good match, send them a transfer request from your Dashboard.',
     ],
     'faq_4' => 'What if my profile is rejected or needs changes?',
@@ -36,8 +36,8 @@ return [
     'faq_8_txt' => 'If your request is left pending for more than 15 days, it will automatically be cancelled. Be sure to respond quickly to keep things moving forward.',
     'faq_9' => 'What happens after both partners approve a request?',
     'faq_9_txt' => [
-        'step_1' => 'The request goes to State Level Authority for final processing.',
-        'step_2' => 'Once approved, you and your partner will receive a transfer order and can join your new locations based on the default joining period.',
+        'step_1' => 'The request goes to Department HOD for final processing.',
+        'step_2' => 'Once approved and order is issued, you and your partner will receive a transfer order and can join your new locations based on the default joining period.',
     ],
     'faq_10' => 'Can I withdraw my request?',
     'faq_10_txt' => 'Yes, you can withdraw any time before both parties approve it. If you withdraw, the request will be closed, and you can look for another transfer partner if needed.',
@@ -46,7 +46,7 @@ return [
     'faq_12' => 'What documents are needed?',
     'faq_12_txt' => [
         'doc_1' => 'Usually, you’ll need to provide your photo, signature, PAN card, and department ID card.',
-        'doc_2' => 'Optional documents like an appointment letter or first page of your service book may also be requested, though they aren’t required.',
+        'doc_2' => 'Additional document can be attached.',
     ],
     'faq_13' => 'Am I allowed to reapply if my application is rejected?',
     'faq_13_txt' => 'Yes, you may reapply if your application is rejected.',

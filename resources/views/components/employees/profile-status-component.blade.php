@@ -29,7 +29,7 @@
                                 'icon' => 'bi bi-exclamation-circle',
                             ],
                             '1' => [
-                                'bg' => 'bg-green-400',
+                                'bg' => 'bg-green-600',
                                 'text' => 'text-green-600',
                                 'icon' => 'bi bi-check-circle',
                             ],
