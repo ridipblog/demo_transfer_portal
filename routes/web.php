@@ -44,15 +44,18 @@ Route::post('fetch-directorates', [UserRegistrationController::class, 'fetch_dir
 Route::post('re-assign-user', [UserRegistrationController::class, 're_assign']);
 
 Route::get('re-assign-authority', [UserRegistrationController::class, 're_assign_authority_index']);
-Route::post('fetch_off_dist',[UserRegistrationController::class, 'fetch_off_dist']);
+Route::post('fetch_off_dist', [UserRegistrationController::class, 'fetch_off_dist']);
 
-Route::post('fetch_off_dist_assign',[UserRegistrationController::class, 'fetch_off_dist_assign']);
+Route::post('fetch_off_dist_assign', [UserRegistrationController::class, 'fetch_off_dist_assign']);
 
 Route::get('correct-names', [UserRegistrationController::class, 'correct_office_name']);
 
 
 Route::group(['prefix' => 'verifier', 'middleware' => ['user_protect:roles,view,Verifier,Appointing Authority,Appointing User,Approver,Department Hod']], function () {
     Route::get('verifier-resubmitted-profile/{id}', [CandidateController::class, 'resubmitted_profile_details'])->name('resubmitted.profile');
+});
+Route::group(['prefix' => 'department', 'middleware' => ['user_protect:roles,view,Approver']], function () {
+    Route::post('block-candidate', [CandidateController::class, 'block_candidate'])->name('block.profile');
 });
 Route::group(['prefix' => '{lang?}', 'middleware' => 'setlocale', 'where' => ['lang' => 'en|as']], function () {
     Route::group(['middleware' => ['public_protect:view']], function () {
@@ -73,9 +76,9 @@ Route::group(['prefix' => '{lang?}', 'middleware' => 'setlocale', 'where' => ['l
     });
 
     Route::group(['prefix' => 'department', 'middleware' => ['user_protect:roles,view,Approver']], function () {
-        
+
         Route::get('/department-dashboard', [VerificationController::class, 'department_index'])->name('verification.department.index');
-        
+
         Route::get('/approval-all-requests', [VerificationController::class, 'department_all_request'])->name('verification.department.all_request');
         Route::get('/approval-profile/{id}', [CandidateController::class, 'department_candidate_profile'])->name('verification.department.candidate_profile');
     });

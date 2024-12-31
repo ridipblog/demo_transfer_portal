@@ -104,6 +104,8 @@ return [
         'rsr' => 'Not Recommended',
         'yes_approve' => 'Approve',
         'yes_reject' => 'Not Approve',
+        'block' => 'Block Applicant',
+        'block_heading' => 'Block Applicants For Mutual Transfer'
     ],
 
     'updated_texts' => [

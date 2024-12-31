@@ -11,8 +11,8 @@
 
     @endphp
     @foreach (config('globalVariables.registration_upload_name') ?? [] as $key => $value)
-        <div class="flex-col items-center gap-8 {{ $key == 5 ? (isset($viewData['save_data']->additional_info->pending_govt_dues) ? ($viewData['save_data']->additional_info->pending_govt_dues == 'no' ? '' : 'hidden') : 'hidden') : '' }} "
-            id="{{ $key == 5 ? 'noDueCertDoc' : '' }}">
+        <div class=" flex-col items-center gap-8"
+            id="">
             <p class="text-center text-xs mt-4 font-medium">
                 @php
                     $docKey = $key; // Assuming $key is zero-based, add 1 to match the doc number.
@@ -22,7 +22,7 @@
                         ? strtolower(pathinfo($doc_value->documet_location, PATHINFO_EXTENSION))
                         : null;
                 @endphp
-                {{ Str::upper(str_replace('_', ' ', __("user.form.docs.$docKey"))) }} <span class="text-red">*</span>
+                {{ Str::upper(str_replace('_', ' ', __("user.form.docs.$docKey"))) }} <span class="text-red">{{$key==5 ? '':'*'}} </span>
             </p>
 
             <label for="{{ $value }}"
@@ -58,7 +58,7 @@
                 <button type="button" class="absolute top-1.5 right-1.5 text-red-600 text-[.6rem] rounded-md block px-2 py-1 up_doc_rmv_btn">Remove</button>
                     <i class="bi bi-filetype-pdf text-5xl"></i>
             </a> --}}
-            <p class="registration-error"></p>
+            <p class="registration-error file-error"></p>
         </div>
     @endforeach
 

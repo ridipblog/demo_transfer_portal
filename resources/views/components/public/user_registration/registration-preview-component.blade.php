@@ -176,8 +176,7 @@
                     <p class="font-semibold preview_data" id="peddning-govt-due">Yes / No</p>
                 </div> --}}
                 <div class="">
-                    <label class="block mb-1 text-xs md:text-sm font-bold reqd text-gray-400">How many times have you
-                        availed mutual transfer ?</label>
+                    <label class="block mb-1 text-xs md:text-sm font-bold reqd text-gray-400">@lang('user.form.addl_info.h_m_t')</label>
                     <p class="font-semibold preview_data" id="preview_times_mutual_transfer">1</p>
                 </div>
             </div>

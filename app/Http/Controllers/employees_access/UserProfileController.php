@@ -55,7 +55,7 @@ class UserProfileController extends Controller
             'search_pan_number' => null,
             'offices' => [],
             'posts' => [],
-            'directorates'=>[]
+            'directorates' => []
 
         ];
 
@@ -74,18 +74,24 @@ class UserProfileController extends Controller
         try {
             App::setLocale(session::get('locale'));
             // dd(Auth::guard('user_guard')->user());
+            $logged_user = Auth::guard('user_guard')->user();
             if (Auth::guard('user_guard')->user()->user_credentials->profile_verify_status != 1 || Auth::guard('user_guard')->user()->user_credentials->noc_generate == 2) {
                 if ($request->query('request_pan_number')) {
                     $view_data['search_pan_number'] = $request->query('request_pan_number');
-                    $view_data['pan_request_data'] = ReuseModule::verifyPanNUmber($request->query('request_pan_number'));
-                    if ($view_data['pan_request_data'] &&  isset($view_data['pan_request_data']['profile']['pan'])) {
-                        $view_data['is_pan_found'] = true;
-                    } else {
+                    $check_pan = ReuseModule::validateIncomingData(null, ['request_pan_number' => [Rule::unique('persional_details', 'pan_number')->ignore($logged_user->user_id, 'user_id')]],['request_pan_number' => $request->query('request_pan_number')]);
+                    if ($check_pan->fails()) {
                         $view_data['is_pan_found'] = false;
-                        $view_data['error_message'] = __('validation_message.profile_message.pan_not_found');
+                        $view_data['error_message'] = __('validation_message.profile_message.pan_al_ex');
+                    } else {
+                        $view_data['pan_request_data'] = ReuseModule::verifyPanNUmber($request->query('request_pan_number'));
+                        if ($view_data['pan_request_data'] &&  isset($view_data['pan_request_data']['profile']['pan'])) {
+                            $view_data['is_pan_found'] = true;
+                        } else {
+                            $view_data['is_pan_found'] = false;
+                            $view_data['error_message'] = __('validation_message.profile_message.pan_not_found');
+                        }
                     }
                 }
-                $logged_user = Auth::guard('user_guard')->user();
                 if ($logged_user->user_credentials->noc_generate == 2 || $logged_user->user_credentials->profile_verify_status == 2) {
                     $pan_component['is_update'] = true;
                     $submit_button_component['is_update'] = true;
@@ -212,7 +218,7 @@ class UserProfileController extends Controller
                 return redirect(app()->getLocale() . '/employees/dashboard');
             }
         } catch (Exception $err) {
-            // dd($err->getMessage());
+            dd($err->getMessage());
             $view_data['is_error'] = true;
             $view_data['error_message'] = __('validation_message.server_message.server_error');
         }
@@ -258,9 +264,10 @@ class UserProfileController extends Controller
                     'signature' => $request->signature,
                     'pan_card' => $request->pan_card,
                     'depertmental_card' => $request->depertmental_card,
-                    'no_govt_due_certificate' => $request->no_govt_due_certificate,
-                    'appointment_letter' => $request->appointment_letter,
-                    'service_book' => $request->service_book
+                    'supporting_document' => $request->supporting_document,
+                    // 'no_govt_due_certificate' => $request->no_govt_due_certificate,
+                    // 'appointment_letter' => $request->appointment_letter,
+                    // 'service_book' => $request->service_book
                 ];
                 $incomming_data = [
                     'full_name' => 'required',
@@ -273,7 +280,7 @@ class UserProfileController extends Controller
                     'email' => ['required', 'email', Rule::unique('user_credentials', 'email')->ignore($logged_user->user_id, 'id')],
                     // 'pan_number' => [$required, Rule::unique('persional_details', 'pan_number')->ignore($logged_user->user_id, 'user_id')],
                     'pan_number' => ['required', Rule::unique('persional_details', 'pan_number')->ignore($logged_user->user_id, 'user_id')],
-                    'home_district'=>$required . '|integer',
+                    'home_district' => $required . '|integer',
                     'district' => $required . '|integer',
                     'depertment' => $required . '|integer',
                     'directorate' => $required . '|integer',
@@ -292,10 +299,11 @@ class UserProfileController extends Controller
                     // 'before_mutual_transfer' => $required,
                     // 'mutual_transfer_number' => 'required_if:before_mutual_transfer,yes',
                     // 'pending_govt_dues' => $required,
-                    'photo' => ['max:5000', 'mimes:jpg,jpeg,png'],
-                    'signature' => 'max:5000|mimes:jpg,jpeg,png,pdf',
-                    'pan_card' => 'max:5000|mimes:jpg,jpeg,png,pdf',
-                    'depertmental_card' => 'max:5000|mimes:jpg,jpeg,png,pdf',
+                    'photo' => ['max:2048', 'mimes:jpg,jpeg,png'],
+                    'signature' => 'max:2048|mimes:jpg,jpeg,png,pdf',
+                    'pan_card' => 'max:2048|mimes:jpg,jpeg,png,pdf',
+                    'depertmental_card' => 'max:2048|mimes:jpg,jpeg,png,pdf',
+                    'supporting_document' => 'max:2048|mimes:jpg,jpeg,png,pdf',
                     // 'no_govt_due_certificate' => 'max:5000|mimes:jpg,jpeg,png',
                     // 'appointment_letter' => 'max:5000|mimes:jpg,jpeg,png',
                     // 'first_page_of_service_book' => 'max:5000|mimes:jpg,jpeg,png'
@@ -315,10 +323,10 @@ class UserProfileController extends Controller
                             $document_keys = array_keys($documents);
                             $error_message = [];
                             $res_data['document_keys'] = $document_keys;
-                            for ($i = 1; $i <= 5; $i++) {
+                            for ($i = 1; $i <= 4; $i++) {
                                 if (!in_array($i, $save_document_index)) {
                                     $check = $document_keys[$i - 1];
-                                    if ($i == 5 && $request->pending_govt_dues != "no") {
+                                    if ($i == 5) {
                                         $check = null;
                                     }
                                     if ($check ? (!$request->hasFile($check)) : false) {
@@ -406,7 +414,7 @@ class UserProfileController extends Controller
                         'mother_name' => $request->mother_name,
                         'alt_phone_number' => $request->alternative_number,
                         'category_id' => $request->category,
-                        'home_district_id'=>$request->home_district
+                        'home_district_id' => $request->home_district
                     ];
                     $api_type != 'update_data' ? $profile_update_data['pan_number'] = $request->pan_number : '';
                     $save_data_process = PersionalDetailsModel::where(
@@ -515,14 +523,14 @@ class UserProfileController extends Controller
                                                 'documet_location' => $document['documet_location'],
                                             ];
                                         })->values();
-                                        $update_json_data=RejectedDocumentsModel::where([
-                                            ['user_id',$logged_user->user_credentials->id],
-                                            ['old_update_on',null],
-                                            ['old_documents',null]
-                                        ])
+                                    $update_json_data = RejectedDocumentsModel::where([
+                                        ['user_id', $logged_user->user_credentials->id],
+                                        ['old_update_on', null],
+                                        ['old_documents', null]
+                                    ])
                                         ->update([
                                             'old_update_on' => $logged_user->user_credentials->updated_at,
-                                            'old_documents'=>$update_document_map_data != 0 ? json_encode($filter_updated_document) : null
+                                            'old_documents' => $update_document_map_data != 0 ? json_encode($filter_updated_document) : null
                                         ]);
                                 }
                                 // if ($save_office) {

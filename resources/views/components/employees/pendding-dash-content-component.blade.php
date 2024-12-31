@@ -1,8 +1,10 @@
 <!-- Until verification pending -->
 <div class="mb-6 lg:1mb-12">
     <div class="grid gap-6">
-        <div class="flex justify-between gap-12">
-            <p class="font-bold text-xl">@lang('user.dashboard.pen_ver')</p>
+        <div class="flex @if ($viewData->profile_verify_status == 2) justify-center @else justify-between @endif gap-12">
+            @if ($viewData->profile_verify_status !== 2)
+                <p class="font-bold text-xl">@lang('user.dashboard.pen_ver')</p>
+            @endif
             @if ($viewData->profile_verify_status == 2 || $viewData->noc_generate == 2)
                 <a href="{{ route('update.profile', ['lang' => app()->getLocale()]) }}"
                     class="bg-sky-500 hover:bg-sky-600 border border-transparent text-white rounded-md block px-2 py-1.5 text-xs"><i
@@ -223,33 +225,33 @@
                 </div>
 
                 @foreach ($viewData->documents ?? [] as $document)
-                    @if (
-                        $document['document_type'] != 5 ||
-                            ($document['document_type'] == 5 && $viewData->additional_info->pending_govt_dues == 'no'))
-                        <div class="border rounded-xl ">
-                            @php
-                                $docKey = $document['document_type'] ?? null; // Assuming $key is zero-based, add 1 to match the doc number.
-                                $name =$docKey ?  __("user.form.docs.$docKey") : 'No Document Name';
-                                $image_url=isset($document['documet_location']) ? Storage::url($document['documet_location'] ?? 'N/A') :null;
-                                $doc_extension=$image_url ? strtolower(pathinfo($image_url, PATHINFO_EXTENSION)) : null;
-                            @endphp
-                            <div class="text- text-center p-2 text-xs">{{ Str::upper(str_replace('_', ' ', $name)) }}
-                            </div>
-
-                            <div class="h-44 p-2 contain-document-image {{$doc_extension ? ($doc_extension!="pdf" ?:'hidden'):'hidden'}}">
-                                {{-- {{ in_array($key, $document_arr) ? $image_count++ : '' }} --}}
-
-                                <img src="{{ $image_url }}" alt="NO image"
-                                    class="w-full h-full object-contain object-center preview_registration_document selected-document-img   ">
-                            </div>
-                            <div class="h-44 p-2 flex items-center justify-center contain-document-pdf {{$doc_extension ? ($doc_extension=="pdf" ?:'hidden'):'hidden'}}">
-                                {{-- {{ in_array($key, $document_arr) ? $image_count++ : '' }} --}}
-                                    <a href="{{$image_url}}" class="selected-document-pdf  " target="_blank" >
-                                        <i class="bi bi-filetype-pdf text-5xl"></i>
-                                    </a>
-                            </div>
+                    <div class="border rounded-xl ">
+                        @php
+                            $docKey = $document['document_type'] ?? null; // Assuming $key is zero-based, add 1 to match the doc number.
+                            $name = $docKey ? __("user.form.docs.$docKey") : 'No Document Name';
+                            $image_url = isset($document['documet_location'])
+                                ? Storage::url($document['documet_location'] ?? 'N/A')
+                                : null;
+                            $doc_extension = $image_url ? strtolower(pathinfo($image_url, PATHINFO_EXTENSION)) : null;
+                        @endphp
+                        <div class="text- text-center p-2 text-xs">{{ Str::upper(str_replace('_', ' ', $name)) }}
                         </div>
-                    @endif
+
+                        <div
+                            class="h-44 p-2 contain-document-image {{ $doc_extension ? ($doc_extension != 'pdf' ?: 'hidden') : 'hidden' }}">
+                            {{-- {{ in_array($key, $document_arr) ? $image_count++ : '' }} --}}
+
+                            <img src="{{ $image_url }}" alt="NO image"
+                                class="w-full h-full object-contain object-center preview_registration_document selected-document-img   ">
+                        </div>
+                        <div
+                            class="h-44 p-2 flex items-center justify-center contain-document-pdf {{ $doc_extension ? ($doc_extension == 'pdf' ?: 'hidden') : 'hidden' }}">
+                            {{-- {{ in_array($key, $document_arr) ? $image_count++ : '' }} --}}
+                            <a href="{{ $image_url }}" class="selected-document-pdf  " target="_blank">
+                                <i class="bi bi-filetype-pdf text-5xl"></i>
+                            </a>
+                        </div>
+                    </div>
                 @endforeach
                 {{-- <div class="border rounded-xl bg-neutral-600">
                 <div class="h-44 p-2">
@@ -274,12 +276,13 @@
             </div> --}}
             </div>
         @endif
-
         {{-- ------------ if rejection push by authority ---------------- --}}
-        @if ($viewData->profile_verify_status == 2)
-            <x-employee-profile.rejection-infomation-component :rejectedData=$rejectedData>
+        @if ($viewData->profile_verify_status == 2 ? (isset($rejectedData) ? true : false) : false)
+            @if ($rejectedData->commnents ? true : (count($rejectedData->authority_rejections ?? []) == 0 ? false : true))
+                <x-employee-profile.rejection-infomation-component :rejectedData=$rejectedData>
 
-            </x-employee-profile.rejection-infomation-component>
+                </x-employee-profile.rejection-infomation-component>
+            @endif
         @endif
 
 

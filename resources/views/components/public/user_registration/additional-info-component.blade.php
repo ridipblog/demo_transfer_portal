@@ -113,11 +113,11 @@
 {{-- --------- times of muatal transer -------------- --}}
 <div class="grid lg:grid-cols-3 gap-2 lg:gap-2 border border-sky-500 border-r-4 border-b-4 rounded-2xl p-5 lg:p-10">
     <div class="lg:col-span-3">
-        <p class="text-lg font-bold text-sky-700">Tranfser History</p>
+        <p class="text-lg font-bold text-sky-700">@lang('user.form.addl_info.heading')</p>
     </div>
     <div class="" id="avlTfrVal">
         {{-- <label class="block mb-1 text-xs md:text-sm font-semibold reqd text-gray-800">@lang('user.form.addl_info.no_mt')</label> --}}
-        <label class="block mb-1 text-xs md:text-sm font-semibold reqd text-gray-800">How many times have you availed mutual transfer ?</label>
+        <label class="block mb-1 text-xs md:text-sm font-semibold reqd text-gray-800">@lang('user.form.addl_info.h_m_t')</label>
         <select name="times_mutual_transfer" id="times_mutual_transfer"
             class="registration-input disabled:bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full">
             <option value="" disabled selected>Select</option>
@@ -127,10 +127,10 @@
         </select>
         <p class="registration-error"></p>
     </div>
-    <div class=""></div>
+    {{-- <div class=""></div>
     <div class="flex flex-col items-center justify-center table_nfDiv">
         <img src="/images/nfd.png" alt="" class="w-36 object-center mb-2">
-        <p class="text-gray-500 font-bold text-lg text-center">No Tranfser History Found!</p>
-    </div>
+        <p class="text-gray-500 font-bold text-lg text-center">@lang('user.form.addl_info.no_m_f')</p>
+    </div> --}}
 
 </div>

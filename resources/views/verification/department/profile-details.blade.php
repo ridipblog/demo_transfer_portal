@@ -135,6 +135,7 @@
                                         {{ isset($candidate1->employment_details->directorate_id) ? ($candidate1->employment_details->directorate_id === 0 ? 'Not Applicable' : $candidate1->employment_details->directorate->name ?? 'N/A') : 'Not Assign' }}
                                     </p>
                                 </div>
+
                                 <div class="col-span-2">
                                     <label
                                         class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('user.form.emp_info.office_cp')</label>
@@ -381,6 +382,7 @@
                                     <div class="lg:col-span-3">
                                         <p class="text-lg font-bold text-sky-700">@lang('authority_dashboard.profile_details.vnr')</p>
                                     </div>
+
                                     <label class="block mb-1 text-xs md:text-sm font-black text-gray-900">Verified
                                         Status</label>
                                     <p class="font-semibold">Yes</p>
@@ -411,7 +413,7 @@
                                     Authority</label>
                                 <p class="font-semibold">{{ $candidate2->noc_generate == 1 ? 'Yes' : 'No' }}</p>
                         </div>
-                        {{-- <div>
+
                                         <label
                                             class="block mb-1 text-xs md:text-sm font-black text-gray-900">@lang('authority_dashboard.profile_details.appointing_authority')</label>
                                         <p class="font-semibold">
@@ -621,6 +623,7 @@
                                 class="absolute -translate-y-1/2 font-black top-1/2 left-2.5 italic text-gray-900">{{ $positions[$location->preference_no] }}</span>
                             <div class="block p-2.5 pl-16 w-full">
                                 <p class="font-semibold">{{ $location->districts->name ?? 'N/A' }}</p>
+
                             </div>
                         </div>
                     @endforeach
@@ -702,6 +705,7 @@
                 @endif
 
 
+
                 <!-- Verification and Noc status displayed after verified -->
                 @if ($candidate2->profile_verify_status != 0 && $candidate2->profile_verify_status != 2)
                     <div class="grid lg:grid-cols-3 gap-4 border border-sky-500 rounded-3xl border-b-4 border-r-4 p-6">
@@ -759,6 +763,7 @@
                                 <p class="font-semibold">
                                     {{ \Carbon\Carbon::parse($approved_on)->format('d-m-Y') }}</p>
                             </div>
+
                         @endif
                     </div>
                     <!-- Verification and Noc status displayed after verified end -->
