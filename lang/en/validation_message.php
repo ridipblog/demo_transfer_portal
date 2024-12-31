@@ -52,5 +52,6 @@ return [
         'data_updated' => 'Success data resubmitted successfully.',
         'select_office' => 'Please select an office name.',
         'already_verified' => 'Your profile has already been verified.',
+        'pan_al_ex'=>'Pan number already exists ',
     ],
 ];
