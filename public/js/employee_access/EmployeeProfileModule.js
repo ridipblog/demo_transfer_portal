@@ -32,7 +32,7 @@ class EmployeeProfileModule extends RequestModule {
             var before_submit_text = $(btn).text();
             reuse_module.processingStatus(btn);
             let first_date_of_join = $('#date_of_join_id').val();
-            let time_of_service='';
+            let time_of_service = '';
             if (first_date_of_join) {
                 time_of_service = await reuse_module.calculateDates(first_date_of_join);
             }
@@ -78,6 +78,33 @@ class EmployeeProfileModule extends RequestModule {
             );
         }
     }
+    // ----------- add supporting documents ---------------
+    addSupportDocs = async () => {
+        let total_support_docs = $('.spport-docs').length;
+        total_support_docs = total_support_docs + 1;
+
+        $('#main-support-docs').append(`
+            <div class="spport-docs flex-col items-center gap-8">
+                <p class="text-center text-xs mt-4 font-medium">
+                    Supporting Documents
+                </p>
+                <div class="relative h-52 bg-gray-50 border border-dashed border-gray-300 text-gray-900 text-xs rounded-md focus:ring-sky-600 focus:border-sky-600 block p-2.5 w-full flex flex-col items-center justify-center overflow-hidden select-suport-doc">
+                    <div class="absolute h-full w-full top-0 left-0 z-[1] bg-gray-50 hover:bg-gray-100 flex flex-col items-center justify-center hidden suport-doc-clone">
+                        <a class="inline-block absolute top-1.5 left-1.5 text-blue-600 text-[.6rem] rounded-md block px-2 py-1 suport-doc-pdf" target="_blank" href="">View File</a>
+                        <button type="button" class="absolute top-1.5 right-1.5 text-red-600 text-[.6rem] rounded-md block px-2 py-1">Remove</button>
+                        <img class="h-36 max-w-12/12 suport-doc-image" src="" alt="">
+                        <i class="bi bi-filetype-pdf suport-doc-pdf-icon text-5xl"></i>
+                    </div>
+                    <i class="bi bi-cloud-upload text-2xl"></i>
+                    <p class="text-center">Drop item here or <span class="hover:underline text-sky-600">Browse files</span></p>
+                    <p class="text-xs text-gray-500 text-center">Max size 5MB | .PDF,.JPG, .JPEG, .PNG</p>
+
+                </div>
+                <input type="file" name="support_docs[]" class="registration-input opacity-0 h-0 w-0 up_input registration_documents file-support-docs" accept=".pdf,.jpg,.jpeg,.png">
+                <p class="suport-doc-error"></p>
+            </div>
+        `);
+    };
     //   ------------ update employee profile --------------------
     updateEmployeeProfile = async (form) => {
         reuse_module.processingStatus('#prevModalBtn');

@@ -258,9 +258,10 @@ class UserProfileController extends Controller
                     'signature' => $request->signature,
                     'pan_card' => $request->pan_card,
                     'depertmental_card' => $request->depertmental_card,
-                    'no_govt_due_certificate' => $request->no_govt_due_certificate,
-                    'appointment_letter' => $request->appointment_letter,
-                    'service_book' => $request->service_book
+                    'supporting_document'=>$request->supporting_document,
+                    // 'no_govt_due_certificate' => $request->no_govt_due_certificate,
+                    // 'appointment_letter' => $request->appointment_letter,
+                    // 'service_book' => $request->service_book
                 ];
                 $incomming_data = [
                     'full_name' => 'required',
@@ -296,6 +297,7 @@ class UserProfileController extends Controller
                     'signature' => 'max:5000|mimes:jpg,jpeg,png,pdf',
                     'pan_card' => 'max:5000|mimes:jpg,jpeg,png,pdf',
                     'depertmental_card' => 'max:5000|mimes:jpg,jpeg,png,pdf',
+                    'supporting_document' => 'max:5000|mimes:jpg,jpeg,png,pdf',
                     // 'no_govt_due_certificate' => 'max:5000|mimes:jpg,jpeg,png',
                     // 'appointment_letter' => 'max:5000|mimes:jpg,jpeg,png',
                     // 'first_page_of_service_book' => 'max:5000|mimes:jpg,jpeg,png'
@@ -315,10 +317,10 @@ class UserProfileController extends Controller
                             $document_keys = array_keys($documents);
                             $error_message = [];
                             $res_data['document_keys'] = $document_keys;
-                            for ($i = 1; $i <= 5; $i++) {
+                            for ($i = 1; $i <= 4; $i++) {
                                 if (!in_array($i, $save_document_index)) {
                                     $check = $document_keys[$i - 1];
-                                    if ($i == 5 && $request->pending_govt_dues != "no") {
+                                    if ($i == 5) {
                                         $check = null;
                                     }
                                     if ($check ? (!$request->hasFile($check)) : false) {
