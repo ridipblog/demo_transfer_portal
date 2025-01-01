@@ -218,7 +218,7 @@ class UserProfileController extends Controller
                 return redirect(app()->getLocale() . '/employees/dashboard');
             }
         } catch (Exception $err) {
-            dd($err->getMessage());
+            // dd($err->getMessage());
             $view_data['is_error'] = true;
             $view_data['error_message'] = __('validation_message.server_message.server_error');
         }
@@ -568,7 +568,7 @@ class UserProfileController extends Controller
                 }
                 $res_data['status'] = 401;
                 $res_data['message'] = __('validation_message.server_message.server_error');
-                $res_data['message'] = $err->getMessage();
+                // $res_data['message'] = $err->getMessage();
             }
         }
         // if ($res_data['status'] == 200) {

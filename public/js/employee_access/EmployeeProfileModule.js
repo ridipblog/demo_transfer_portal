@@ -1,5 +1,5 @@
 import RequestModule from '../reuse_modules/RequestModule.js'
-import ReuseModule from '../reuse_modules/ReuseModule.js'
+import ReuseModule from '../reuse_modules/ReuseModule.js?v=1.4'
 const reuse_module = new ReuseModule()
 class EmployeeProfileModule extends RequestModule {
     constructor() {

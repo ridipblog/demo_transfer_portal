@@ -1,6 +1,6 @@
-import EmployeeProfileModule from './EmployeeProfileModule.js'
+import EmployeeProfileModule from './EmployeeProfileModule.js?v=1.4'
 const employee_profile_module = new EmployeeProfileModule()
-import ReuseModule from '../reuse_modules/ReuseModule.js?v=1.2'
+import ReuseModule from '../reuse_modules/ReuseModule.js?v=1.4'
 const reuse_module = new ReuseModule()
 
 $(document).ready(function () {
