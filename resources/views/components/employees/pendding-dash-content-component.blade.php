@@ -124,11 +124,43 @@
                     </p>
 
                 </div>
+                @php
+            try{
+                $service_date=null;
+                if ($viewData->employment_details->first_date_of_joining) {
+                    $input_date = $viewData->employment_details->first_date_of_joining;
+                    $today = now()->format('Y-m-d');
+
+                    $start = new DateTime($input_date);
+                    $end = new DateTime($viewData->employment_details->updated_at);
+
+                    $years = $end->format('Y') - $start->format('Y');
+                    $months = $end->format('m') - $start->format('m');
+                    $days = $end->format('d') - $start->format('d');
+
+
+                    if ($days < 0) {
+                        $months--;
+                        $previousMonth = (clone $end)->modify('last day of previous month');
+                        $days += $previousMonth->format('d');
+                    }
+
+                    // Adjust months if negative
+                    if ($months < 0) {
+                        $years--;
+                        $months += 12;
+                    }
+                    $service_date="$years years $months months ";
+                }
+            }catch(Exception $err){
+                $service_date="date is not calculated";
+            }
+            @endphp
                 <div>
                     <label
                         class="block mb-1 text-xs md:text-sm font-semibold reqd text-gray-400">@lang('user.form.emp_info.time_of_service')</label>
                     <p class="font-semibold truncate">
-                        {{ $viewData->employment_details->time_of_service ?? 'N/A' }}
+                        {{ $service_date  ?? 'date is not calculated'}}
                     </p>
 
                 </div>

@@ -44,7 +44,7 @@
                 <i class="bi bi-cloud-upload text-2xl"></i>
                 <p class="text-center">@lang('user.form.docs.txt_1') <span
                         class="hover:underline text-sky-600">@lang('user.form.docs.txt_2')</span></p>
-                <p class="text-xs text-gray-500 text-center">@lang('user.form.docs.txt_3') 5MB |
+                <p class="text-xs text-gray-500 text-center">@lang('user.form.docs.txt_3') 2MB |
                     {{ $key == 1 ? '.JPG, .JPEG, .PNG' : '.PDF,.JPG, .JPEG, .PNG' }}</p>
 
                 <input type="file" name="{{ $value }}" id="{{ $value }}"

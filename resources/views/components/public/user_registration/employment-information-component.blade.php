@@ -65,7 +65,8 @@
                 style="width: 100% !important;">
                 <option value="" selected disabled>— Select —</option>
                 @if ($employment_data->depertment_id)
-                    <option {{ $employment_data->directorate_id ===0 ? 'selected' : ''  }} value="0">Not Applicable</option>
+                    <option {{ $employment_data->directorate_id === 0 ? 'selected' : '' }} value="0">Not Applicable
+                    </option>
                 @endif
                 @foreach ($viewData['directorates'] ?? [] as $directorate)
                     <option value="{{ $directorate->id ?? '' }}"
@@ -117,9 +118,41 @@
             <p class="registration-error"></p>
         </div>
         <div>
+            @php
+            try{
+                $service_date=null;
+                if ($employment_data->first_date_of_joining) {
+                    $input_date = $employment_data->first_date_of_joining;
+                    // $today = now()->format('Y-m-d');
+
+                    $start = new DateTime($input_date);
+                    $end = new DateTime($employment_data->updated_at);
+
+                    $years = $end->format('Y') - $start->format('Y');
+                    $months = $end->format('m') - $start->format('m');
+                    $days = $end->format('d') - $start->format('d');
+
+
+                    if ($days < 0) {
+                        $months--;
+                        $previousMonth = (clone $end)->modify('last day of previous month');
+                        $days += $previousMonth->format('d');
+                    }
+
+                    // Adjust months if negative
+                    if ($months < 0) {
+                        $years--;
+                        $months += 12;
+                    }
+                    $service_date="$years years $months months ";
+                }
+            }catch(Exception $err){
+                $service_date="date is not calculated";
+            }
+            @endphp
             <label class="block mb-1 text-xs md:text-sm font-semibold reqd text-gray-800">@lang('user.form.emp_info.time_of_service')</label>
             <input type="text" name="time_of_service" id="time_of_service"
-                value="{{ $employment_data->time_of_service ?? '' }}"
+                value="{{ $service_date ?? '' }}"
                 class="disabled:bg-gray-100 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-md focus:ring-sky-600 bg-gray-50 focus:border-sky-600 block p-2.5 w-full"
                 disabled>
         </div>

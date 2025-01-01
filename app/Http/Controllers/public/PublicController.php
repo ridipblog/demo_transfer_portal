@@ -845,7 +845,7 @@ class PublicController extends Controller
                     Session::put([
                         'phone' => $request->phone
                     ]);
-                    $otp_response = ReuseModule::sendRegistrationOTP($otp, $request->phone);
+                    $otp_response = ReuseModule::sendForgotPasswordOTP($otp, $request->phone);
                     $res_data['status'] = 200;
                 }
             } catch (Exception $err) {

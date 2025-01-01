@@ -42,7 +42,7 @@ class ReuseModule
             'required' => ':attribute is required field !',
             'integer' => ':attribute is only number format !',
             'regex' => 'phone number must be 10 digit ',
-            'max' => ':attribute  size only 5 megabytes',
+            'max' => ':attribute  size only 2 megabytes',
             'mimes' => ':attribute file type is not valid ',
             'email' => 'Please enter a valid email',
             'confirmed' => ':attribute is does not match with confirmation',
@@ -135,6 +135,11 @@ class ReuseModule
     {
         return Http::get('https://sms.amtronindia.in/form_/send_api_master_get.php?agency=COGNITECH&password=$wag@11024&district=ALL&app_id=MutualTransfer&sender_id=SWGSRT&unicode=false&to=' . $phone . '&te_id=1107172768996209416&msg=' . $otp . '%20is%20your%20One-Time%20Password%20%28OTP%29%20to%20complete%20your%20Swagata%20Satirtha%20registration.%20Please%20do%20not%20share%20it%20with%20anyone.%0A%0ARegards%2C%0AGAD%2C%20Assam');
     }
+    // ------- forgot password template --------------
+    public static function sendForgotPasswordOTP($otp, $phone)
+    {
+        return Http::get('https://sms.amtronindia.in/form_/send_api_master_get.php?agency=COGNITECH&password=$wag@11024&district=ALL&app_id=MutualTransfer&sender_id=SWGSRT&unicode=false&to=' . $phone . '&te_id=1107172768996209416&msg=' . $otp . '%20is%20your%20One-Time%20Password%20%28OTP%29%20to%20complete%20your%20Swagata%20Satirtha%20registration.%20Please%20do%20not%20share%20it%20with%20anyone.%0A%0ARegards%2C%0AGAD%2C%20Assam');
+    }
     // ---------------- send OTP for NOC generated ----------------
     public static function sendNOCOTP($phone)
     {
@@ -166,13 +171,18 @@ class ReuseModule
         return Http::get('https://sms.amtronindia.in/form_/send_api_master_get.php?agency=COGNITECH&password=$wag@11024&district=ALL&app_id=MutualTransfer&sender_id=SWGSRT&unicode=false&to=' . $phone . '&te_id=1107173078804632425&msg=Dear%20Palak%2C%20your%20credentials%20to%20log%20in%20to%20Swagata%20Satirtha%20are%20as%20follows%3A%0APhone%20Number%3A%20' . $phone . '%0APassword%3A%20password%0APlease%20ensure%20this%20information%20is%20kept%20confidential');
     }
     // --------- send message to verifier when employee submitted and update profile--------------
-    public static function sendVerifierMessage($phone) {}
+    public static function sendVerifierMessage($phone,$user_name) {
+        return Http::get('https://sms.amtronindia.in/form_/send_api_master_get.php?agency=COGNITECH&password=$wag@11024&district=ALL&app_id=MutualTransfer&sender_id=SWGSRT&unicode=false&to='.$phone.'&te_id=1107173553851200752&msg=Dear%20Verifier%2C%0AUser%20'.$user_name.'%20has%20successfully%20completed%20their%20profile.%20Kindly%20review%20their%20details%20at%20your%20earliest%20convenience');
+    }
     // --------- send message to HOD to action transfer order --------------
     public static function sendTransferActionRequest($phone) {}
     // ---------- when verifier approved profile -------------
     public static function approvedProfileByVerifier($phone)
     {
         return Http::get('https://sms.amtronindia.in/form_/send_api_master_get.php?agency=COGNITECH&password=$wag@11024&district=ALL&app_id=MutualTransfer&sender_id=SWGSRT&unicode=false&to=' . $phone . '&te_id=1107172769000994363&msg=Dear%20applicant%2C%20your%20profile%20has%20been%20verified.%20Please%20visit%20swagatasatirtha.assam.gov.in%20for%20futher%20details.%20%0A%0ARegards%2C%0AGAD%2C%20Assam');
+    }
+    public static function sendAcceptRequest($phone,$jto_code=null){
+        return Http::get('https://sms.amtronindia.in/form_/send_api_master_get.php?agency=COGNITECH&password=$wag@11024&district=ALL&app_id=MutualTransfer&sender_id=SWGSRT&unicode=false&to='.$phone.'&te_id=1107173553855796669&msg=Dear%20HOD%2C%0AA%20transfer%20request%20has%20been%20generated%20with%20JTO%20Code%3A%20'.$jto_code.'%20Kindly%20review%20and%20take%20the%20necessary%20action%20at%20your%20earliest%20convenience');
     }
     // ---------------------- return with query ------------------
     public static function returnQuery($model, $conditions = null, $related_model = []) {}

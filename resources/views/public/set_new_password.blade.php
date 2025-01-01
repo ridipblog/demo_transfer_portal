@@ -2,11 +2,11 @@
 @section('title', 'Set new password')
 {{-- -------------- start page content ----------------- --}}
 @section('content')
-    <div class="flex-grow grid grid-cols-2">
-        <div class="h-full w-full bg-[url('/images/hero_bg2.png')] bg-contain rounded-3xl bg-center bg-no-repeat">
+    <div class="flex-grow grid md:grid-cols-2">
+        <div class="h-full w-full bg-[url('/images/hero_bg2.png')] bg-contain rounded-3xl bg-center bg-no-repeat hidden md:block">
             <!-- <img src="../assets/img/cmimg3.png" alt="" class="max-w-sm"> -->
         </div>
-        <div class="max-w-sm mx-auto w-full flex flex-col justify-center set-password-div" id="verifyCodeCon">
+        <div class="max-w-sm mx-auto w-full flex flex-col justify-center set-password-div px-4" id="verifyCodeCon">
             <h1 class="text-5xl">OTP Code Verification</h1>
             <p class="mt-4 text-lg text-gray-900 font-medium">We have sent an OTP code to <span class="font-bold">+91
                     {{ substr(session('phone'), 0, 3) . '*****' . substr(session('phone'), -2) }} </span></p>

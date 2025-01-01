@@ -12,6 +12,7 @@
             <img src="{{asset('/images/cmimg3.png')}}" alt="" class="fixed bottom-0 max-h-[50rem] h-[calc(100vh-145px)] z-[99] -left-0 xl:left-24">
         </div>
         <div class="flex-grow flex flex-col gap-12">
+            <div class="text-xs font-bold">(This website works best on Google Chrome for a smooth experience.)</div>
             <div class="hidden sm:grid">
                 <div class="grid grid-cols-5 gap-">
                     <div class="flex flex-col gap-2">

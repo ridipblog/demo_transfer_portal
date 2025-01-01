@@ -167,19 +167,19 @@ class ReuseModule extends RequestModule {
         let years = end.getFullYear() - start.getFullYear();
         let months = end.getMonth() - start.getMonth();
         let days = end.getDate() - start.getDate();
-        if (years < 0 || months < 0 || days < 0) {
-            throw new Error("please enter a valid date ");
+        // if (years < 0 || months < 0 || days < 0) {
+        //     throw new Error("please enter a valid date ");
+        // }
+        if (days < 0) {
+            months--;
+            let previousMonth = new Date(end.getFullYear(), end.getMonth(), 0);
+            days += previousMonth.getDate();
         }
-        // if (days < 0) {
-        //     months--;
-        //     let previousMonth = new Date(end.getFullYear(), end.getMonth(), 0);
-        //     days += previousMonth.getDate();
-        // }
 
-        // if (months < 0) {
-        //     years--;
-        //     months += 12;
-        // }
+        if (months < 0) {
+            years--;
+            months += 12;
+        }
 
         return `${years} years ${months} months`;
     }
