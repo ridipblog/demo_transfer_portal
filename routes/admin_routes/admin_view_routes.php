@@ -11,4 +11,6 @@ Route::group(['middleware' => ['public_protect:view']], function () {
 Route::group(['middleware' => ['user_protect:roles,view,Superadmin']], function () {
     // ---------------- admin dashboard routes ---------------
     Route::get('/admin-dashboard', [AdminController::class, 'adminDashboard']);
+    // ----------- revert user by admin ---------------
+    Route::get('/revert-user',[AdminController::class,'revertUser'])->name('revert.user');
 });

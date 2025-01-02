@@ -18,6 +18,7 @@ use App\Models\User\PersionalDetailsModel;
 use App\Models\User\PreferenceDistrictModel;
 use App\Models\User_auth\AllLoginModel;
 use App\Models\User_auth\UserCredentialsModel;
+use App\Models\verification\appointing_authorities;
 use App\our_modules\employees_modules\EmployeeModule;
 use App\our_modules\reuse_modules\ReuseModule;
 use App\Rules\ValidatePhoneRule;
@@ -46,6 +47,7 @@ class UserProfileController extends Controller
     // ----------------- complete pending  profile details ---------------------
     public function completeProfile(Request $request)
     {
+
         $view_data = [
             'is_error' => false,
             'error_message' => '',
@@ -571,29 +573,7 @@ class UserProfileController extends Controller
                 // $res_data['message'] = $err->getMessage();
             }
         }
-        // if ($res_data['status'] == 200) {
-        //     try {
-        //         $main_query=appointing_authorities::query()
-        //         ->with(['all_logins','authority_office_dist_map'])
-        //         ->whereHas(function($query) use($request){
-        //             $query->where([
-        //                 ['department_id',$request->depertment],
-        //                 ['directorate_id',$request->directorate],
-        //                 ['role_id',6]
-        //                 ])
-        //             ->where(function($sub_query) use($request){
-        //                 $sub_query->where('office_id',$request->office)
-        //                 ->orWhere('office_id',NULL);
-        //             })
-        //             ->where(function($sub_query) use($request){
-        //                 $sub_query->where('district_id',$request->district)
-        //                 ->orWhere('district_id',NULL);
-        //             });
-        //         });
-        //         dd($main_query->get());
-        //     } catch (Exception $err) {
-        //     }
-        // }
+
         return $res_data;
     }
     // ------------------- save employee profile  details ---------------

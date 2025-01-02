@@ -11,6 +11,7 @@ use Carbon\CarbonPeriod;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
@@ -72,11 +73,8 @@ class AdminController extends Controller
             SUM(CASE WHEN profile_verify_status = 0 THEN 1 ELSE 0 END) as pendding,
             SUM(CASE WHEN profile_verify_status = 1 THEN 1 ELSE 0 END) as verified,
             SUM(CASE WHEN profile_verify_status = 2 THEN 1 ELSE 0 END) as rejected,
-            SUM(CASE WHEN profile_verify_status != 3 THEN 1 ELSE 0 END) as completed,
-            SUM(CASE WHEN profile_verify_status IN (0,1,2,3) THEN 1 ELSE 0 END) as registered,
-            SUM(CASE WHEN profile_verify_status = 1 AND noc_generate = 0 THEN 1 ELSE 0 END) as profile_recomendation_pending,
-            SUM(CASE WHEN profile_verify_status = 1 AND noc_generate = 1 THEN 1 ELSE 0 END) as profile_recomendation_completed,
-            SUM(CASE WHEN profile_verify_status = 1 AND noc_generate = 2 THEN 1 ELSE 0 END) as profile_recomendation_rejected
+            SUM(CASE WHEN profile_verify_status IN (0,1) THEN 1 ELSE 0 END) as completed,
+            SUM(CASE WHEN profile_verify_status IN (0,1,2,3) THEN 1 ELSE 0 END) as registered
         ");
             $view_data['profile_verification'] = $main_query->first();
 
@@ -144,5 +142,59 @@ class AdminController extends Controller
         return view('admin.admin_dashboard', [
             'view_data' => $view_data
         ]);
+    }
+    // ---------- revert user by admin ----------------
+    public function revertUser(Request $request)
+    {
+        $view_data = [
+            'is_error' => false,
+            'message' => null,
+            'all_users' => null
+        ];
+        try {
+            $all_completed_users = UserCredentialsModel::query()
+                ->with(['persional_details'])
+                ->where('profile_verify_status', 0)
+                ->whereHas('persional_details', function ($query) {
+                    $query->select('id', 'user_id', 'pan_number');
+                })
+                ->select('id', 'full_name', 'email', 'phone')
+                ->get();
+            $view_data['all_users'] = $all_completed_users;
+        } catch (Exception $err) {
+            $view_data['is_error'] = true;
+            // $view_data['message'] = $err->getMessage();
+            $view_data['message'] = "Server erro please try later !";
+        }
+        return view('admin.revert_user', [
+            'view_data' => $view_data
+        ]);
+    }
+    // ---- revert user  by admin ajax ----------------
+    public function revertUserPost(Request $request)
+    {
+        if ($request->ajax()) {
+            $res_data = [
+                'status' => 400,
+                'message' => null
+            ];
+            try {
+                if ($request->revert_id) {
+                    $user_id = Crypt::decryptString($request->revert_id);
+                    $revert_user = UserCredentialsModel::where('id', $user_id)
+                        ->where('profile_verify_status', 0)
+                        ->update([
+                            'profile_verify_status' => 3
+                        ]);
+                    $res_data['message'] = "Revert succesfull  ";
+                    $res_data['status'] = 200;
+                } else {
+                    $res_data['message'] = "User key not found !";
+                }
+            } catch (Exception $err) {
+                $res_data['message'] = "Server error please try later !";
+            }
+            return response()->json(['res_data' => $res_data]);
+        }
     }
 }

@@ -1,7 +1,11 @@
 {{-- ---------------- extending employee app layout --------------- --}}
 @extends('layouts.app')
 @section('title', 'Admin Dashboard')
+@section('extra_css')
+<link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css" />
+@endsection()
 @section('content')
+<x-admin.admin-header></x-admin.admin-header>
 
     @if (!$view_data['is_error'])
         {{-- ---------------- start registration and profile count ---------------- --}}
@@ -24,21 +28,6 @@
         </h1>
 
         {{-- --------------- end profole verification counts ---------------- --}}
-
-        {{-- ---------------- start profile recomendation status ------------------- --}}
-
-        <h1>
-            Total Recomendation Pendding: {{ $view_data['profile_verification']->profile_recomendation_pending ?? 'N/A' }}
-        </h1>
-        <h1>
-            Total Recomendation Completed
-            :{{ $view_data['profile_verification']->profile_recomendation_completed ?? 'N/A' }} </h1>
-        <h1>
-            Total Recomendation Rejected : {{ $view_data['profile_verification']->profile_recomendation_rejected ?? 'N/A' }}
-        </h1>
-
-
-        {{-- ---------------- end profile recomendation status ------------------- --}}
 
         {{-- ------------------------- start transfer counts ----------------------------- --}}
 
@@ -113,10 +102,9 @@
         <p class="text-red-600">{{ $view_data['message'] }}</p>
     @endif
 @endsection
-@section('extra_js_links')
+@section('extra_js')
     <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
     <script>
         $('.datatable').DataTable();
-        $('.select2').select2();
     </script>
 @endsection
