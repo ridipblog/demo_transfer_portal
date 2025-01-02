@@ -13,7 +13,9 @@ return [
         'rejected' => 'Rejected',
         'view_all' => 'View All',
         'noc_col' => 'Action',
-        'resubmitted' => 'Re-submitted Profiles'
+        'resubmitted' => 'Re-submitted Profiles',
+        'verify_count' => 'Total Verifications',
+        'registered_profiles' => 'Registered Profiles'
     ],
     'latest_requests' => 'Latest Requests',
     'tab' => [

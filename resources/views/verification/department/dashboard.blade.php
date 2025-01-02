@@ -58,6 +58,37 @@
                             </div>
                         </div>
                     </a>
+
+                    <a href="#" class="bg-white border rounded-2xl p-6 border-b-4 border-r-4 border-gray-400">
+                        <div class="flex gap-6">
+                            <div class="h-10 w-10 bg-sky-200 flex items-center justify-center rounded-full flex-shrink-0"><i
+                                    class="text-lg bi bi-people text-sky-600"></i></div>
+                            <div class="">
+                                <p class="text-3xl font-bold">{{ $count_users }}</p>
+                                <p class="text-gray-900">@lang('authority_dashboard.nav.registered_profiles')</p>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#" class="bg-white border rounded-2xl p-6 border-b-4 border-r-4 border-gray-400">
+                        <div class="flex gap-6">
+                            <div class="h-10 w-10 bg-sky-200 flex items-center justify-center rounded-full flex-shrink-0"><i
+                                    class="text-lg bi bi-people text-sky-600"></i></div>
+                            <div class="">
+                                <p class="text-3xl font-bold">{{ $verified_profiles }}</p>
+                                <p class="text-gray-900">@lang('authority_dashboard.nav.verified_profiles')</p>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#" class="bg-white border rounded-2xl p-6 border-b-4 border-r-4 border-gray-400">
+                        <div class="flex gap-6">
+                            <div class="h-10 w-10 bg-sky-200 flex items-center justify-center rounded-full flex-shrink-0"><i
+                                    class="text-lg bi bi-people text-sky-600"></i></div>
+                            <div class="">
+                                <p class="text-3xl font-bold">{{ $pending_profiles }}</p>
+                                <p class="text-gray-900">@lang('authority_dashboard.nav.pending_profiles')</p>
+                            </div>
+                        </div>
+                    </a>
                 </div>
             </div>
             <div class="mt-12 space-y-12">

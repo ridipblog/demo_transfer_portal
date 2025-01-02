@@ -13,6 +13,7 @@ use App\Models\Public\RegistrationOTPVerifyModel;
 use App\Models\Public\RolesModel;
 use App\Models\Transfer\TransfersModel;
 use App\Models\User\DocumentModel;
+use App\Models\User\EmploymentDetailsModel;
 use App\Models\User_auth\AllLoginModel;
 use App\Models\User_auth\UserCredentialsModel;
 use App\Models\verification\appointing_authorities;
@@ -192,14 +193,24 @@ class VerificationController extends Controller
                 'office' => 'All Office',
                 'is_dept' => 1,
             ]);
-            $authority_maps = authority_office_dist_map::where('user_id', $verifier->id)->where('role_id', 7)->get();
+            $authority_maps = authority_office_dist_map::where('user_id', $verifier->id)->where('role_id', 2)->get();
+            $authortity_department = $authority_maps->pluck('department_id')->toArray();
+            $directorate_ids =  $authority_maps->pluck('directorate_id')->toArray();
+            $emp_ids = EmploymentDetailsModel::whereIn('directorate_id', $directorate_ids)->whereIn('depertment_id', $authortity_department)->pluck('user_id');
+
+            $users_count = UserCredentialsModel::whereIn('id', $emp_ids)->count();
+            $pending_count = UserCredentialsModel::whereIn('id', $emp_ids)->where('profile_verify_status', 0)->count();
+            $verified_count = UserCredentialsModel::whereIn('id', $emp_ids)->where('profile_verify_status', 1)->count();
+
             $transfer_data = $this->approver_dashboard_data_fetch($verifier, $authority_maps);
             $allTransfers = $transfer_data['allTransfers'];
             $approvedTransfers = $transfer_data['approvedTransfers'];
             $rejectedTransfers = $transfer_data['rejectedTransfers'];
             $pendingTransfers = $transfer_data['pendingTransfers'];
             $employees = $transfer_data['allTransfers'];
-            return view('verification.department.dashboard')->with(['employees' => $employees, 'allTransfers' => $allTransfers, 'approvedTransfers' => $approvedTransfers, 'rejectedTransfers' => $rejectedTransfers, 'pendingTransfers' => $pendingTransfers]);
+
+
+            return view('verification.department.dashboard')->with(['verified_profiles' => $verified_count, 'pending_profiles' => $pending_count, 'count_users' => $users_count, 'employees' => $employees, 'allTransfers' => $allTransfers, 'approvedTransfers' => $approvedTransfers, 'rejectedTransfers' => $rejectedTransfers, 'pendingTransfers' => $pendingTransfers]);
         } else {
             return redirect()->route('verification-login');
         }
