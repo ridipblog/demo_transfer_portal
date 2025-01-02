@@ -1077,7 +1077,7 @@ class PublicController extends Controller
                         'is_used' => 1
                     ]
                 );
-                $otp_response = ReuseModule::sendRegistrationOTP($otp, $phone);
+                $otp_response = ReuseModule::sendForgotPasswordOTP($otp, $phone);
                 $res_data['status'] = 200;
                 $res_data['message'] = __('validation_message.static_validate_errors.otp_sent');
             } else {
