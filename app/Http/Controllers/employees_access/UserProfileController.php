@@ -218,7 +218,7 @@ class UserProfileController extends Controller
                 return redirect(app()->getLocale() . '/employees/dashboard');
             }
         } catch (Exception $err) {
-            dd($err->getMessage());
+            // dd($err->getMessage());
             $view_data['is_error'] = true;
             $view_data['error_message'] = __('validation_message.server_message.server_error');
         }
@@ -538,8 +538,8 @@ class UserProfileController extends Controller
                                 //         ->where('id', '!=', $save_office->id)
                                 //         ->delete();
                                 // }
-                                DB::commit();
 
+                                DB::commit();
                                 // if you want to delete old stored docuemnt --------------
                                 // foreach ($all_documents as $document) {
                                 //     foreach ($this->old_track_files as $index) {
@@ -568,9 +568,32 @@ class UserProfileController extends Controller
                 }
                 $res_data['status'] = 401;
                 $res_data['message'] = __('validation_message.server_message.server_error');
-                $res_data['message'] = $err->getMessage();
+                // $res_data['message'] = $err->getMessage();
             }
         }
+        // if ($res_data['status'] == 200) {
+        //     try {
+        //         $main_query=appointing_authorities::query()
+        //         ->with(['all_logins','authority_office_dist_map'])
+        //         ->whereHas(function($query) use($request){
+        //             $query->where([
+        //                 ['department_id',$request->depertment],
+        //                 ['directorate_id',$request->directorate],
+        //                 ['role_id',6]
+        //                 ])
+        //             ->where(function($sub_query) use($request){
+        //                 $sub_query->where('office_id',$request->office)
+        //                 ->orWhere('office_id',NULL);
+        //             })
+        //             ->where(function($sub_query) use($request){
+        //                 $sub_query->where('district_id',$request->district)
+        //                 ->orWhere('district_id',NULL);
+        //             });
+        //         });
+        //         dd($main_query->get());
+        //     } catch (Exception $err) {
+        //     }
+        // }
         return $res_data;
     }
     // ------------------- save employee profile  details ---------------

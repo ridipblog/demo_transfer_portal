@@ -148,7 +148,7 @@
 {{-- ----------- start extra js links ----------------- --}}
 @section('extra_js_links')
     {{-- <script type="module" src="{{ asset('js/public/registration.js') }}"></script> --}}
-    <script type="module" src={{ asset('js/employee_access/employee_profile.js') }}></script>
+    <script type="module" src={{ asset('js/employee_access/employee_profile.js?v=1.4') }}></script>
     <script src="{{ asset('js/public/file_hanlde.js') }}"></script>
     <script src="{{ asset('js/public/pop_message.js') }}"></script>
 @endsection

@@ -248,7 +248,7 @@ return [
         ],
         'final_approval' => [
             1 => [
-                'color' => 'yellow',
+                'color' => 'green',
                 'header' => 'Transfer is approved by Department HOD ',
                 'body' => 'Transfer request is approved by the department HOD.',
             ],

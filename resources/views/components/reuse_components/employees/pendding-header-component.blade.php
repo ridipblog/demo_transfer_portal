@@ -1,12 +1,12 @@
 <nav class="bg-white sticky top-0 z-50">
     <div class="bg-sky-600 px-4">
         <div
-            class="max-w-7xl mx-auto flex justify-between items-center lg:px-4 py-1 text-[0.625rem] lg:text-xs text-white gap-2">
-            <div class="flex gap-1 lg:gap-4">
-                <div class="flex gap-1"><i class="bi bi-telephone"> </i>+91 970 722 9761 / 700 203 9227 / 763 690 0806 / 967 803 7963</div>
-                <div class="flex gap-1"><i class="bi bi-at"> </i>helpdesk.swagatasatirtha@gmail.com</div>
+            class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center lg:px-4 py-1 text-[0.625rem] lg:text-xs text-white gap-2">
+            <div class="flex flex-col sm:flex-row gap-1 lg:gap-4">
+                <div class="flex gap-1"><i class="bi bi-telephone"> </i>+91 970 722 9761 / 970 621 6022 / 763 690 0806 / 967 803 7963 (From 10AM to 5PM)</div>
+                <div class="flex gap-1"><i class="bi bi-at"> </i>help.swagatasatirtha@gmail.com</div>
             </div>
-            <div class="">
+            <div class="ml-auto">
                 <form action="{{ route('chanage.lang') }}" method="POST">
                     @csrf
                     <div class="flex gap-1 lg:gap-2">
@@ -59,11 +59,11 @@
                     class="transition-all duration-150 border-b-2 pb- {{ Route::currentRouteName() === 'search.profile' ? 'border-white' : 'border-transparent hover:border-white' }}">
                     @lang('user.nav_menu.apl')
                 </a>
-                |
-                <a href="{{ route('transfer.history', ['lang' => app()->getLocale()]) }}"
-                    class="transition-all duration-150 border-b-2 pb- {{ Route::currentRouteName() === 'transfer.history' ? 'border-white' : 'border-transparent hover:border-white' }}">
-                    @lang('user.nav_menu.t_history')
-                </a>
+
+                {{-- <a href="{{ route('transfer.history', ['lang' => app()->getLocale()]) }}"
+                 class="transition-all duration-150 border-b-2 pb- {{ Route::currentRouteName() === 'transfer.history' ? 'border-white' : 'border-transparent hover:border-white' }}">
+                @lang('user.nav_menu.t_history') --}}
+
             </div>
         </div>
     </div>
